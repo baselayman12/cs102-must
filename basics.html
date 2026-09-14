@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 102 | أساسيات C++</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo-area">
+                <img src="must-logo.png" alt="MUST Logo" class="university-logo">
+                <div class="brand-divider"></div>
+                <div class="cs-badge">
+                    <span class="cs-code">CS 102</span>
+                    <span class="cs-title">IT Department</span>
+                </div>
+            </div>
+            <nav class="nav-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات</a>
+                <a href="quizzes.html">الكويزات</a>
+                <a href="basics.html" class="active">الأساسيات</a>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>مرجع الأساسيات والتأسيس البرمجي</h1>
+                <p>قواعد أكواد C++ والتركيب الأساسي للمنهج</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="card" style="margin-bottom: 30px;">
+                <h3>1. الهيكل الأساسي لبرنامج C++</h3>
+                <p>أي كود C++ لازم يبدأ بطلب المكتبة الرئيسية وتحديد دالة main:</p>
+                <div class="code-box">
+#include &lt;iostream&gt;
+using namespace std;
+
+int main() {
+    cout &lt;&lt; "Hello MUST IT!" &lt;&lt; endl;
+    return 0;
+}
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>إدارة جروب CS 102 - كلية تكنولوجيا المعلومات (MUST) &copy; 2026</p>
+    </footer>
+
+</body>
+</html>
