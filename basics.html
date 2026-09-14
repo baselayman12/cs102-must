@@ -29,34 +29,121 @@
         </div>
     </header>
 
-    <section class="container" style="padding-top: 50px;">
-        <h1 class="section-title">مرجع الأكواد والأساسيات</h1>
-        
-        <div class="terminal-box">
-            <div class="terminal-header">
-                <span class="dot red"></span>
-                <span class="dot yellow"></span>
-                <span class="dot green"></span>
-                <span class="file-name">basics.cpp</span>
+    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
+        <h1 class="section-title">مرجع الأساسيات والمفاهيم البرمجية (OOP C++)</h1>
+        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 50px; font-size: 1.1rem;">تبسيط مفاهيم منهج CS 102 خطوة بخطوة بأمثلة برمجية توضح الفكرة بدون تعقيد.</p>
+
+        <!-- 1. Intro Concept -->
+        <div class="card glass-card" style="margin-bottom: 40px;">
+            <div class="card-icon"><i class="fas fa-cubes"></i></div>
+            <h3>1. ما هي الـ Object-Oriented Programming (OOP)؟</h3>
+            <p>بدل ما بنكتب الكود كله في سطر واحد ورا بعضه (Procedural)، بنقسم البرنامج لـ <strong>Objects (كائنات)</strong> محاكية للواقع. كل كائن ليه خصائص (Attributes) وأفعال بيعملها (Methods).</p>
+            <div style="background: rgba(255,255,255,0.03); padding: 15px; border-radius: 10px; border-right: 3px solid var(--must-green); margin-top: 10px;">
+                <strong>💡 مثال من الواقع:</strong> الـ <code>Class</code> هو الرسم الهندسي للسيارة (Blueprint)، والـ <code>Object</code> هو العربية الحقيقية اللي بتصنعها وتسوقها من الرسمة دي.
             </div>
-            <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+        </div>
+
+        <!-- 2. Class & Object Code Terminal -->
+        <div style="margin-bottom: 50px;">
+            <h2 style="font-size: 1.6rem; margin-bottom: 15px; font-weight: 800;"><i class="fas fa-code" style="color: #60a5fa;"></i> بناء الكلاس وإنشاء الأوبجيكت (Class & Object)</h2>
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="file-name">01_class_object.cpp</span>
+                </div>
+                <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
 <span class="keyword">using namespace</span> std;
 
-<span class="keyword">class</span> <span class="type">Student</span> {
+<span class="comment">// 1. تعريف الكلاس (النموذج)</span>
+<span class="keyword">class</span> <span class="type">Car</span> {
 <span class="keyword">public</span>:
-    string name;
-    <span class="type">void</span> <span class="func">display</span>() {
-        cout &lt;&lt; <span class="string">"Student: "</span> &lt;&lt; name &lt;&lt; endl;
+    string brand;  <span class="comment">// Attribute (خاصية)</span>
+    <span class="type">int</span> speed;      <span class="comment">// Attribute (خاصية)</span>
+
+    <span class="comment">// Method (دالة بتنفذ فعل معين)</span>
+    <span class="type">void</span> <span class="func">drive</span>() {
+        cout &lt;&lt; brand &lt;&lt; <span class="string">" is driving at "</span> &lt;&lt; speed &lt;&lt; <span class="string">" km/h!"</span> &lt;&lt; endl;
     }
 };
 
 <span class="type">int</span> <span class="func">main</span>() {
-    <span class="type">Student</span> s1;
-    s1.name = <span class="string">"MUST IT Student"</span>;
-    s1.display();
+    <span class="comment">// 2. إنشاء Object من الكلاس</span>
+    <span class="type">Car</span> myCar;
+    myCar.brand = <span class="string">"BMW"</span>;
+    myCar.speed = <span class="number">220</span>;
+    
+    <span class="comment">// 3. استدعاء الدالة</span>
+    myCar.<span class="func">drive</span>(); 
+
     <span class="keyword">return</span> <span class="number">0</span>;
 }</code></pre>
+            </div>
         </div>
+
+        <!-- 3. Constructors & Access Modifiers -->
+        <div class="cards-grid" style="margin-bottom: 50px;">
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-key"></i></div>
+                <h3>محددات الوصول (Access Modifiers)</h3>
+                <p>بتحدد مين يقدر يوصل لبيانات الكلاس:</p>
+                <ul style="list-style: none; padding: 0; color: var(--text-sub); line-height: 2;">
+                    <li><strong style="color: #10b981;">Public:</strong> متاح للجميع من داخل وخارج الكلاس.</li>
+                    <li><strong style="color: #ef4444;">Private:</strong> محمية، متقدرش تتعدل غير جوة الكلاس نفسه (أساس الـ Encapsulation).</li>
+                </ul>
+            </div>
+
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-magic"></i></div>
+                <h3>المشيد (Constructor)</h3>
+                <p>دالة خاصة بتشتغل تلقائياً أول ما تعمل <code>Object</code> جديد. اسمها بيكون نفس اسم الكلاس بالضبط ومفيهاش Return Type، وفائدتها إعطاء قيم أولية للبيانات.</p>
+            </div>
+        </div>
+
+        <!-- 4. Encapsulation Code -->
+        <div>
+            <h2 style="font-size: 1.6rem; margin-bottom: 15px; font-weight: 800;"><i class="fas fa-user-shield" style="color: #34d399;"></i> مفهوم الـ Encapsulation (Setters & Getters)</h2>
+            <div class="terminal-box">
+                <div class="terminal-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                    <span class="file-name">02_encapsulation.cpp</span>
+                </div>
+                <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="keyword">class</span> <span class="type">BankAccount</span> {
+<span class="keyword">private</span>:
+    <span class="type">double</span> balance; <span class="comment">// الرصيد مخفي لحمايته</span>
+
+<span class="keyword">public</span>:
+    <span class="comment">// Constructor</span>
+    <span class="func">BankAccount</span>(<span class="type">double</span> initialBalance) {
+        balance = initialBalance;
+    }
+
+    <span class="comment">// Setter: دالة لتعديل الرصيد بأمان</span>
+    <span class="type">void</span> <span class="func">deposit</span>(<span class="type">double</span> amount) {
+        <span class="keyword">if</span> (amount &gt; <span class="number">0</span>) balance += amount;
+    }
+
+    <span class="comment">// Getter: دالة لقراءة الرصيد</span>
+    <span class="type">double</span> <span class="func">getBalance</span>() {
+        <span class="keyword">return</span> balance;
+    }
+};
+
+<span class="type">int</span> <span class="func">main</span>() {
+    <span class="type">BankAccount</span> account(<span class="number">1000</span>);
+    account.<span class="func">deposit</span>(<span class="number">500</span>);
+    cout &lt;&lt; <span class="string">"Balance: $"</span> &lt;&lt; account.<span class="func">getBalance</span>(); <span class="comment">// Output: 1500</span>
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+            </div>
+        </div>
+
     </section>
 
     <script src="script.js"></script>
