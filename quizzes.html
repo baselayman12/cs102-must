@@ -3,6 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="الكويزات والامتحانات - CS 102 | MUST IT">
+    <meta property="og:description" content="اختبارات تفاعلية واسئلة امتحانات سابقة لمادة CS 102 بكلية IT جامعة مصر.">
+    <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
+    <meta property="og:type" content="website">
+
     <title>الكويزات - CS 102</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -29,22 +36,33 @@
         </div>
     </header>
 
-    <section class="container" style="padding-top: 50px;">
-        <h1 class="section-title">اختبارات وشيتات المادة</h1>
+    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
+        <h1 class="section-title">بنك الأسئلة والاختبارات التفاعلية</h1>
+        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 50px; font-size: 1.1rem;">
+            تدريبات وامتحانات مصممة بنفس نظام وأفكار الامتحانات الرسمية للجامعة.
+        </p>
         
         <div class="cards-grid">
+            <!-- Lecture 1 Quiz Card -->
             <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-tasks"></i></div>
-                <h3>Quiz 1 Practice</h3>
-                <p>أسئلة تفاعلية ومسائل MCQ واختيار من متعدد لتغطية أفكار الكويز الأول.</p>
-                <a href="#" class="btn btn-glow">بدء الاختبار</a>
+                <div class="card-icon"><i class="fas fa-vial"></i></div>
+                <h3>Quiz 1: Introduction to Computers & C++</h3>
+                <p>اختبار شامل على المحاضرة الأولى يشمل أسئلة صح وخطأ (True/False) واختيارات بنفس نمط امتحانات الفاينل.</p>
+                <div style="margin-top: 20px;">
+                    <a href="#" class="btn btn-glow" onclick="alert('سيبدأ كويز المحاضرة الأولى فور رفع الماتريال النهائي!'); return false;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة 1
+                    </a>
+                </div>
             </div>
 
+            <!-- Final Exams Prep -->
             <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-file-alt"></i></div>
-                <h3>Sheet 1 Solutions</h3>
-                <p>حلول الشيت الأول النموذجية مع شرح خطوة بخطوة لكل مسألة.</p>
-                <a href="#" class="btn btn-outline"><i class="fas fa-download"></i> تحميل الحل</a>
+                <div class="card-icon"><i class="fas fa-file-signature"></i></div>
+                <h3>Official Exams Bank (MUST)</h3>
+                <p>نماذج وأسئلة امتحانات الفاينل والـ Midterms السابقة مع الحلول النموذجية لشرح أفكار التراكيب والـ Output.</p>
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-outline" style="opacity: 0.7; cursor: not-allowed;">قريباً</button>
+                </div>
             </div>
         </div>
     </section>
