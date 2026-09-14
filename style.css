@@ -1,200 +1,52 @@
 /* ==========================================
-   CS 102 - MUST University Design System
+   CS 102 - Interactive Logic & Mobile Adaptor
    ========================================== */
 
-:root {
-    --bg-dark: #0f172a;
-    --bg-card: rgba(30, 41, 59, 0.7);
-    --must-green: #10b981;
-    --must-green-glow: rgba(16, 185, 129, 0.4);
-    --text-main: #f8fafc;
-    --text-sub: #94a3b8;
-    --border-glass: rgba(255, 255, 255, 0.1);
-}
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // 1. Intersection Observer for Smooth Fade In
+    const observerOptions = {
+        threshold: 0.1
+    };
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: 'Cairo', sans-serif;
-}
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+            }
+        });
+    }, observerOptions);
 
-body {
-    background-color: var(--bg-dark);
-    color: var(--text-main);
-    line-height: 1.6;
-    overflow-x: hidden;
-    min-height: 100vh;
-}
+    document.querySelectorAll('.glass-card').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+        observer.observe(el);
+    });
 
-.container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-}
+    // 2. 3D Tilt Effect Enabled EXCLUSIVELY for PC/Desktop (Screen > 768px)
+    if (window.innerWidth > 768) {
+        const cards = document.querySelectorAll('.glass-card');
+        
+        cards.forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
 
-/* ==========================================
-   Navigation Bar
-   ========================================== */
-.navbar {
-    background: rgba(15, 23, 42, 0.85);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-glass);
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-}
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
 
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 20px;
-}
+                const rotateX = (y - centerY) / 15;
+                const rotateY = (centerX - x) / 15;
 
-.logo-area {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
 
-.university-logo {
-    height: 45px;
-    width: auto;
-}
-
-.brand-divider {
-    width: 1px;
-    height: 30px;
-    background: var(--border-glass);
-}
-
-.cs-badge {
-    display: flex;
-    flex-direction: column;
-}
-
-.cs-code {
-    font-weight: 800;
-    color: var(--must-green);
-    font-size: 1.1rem;
-    line-height: 1;
-}
-
-.cs-title {
-    font-size: 0.75rem;
-    color: var(--text-sub);
-}
-
-.nav-links {
-    display: flex;
-    gap: 15px;
-}
-
-.nav-links a {
-    color: var(--text-sub);
-    text-decoration: none;
-    padding: 8px 16px;
-    border-radius: 8px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-}
-
-.nav-links a:hover,
-.nav-links a.active {
-    color: var(--text-main);
-    background: rgba(16, 185, 129, 0.15);
-}
-
-/* ==========================================
-   Glassmorphism Cards & Buttons
-   ========================================== */
-.glass-card {
-    background: var(--bg-card);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid var(--border-glass);
-    border-radius: 16px;
-    padding: 30px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.cards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 25px;
-}
-
-.card-icon {
-    font-size: 2.2rem;
-    color: var(--must-green);
-    margin-bottom: 15px;
-}
-
-.btn {
-    display: inline-block;
-    padding: 10px 22px;
-    border-radius: 8px;
-    text-decoration: none;
-    font-weight: 700;
-    transition: all 0.3s ease;
-}
-
-.btn-glow {
-    background: var(--must-green);
-    color: #fff;
-    box-shadow: 0 0 15px var(--must-green-glow);
-}
-
-.btn-glow:hover {
-    box-shadow: 0 0 25px var(--must-green-glow);
-}
-
-.btn-outline {
-    border: 1px solid var(--must-green);
-    color: var(--must-green);
-}
-
-.btn-outline:hover {
-    background: var(--must-green);
-    color: #fff;
-}
-
-/* ==========================================
-   Mobile Optimization (High Speed & Smooth UI)
-   ========================================== */
-@media (max-width: 768px) {
-    .nav-container {
-        flex-direction: column;
-        gap: 12px;
-        padding: 12px 15px;
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateX(0) rotateY(0) translateY(0)';
+            });
+        });
     }
-
-    .nav-links {
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 6px;
-        width: 100%;
-    }
-
-    .nav-links a {
-        font-size: 0.85rem;
-        padding: 6px 10px;
-    }
-
-    .glass-card {
-        backdrop-filter: blur(6px) !important;
-        -webkit-backdrop-filter: blur(6px) !important;
-        padding: 20px;
-    }
-
-    .cards-grid {
-        grid-template-columns: 1fr !important;
-        gap: 15px;
-    }
-
-    .section-title {
-        font-size: 1.6rem !important;
-    }
-}
+});
