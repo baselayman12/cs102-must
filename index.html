@@ -3,15 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS 102 - MUST IT | البوابة التعليمية</title>
+    <title>CS 102 - MUST IT | الرئيسية</title>
     <link rel="stylesheet" href="style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <!-- Header Navigation -->
     <header class="navbar">
         <div class="container nav-container">
             <div class="logo-area">
@@ -19,22 +16,58 @@
                 <div class="brand-divider"></div>
                 <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
-                    <span class="cs-title">Object-Oriented Programming</span>
+                    <span class="cs-title">IT Department</span>
                 </div>
             </div>
             <nav class="nav-links">
-                <a href="#hero" class="active">الرئيسية</a>
-                <a href="#about">عن المادة</a>
-                <a href="#basics">الأساسيات</a>
-                <a href="#lectures">المحاضرات</a>
-                <a href="#quizzes">الكويزات</a>
+                <a href="index.html" class="active">الرئيسية</a>
+                <a href="lectures.html">المحاضرات</a>
+                <a href="quizzes.html">الكويزات</a>
+                <a href="basics.html">الأساسيات</a>
             </nav>
         </div>
     </header>
 
-    <!-- Hero Section -->
-    <section id="hero" class="hero-section">
-        <div class="container hero-content">
+    <main>
+        <section class="page-header">
+            <div class="container">
+                <h1>البوابة التعليمية المعتمدة لمادة CS 102</h1>
+                <p>جامعة مصر للعلوم والتكنولوجيا - دفعة Information Technology</p>
+            </div>
+        </section>
+
+        <div class="container">
+            <div class="cards-grid">
+                <div class="card">
+                    <span class="card-tag">القسم الأول</span>
+                    <h3>📚 قسم المحاضرات</h3>
+                    <p>ملخصات سريعة بالعامية لكل Lecture مع إمكانية تحميل ملخصات الـ PDF والأكواد الجاهزة.</p>
+                    <a href="lectures.html" class="btn btn-primary">دخول قسم المحاضرات</a>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">القسم الثاني</span>
+                    <h3>📝 قسم الكويزات والشيتات</h3>
+                    <p>حلول الشيتات الرسمية، كويزات أسبوعية تفاعلية، وأسئلة امتحانات سنوات سابقة.</p>
+                    <a href="quizzes.html" class="btn btn-success">دخول قسم الكويزات</a>
+                </div>
+
+                <div class="card">
+                    <span class="card-tag">القسم الثالث</span>
+                    <h3>💻 مرجع C++ Basics</h3>
+                    <p>تأسيس كامل للغة C++ من الصفر ومراجعة مفاهيم الـ Pointers والـ OOP الأساسية.</p>
+                    <a href="basics.html" class="btn btn-primary">عرض المرجع البرمجي</a>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <p>إدارة جروب CS 102 - كلية تكنولوجيا المعلومات (MUST) &copy; 2026</p>
+    </footer>
+
+</body>
+</html>        <div class="container hero-content">
             <div class="hero-badge-tag">كلية تكنولوجيا المعلومات - جامعة MUST</div>
             <h1>بوابتك المعتمدة لاحتراف مادة <span>CS 102</span> و C++</h1>
             <p>منصة شاملة لطلاب دفعة أولى IT. ملخصات مجهزة، حل شيتات، أكواد البرمجة جاهزة للتطبيق، وأسئلة الامتحانات أولاً بأول.</p>
