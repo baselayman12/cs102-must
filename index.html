@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CS 102 - MUST IT | البوابة التعليمية</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+
+    <!-- Header Navigation -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <div class="logo-area">
+                <span class="badge">MUST IT</span>
+                <span class="logo-text">CS 102 - C++</span>
+            </div>
+            <nav class="nav-links">
+                <a href="#hero" class="active">الرئيسية</a>
+                <a href="#about">عن المادة</a>
+                <a href="#basics">الأساسيات</a>
+                <a href="#lectures">المحاضرات</a>
+                <a href="#quizzes">الكويزات</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="hero" class="hero-section">
+        <div class="container hero-content">
+            <span class="subtitle">دفعة تكنولوجيا المعلومات - جامعة MUST</span>
+            <h1>بوابتك لاحتراف مادة <span>CS 102</span> و أصول C++</h1>
+            <p>منصة شاملة ومخصصة لدفعة أولى IT. ستجد هنا ملخصات المحاضرات، حل الشيتات، التطبيقات العملية، وأسئلة الامتحانات أولاً بأول.</p>
+            <div class="hero-btns">
+                <a href="#lectures" class="btn btn-primary">استكشف المحاضرات</a>
+                <a href="#basics" class="btn btn-outline">أساسيات C++</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about-section">
+        <div class="container">
+            <h2 class="section-title">عن المادة ورؤيتنا</h2>
+            <div class="cards-grid">
+                <div class="card">
+                    <div class="card-icon">💻</div>
+                    <h3>برمجة هيكلية و OOP</h3>
+                    <p>تركز مادة CS 102 على بناء التفكير البرمجي الصحيح، التعمق في لغة C++، والدخول في مفاهيم الـ Object-Oriented Programming.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">📚</div>
+                    <h3>محتوى منظم ومبسط</h3>
+                    <p>نعمل على شرح المفاهيم المعقدة بأسلوب عربي مباشر وسهل الفهم، مع توفير ملخصات سريعة لكل محاضرة.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🚀</div>
+                    <h3>تدريب مستمر</h3>
+                    <p>اختبارات أسبوعية وشيتات مجابة بالكامل لمساعدتك على تقييم مستواك والتجهز لامتحانات الميدتيرم والفاينل.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- C++ Basics Section -->
+    <section id="basics" class="basics-section">
+        <div class="container">
+            <h2 class="section-title">C++ Quick Reference (الأساسيات)</h2>
+            <div class="code-preview">
+                <div class="code-header">
+                    <span>main.cpp</span>
+                </div>
+                <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> std;
+
+<span class="type">int</span> <span class="func">main</span>() {
+    <span class="comment">// أهلاً بكم في مادة CS 102</span>
+    cout &lt;&lt; <span class="string">"Welcome MUST IT Students!"</span> &lt;&lt; endl;
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
+            </div>
+        </div>
+    </section>
+
+    <!-- Lectures Section -->
+    <section id="lectures" class="lectures-section">
+        <div class="container">
+            <h2 class="section-title">جدول المحاضرات والملخصات</h2>
+            <div class="status-box">
+                <p>⏳ <strong>تنبيه:</strong> سيتم رفع ملخصات المحاضرات والملفات فور بداية الفصل الدراسي أسبوعياً.</p>
+            </div>
+            <div class="cards-grid">
+                <div class="card lecture-card">
+                    <span class="lecture-badge">الأسبوع الأول</span>
+                    <h3>المحاضرة 1: Introduction & Review</h3>
+                    <p>مراجعة أساسيات C++ والتهيؤ لمفاهيم المنهج الجديد.</p>
+                    <button class="btn btn-disabled" disabled>قريباً</button>
+                </div>
+                <div class="card lecture-card">
+                    <span class="lecture-badge">الأسبوع الثاني</span>
+                    <h3>المحاضرة 2: Pointers & Memory</h3>
+                    <p>شرح المفاهيم الخاصة بالـ Pointers وكيفية التعامل مع الذاكرة.</p>
+                    <button class="btn btn-disabled" disabled>قريباً</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container footer-content">
+            <p>تم التطوير بواسطة تيم CS 102 - قسم تكنولوجيا المعلومات (MUST) &copy; 2026</p>
+        </div>
+    </footer>
+
+</body>
+</html>
