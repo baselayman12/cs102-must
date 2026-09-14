@@ -1,91 +1,158 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Scroll Reveal Animation for Cards
-    const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+/* ==========================================
+   CS 102 - MUST University Design System
+   ========================================== */
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
-            }
-        });
-    }, observerOptions);
+:root {
+    --bg-dark: #0f172a;
+    --bg-card: rgba(30, 41, 59, 0.7);
+    --must-green: #10b981;
+    --must-green-glow: rgba(16, 185, 129, 0.4);
+    --text-main: #f8fafc;
+    --text-sub: #94a3b8;
+    --border-glass: rgba(255, 255, 255, 0.1);
+}
 
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card, index) => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(30px)";
-        card.style.transition = `all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.1}s`;
-        observer.observe(card);
-    });
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Cairo', sans-serif;
+}
 
-    // 2. Interactive 3D Card Hover Effect
-    cards.forEach(card => {
-        card.addEventListener("mousemove", (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 15;
-            const rotateY = (centerX - x) / 15;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
-        });
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
 
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
-        });
-    });
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
 
-    // 3. Typing Effect for C++ Code Terminal (if present)
-    const codeElement = document.querySelector(".code-box code, pre code");
-    if (codeElement) {
-        const fullText = codeElement.innerText;
-        codeElement.innerText = "";
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < fullText.length) {
-                codeElement.innerText += fullText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 15);
-            }
-        }
-        
-        // Trigger typing when section is visible
-        const codeObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                typeWriter();
-                codeObserver.disconnect();
-            }
-        }, { threshold: 0.5 });
-        
-        codeObserver.observe(codeElement);
-    }
-});
+/* Navbar */
+.navbar {
+    background: rgba(15, 23, 42, 0.85);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-glass);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
 
-// 4. Live Search Filter for Lectures & Quizzes
-function filterContent() {
-    const input = document.getElementById("searchBar");
-    if (!input) return;
-    
-    const filter = input.value.toLowerCase();
-    const cards = document.querySelectorAll(".cards-grid .card");
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 20px;
+}
 
-    cards.forEach(card => {
-        const title = card.querySelector("h3") ? card.querySelector("h3").innerText.toLowerCase() : "";
-        const desc = card.querySelector("p") ? card.querySelector("p").innerText.toLowerCase() : "";
-        
-        if (title.includes(filter) || desc.includes(filter)) {
-            card.style.display = "flex";
-        } else {
-            card.style.display = "none";
-        }
-    });
+.logo-area {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.university-logo {
+    height: 45px;
+    width: auto;
+}
+
+.brand-divider {
+    width: 1px;
+    height: 30px;
+    background: var(--border-glass);
+}
+
+.cs-badge {
+    display: flex;
+    flex-direction: column;
+}
+
+.cs-code {
+    font-weight: 800;
+    color: var(--must-green);
+    font-size: 1.1rem;
+    line-height: 1;
+}
+
+.cs-title {
+    font-size: 0.75rem;
+    color: var(--text-sub);
+}
+
+.nav-links {
+    display: flex;
+    gap: 15px;
+}
+
+.nav-links a {
+    color: var(--text-sub);
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.nav-links a:hover,
+.nav-links a.active {
+    color: var(--text-main);
+    background: rgba(16, 185, 129, 0.15);
+}
+
+/* Cards & Buttons */
+.glass-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 16px;
+    padding: 30px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 25px;
+}
+
+.card-icon {
+    font-size: 2.2rem;
+    color: var(--must-green);
+    margin-bottom: 15px;
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+}
+
+.btn-glow {
+    background: var(--must-green);
+    color: #fff;
+    box-shadow: 0 0 15px var(--must-green-glow);
+}
+
+.btn-glow:hover {
+    box-shadow: 0 0 25px var(--must-green-glow);
+}
+
+.btn-outline {
+    border: 1px solid var(--must-green);
+    color: var(--must-green);
+}
+
+.btn-outline:hover {
+    background: var(--must-green);
+    color: #fff;
 }
