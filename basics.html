@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS 102 | أساسيات C++</title>
+    <title>الأساسيات - CS 102</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -20,43 +21,44 @@
                 </div>
             </div>
             <nav class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="lectures.html">المحاضرات</a>
-                <a href="quizzes.html">الكويزات</a>
-                <a href="basics.html" class="active">الأساسيات</a>
+                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
+                <a href="quizzes.html"><i class="fas fa-laptop-code"></i> الكويزات</a>
+                <a href="basics.html" class="active"><i class="fas fa-code"></i> الأساسيات</a>
             </nav>
         </div>
     </header>
 
-    <main>
-        <section class="page-header">
-            <div class="container">
-                <h1>مرجع الأساسيات والتأسيس البرمجي</h1>
-                <p>قواعد أكواد C++ والتركيب الأساسي للمنهج</p>
+    <section class="container" style="padding-top: 50px;">
+        <h1 class="section-title">مرجع الأكواد والأساسيات</h1>
+        
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="file-name">basics.cpp</span>
             </div>
-        </section>
+            <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
+<span class="keyword">using namespace</span> std;
 
-        <div class="container">
-            <div class="card" style="margin-bottom: 30px;">
-                <h3>1. الهيكل الأساسي لبرنامج C++</h3>
-                <p>أي كود C++ لازم يبدأ بطلب المكتبة الرئيسية وتحديد دالة main:</p>
-                <div class="code-box">
-#include &lt;iostream&gt;
-using namespace std;
+<span class="keyword">class</span> <span class="type">Student</span> {
+<span class="keyword">public</span>:
+    string name;
+    <span class="type">void</span> <span class="func">display</span>() {
+        cout &lt;&lt; <span class="string">"Student: "</span> &lt;&lt; name &lt;&lt; endl;
+    }
+};
 
-int main() {
-    cout &lt;&lt; "Hello MUST IT!" &lt;&lt; endl;
-    return 0;
-}
-                </div>
-            </div>
+<span class="type">int</span> <span class="func">main</span>() {
+    <span class="type">Student</span> s1;
+    s1.name = <span class="string">"MUST IT Student"</span>;
+    s1.display();
+    <span class="keyword">return</span> <span class="number">0</span>;
+}</code></pre>
         </div>
-    </main>
+    </section>
 
-    <footer>
-        <p>إدارة جروب CS 102 - كلية تكنولوجيا المعلومات (MUST) &copy; 2026</p>
-    </footer>
-<script src="script.js"></script>
-    
+    <script src="script.js"></script>
 </body>
 </html>
