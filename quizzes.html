@@ -3,9 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS 102 | الامتحانات والكويزات</title>
+    <title>الكويزات - CS 102</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -20,45 +21,34 @@
                 </div>
             </div>
             <nav class="nav-links">
-                <a href="index.html">الرئيسية</a>
-                <a href="lectures.html">المحاضرات</a>
-                <a href="quizzes.html" class="active">الكويزات</a>
-                <a href="basics.html">الأساسيات</a>
+                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
+                <a href="quizzes.html" class="active"><i class="fas fa-laptop-code"></i> الكويزات</a>
+                <a href="basics.html"><i class="fas fa-code"></i> الأساسيات</a>
             </nav>
         </div>
     </header>
 
-    <main>
-        <section class="page-header">
-            <div class="container">
-                <h1>بنك الكويزات وحلول الشيتات</h1>
-                <p>اختبر نفسك وجهز نفسك للامتحانات أسبوعياً</p>
+    <section class="container" style="padding-top: 50px;">
+        <h1 class="section-title">اختبارات وشيتات المادة</h1>
+        
+        <div class="cards-grid">
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-tasks"></i></div>
+                <h3>Quiz 1 Practice</h3>
+                <p>أسئلة تفاعلية ومسائل MCQ واختيار من متعدد لتغطية أفكار الكويز الأول.</p>
+                <a href="#" class="btn btn-glow">بدء الاختبار</a>
             </div>
-        </section>
 
-        <div class="container">
-            <div class="cards-grid">
-                <div class="card">
-                    <span class="card-tag">Sheet 1</span>
-                    <h3>حل الشيت الأول (Revision Sheet)</h3>
-                    <p>تجميع لأسئلة المراجعة بالحلول الأكاديمية النموذجية.</p>
-                    <a href="#" class="btn btn-disabled">قريباً</a>
-                </div>
-
-                <div class="card">
-                    <span class="card-tag">Quiz 1</span>
-                    <h3>اختبار تجريبي أسبوعي 1</h3>
-                    <p>أسئلة اختيار من متعدد (MCQ) لتجربة حل الأسئلة السريعة.</p>
-                    <a href="#" class="btn btn-disabled">قريباً</a>
-                </div>
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-file-alt"></i></div>
+                <h3>Sheet 1 Solutions</h3>
+                <p>حلول الشيت الأول النموذجية مع شرح خطوة بخطوة لكل مسألة.</p>
+                <a href="#" class="btn btn-outline"><i class="fas fa-download"></i> تحميل الحل</a>
             </div>
         </div>
-    </main>
+    </section>
 
-    <footer>
-        <p>إدارة جروب CS 102 - كلية تكنولوجيا المعلومات (MUST) &copy; 2026</p>
-    </footer>
-<script src="script.js"></script>
-    
+    <script src="script.js"></script>
 </body>
 </html>
