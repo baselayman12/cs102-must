@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
-    <!-- كود إظهار الصورة والعنوان والوصف على الواتساب والتليجرام -->
+    <!-- Open Graph / Social Media Preview -->
     <meta property="og:title" content="CS 102 - MUST IT Educational Portal">
     <meta property="og:description" content="المنصة التعليمية الشاملة لمادة CS 102 (OOP) - كلية تكنولوجيا المعلومات">
     <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
@@ -17,13 +17,13 @@
 </head>
 <body>
 
-    <!-- الهيدر الزجاجي المطوّر -->
+    <!-- Header / Navbar -->
     <header class="navbar">
         <div class="container nav-container">
             <div class="logo-area">
                 <img src="images.png" alt="MUST Logo" class="university-logo">
                 <div class="brand-divider"></div>
-                <div class="cs-badge animated-badge">
+                <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
                     <span class="cs-title">IT Department</span>
                 </div>
@@ -38,87 +38,55 @@
         </div>
     </header>
 
-    <!-- قسم الواجهة الاحترافي (Hero Section) -->
-    <section class="hero-section">
-        <div class="container hero-content">
-            <div class="hero-badge-tag animated-fade">كلية تكنولوجيا المعلومات - جامعة MUST</div>
-            <h1 class="hero-title animated-title">بوابتك الذكية لاحتراف مادة <span>CS 102</span></h1>
-            <p class="hero-desc animated-desc">منصة تعليمية متكاملة لدفعة أولى IT. ملخصات أسبوعية، حلول شيتات نموذجية، واختبارات تفاعلية، بتصميم عصري يفتح النفس على المذاكرة.</p>
-            <div class="hero-btns animated-btns">
-                <a href="lectures.html" class="btn btn-glow"><i class="fas fa-arrow-left"></i> استكشف المحاضرات</a>
-                <a href="basics.html" class="btn btn-secondary">أساسيات C++</a>
+    <!-- Main Content Grid -->
+    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
+        <h1 class="section-title" style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; font-weight: 800;">
+            استكشف أقسام المنصة
+        </h1>
+        
+        <div class="cards-grid">
+            <!-- 1. المحاضرات -->
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
+                <h3>قسم المحاضرات والملخصات</h3>
+                <p>هتلاقي هنا ملخص سريع وفهمان لكل محاضرة، مع الـ PDFs والأكواد اللي الدكتور كتبها جاهزة للتطبيق.</p>
+                <div style="margin-top: 20px;">
+                    <a href="lectures.html" class="btn btn-outline" style="width: 100%; text-align: center;">فتح المحاضرات</a>
+                </div>
             </div>
-        </div>
-        <div class="hero-bg-visual"></div>
-    </section>
 
-    <!-- قسم الأقسام الرئيسية في صفحة واحدة -->
-    <section class="overview-section">
-        <div class="container">
-            <h2 class="section-title">استكشف أقسام المنصة</h2>
-            <div class="cards-grid">
-                
-                <!-- كارت المحاضرات -->
-                <div class="card glass-card scroll-animated">
-                    <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
-                    <h3>قسم المحاضرات والملخصات</h3>
-                    <p>هتلاقي هنا ملخص سريع وفهمان لكل محاضرة، مع الـ PDFs والأكواد اللي الدكتور كتبها جاهزة للتطبيق.</p>
-                    <a href="lectures.html" class="btn btn-outline">فتح المحاضرات</a>
+            <!-- 2. الكويزات -->
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-flask"></i></div>
+                <h3>بنك الكويزات والامتحانات</h3>
+                <p>جهز نفسك للميدتيرم والفاينل مع أسئلة امتحانات سابقة وشيتات مجابة بالكامل أسبوعياً.</p>
+                <div style="margin-top: 20px;">
+                    <a href="quizzes.html" class="btn btn-outline" style="width: 100%; text-align: center;">فتح الكويزات</a>
                 </div>
-
-                <!-- كارت الكويزات -->
-                <div class="card glass-card scroll-animated">
-                    <div class="card-icon"><i class="fas fa-vial"></i></div>
-                    <h3>بنك الكويزات والامتحانات</h3>
-                    <p>جهز نفسك للميدتيرم والفاينل مع أسئلة امتحانات سابقة وشيتات مجابة بالكامل أسبوعياً.</p>
-                    <a href="quizzes.html" class="btn btn-outline">فتح الكويزات</a>
-                </div>
-
-                <!-- كارت الأساسيات -->
-                <div class="card glass-card scroll-animated">
-                    <div class="card-icon"><i class="fas fa-database"></i></div>
-                    <h3>مرجع أساسيات C++</h3>
-                    <p>لو واقع في الـ Syntax أو محتاج تراجع على الـ Pointers والـ OOP، القسم ده معمول عشانك.</p>
-                    <a href="basics.html" class="btn btn-outline">عرض المرجع</a>
-                </div>
-
             </div>
-        </div>
-    </section>
 
-    <!-- قسم الترمينال الحركي (typing effect) -->
-    <section class="live-code-section">
-        <div class="container">
-            <div class="terminal-box scroll-animated">
-                <div class="terminal-header">
-                    <span class="dot red"></span>
-                    <span class="dot yellow"></span>
-                    <span class="dot green"></span>
-                    <span class="file-name">quick_start.cpp</span>
+            <!-- 3. الأساسيات -->
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-database"></i></div>
+                <h3>مرجع أساسيات C++</h3>
+                <p>لو واقع في الـ Syntax أو محتاج تراجع على الـ Pointers والـ OOP، القسم ده معمول عشانك.</p>
+                <div style="margin-top: 20px;">
+                    <a href="basics.html" class="btn btn-outline" style="width: 100%; text-align: center;">عرض المرجع</a>
                 </div>
-                <pre><code><span class="keyword">#include</span> <span class="string">&lt;iostream&gt;</span>
-<span class="keyword">using namespace</span> std;
+            </div>
 
-<span class="type">int</span> <span class="func">main</span>() {
-    <span class="comment">// مرحباً بكم في CS 102 - دفعة IT العالميين</span>
-    cout &lt;&lt; <span class="string">"Welcome to the Educational Portal!"</span> &lt;&lt; endl;
-    cout &lt;&lt; <span class="string">"Let's master OOP together!"</span> &lt;&lt; endl;
-    <span class="keyword">return</span> <span class="number">0</span>;
-}</code></pre>
+            <!-- 4. التنبيهات (الكارت الجديد المضاف) -->
+            <div class="card glass-card">
+                <div class="card-icon"><i class="fas fa-bullhorn"></i></div>
+                <h3>تنبيهات وملاحظات الدكتور</h3>
+                <p>تابع أهم الأخبار الرسمية والنقاط الهامة الموصى بها مباشرة في المحاضرات والسكاشن.</p>
+                <div style="margin-top: 20px;">
+                    <a href="announcements.html" class="btn btn-outline" style="width: 100%; text-align: center;">عرض التنبيهات</a>
+                </div>
             </div>
         </div>
     </section>
 
-    <!-- الفوتر الشيك -->
-    <footer>
-        <div class="container">
-            <p>إدارة جروب مادة CS 102 - كلية تكنولوجيا المعلومات (MUST) &copy; 2026</p>
-            <div class="footer-links">
-                <a href="#"><i class="fab fa-whatsapp"></i> جروب الدفعة</a>
-                <a href="#"><i class="fab fa-telegram"></i> قناة الملخصات</a>
-            </div>
-        </div>
-    </footer>
-
+    <script src="script.js"></script>
 </body>
 </html>
