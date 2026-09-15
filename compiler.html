@@ -312,6 +312,9 @@ int main() {
     </footer>
 
     <script>
+        // GEMINI API Key Configuration
+        const GEMINI_API_KEY = "AQ.Ab8RN6K53MYvOw4DXWrKdHlP2HjdWc1rbPSYtWlMX-3To7iMyw";
+
         // DOM Elements Initialization
         const cppCodeInput = document.getElementById('cppCode');
         const runAiBtn = document.getElementById('runAiBtn');
@@ -444,8 +447,7 @@ int main() {
                 generationConfig: { responseMimeType: "application/json" }
             };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
 
             try {
                 const response = await fetch(apiUrl, {
@@ -518,8 +520,7 @@ int main() {
                 systemInstruction: { parts: [{ text: systemPrompt }] }
             };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
 
             try {
                 const response = await fetch(apiUrl, {
@@ -567,8 +568,7 @@ int main() {
                 }
             };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash-preview-tts:generateContent?key=${GEMINI_API_KEY}`;
 
             try {
                 const response = await fetch(apiUrl, {
@@ -668,8 +668,7 @@ int main() {
                 systemInstruction: { parts: [{ text: systemPrompt }] }
             };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
 
             try {
                 const response = await fetch(apiUrl, {
@@ -739,8 +738,7 @@ int main() {
                 }
             };
 
-            const apiKey = "";
-            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+            const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${GEMINI_API_KEY}`;
 
             try {
                 const response = await fetch(apiUrl, {
