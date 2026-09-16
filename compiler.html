@@ -3,49 +3,57 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CS 102 MUST - منصة البرمجة والذكاء الاصطناعي</title>
+  <title>منصة البرمجة | CS 102 MUST</title>
+
+  <!-- Google Fonts & FontAwesome -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
     :root {
-      --bg-dark: #0d1117;
-      --card-bg: #161b22;
-      --border-color: #30363d;
-      --text-main: #c9d1d9;
-      --text-bright: #ffffff;
-      --accent-blue: #1f6feb;
-      --accent-green: #2ea043;
-      --accent-hover: #388bfd;
-      --error-color: #f85149;
+      --bg-main: #0b0f19;
+      --bg-card: #151c2c;
+      --bg-accent: #1e293b;
+      --border-color: #2e3a52;
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --primary-blue: #2563eb;
+      --primary-hover: #1d4ed8;
+      --accent-cyan: #06b6d4;
+      --danger-red: #ef4444;
+      --success-green: #10b981;
     }
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-family: 'Cairo', sans-serif;
     }
 
     body {
-      background-color: var(--bg-dark);
+      background-color: var(--bg-main);
       color: var(--text-main);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
-      min-height: 100vh;
     }
 
     /* Announcement Banner */
     .banner {
-      background: linear-gradient(90deg, #d97706 0%, #b45309 100%);
+      background: linear-gradient(90deg, #d97706, #b45309);
       color: #fff;
       text-align: center;
       padding: 8px 15px;
       font-size: 0.9rem;
-      font-weight: bold;
+      font-weight: 700;
     }
 
     /* Navbar */
     .navbar {
-      background-color: var(--card-bg);
+      background-color: var(--bg-card);
       border-bottom: 1px solid var(--border-color);
       padding: 15px 30px;
       display: flex;
@@ -54,12 +62,13 @@
     }
 
     .brand {
-      font-size: 1.3rem;
-      font-weight: bold;
-      color: #58a6ff;
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: var(--accent-cyan);
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      text-decoration: none;
     }
 
     .nav-links {
@@ -69,136 +78,157 @@
     }
 
     .nav-links a {
-      color: var(--text-main);
+      color: var(--text-muted);
       text-decoration: none;
-      padding: 6px 12px;
-      border-radius: 6px;
-      transition: 0.2s;
+      padding: 8px 16px;
+      border-radius: 8px;
+      font-weight: 600;
+      transition: all 0.3s ease;
     }
 
     .nav-links a:hover, .nav-links a.active {
-      background-color: var(--accent-blue);
-      color: var(--text-bright);
+      color: var(--text-main);
+      background-color: var(--primary-blue);
     }
 
     /* Main Container */
-    .main-container {
+    .main-wrapper {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .grid-container {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
-      padding: 20px;
-      flex: 1;
     }
 
-    @media (max-width: 900px) {
-      .main-container {
+    @media (max-width: 992px) {
+      .grid-container {
         grid-template-columns: 1fr;
       }
     }
 
     .card {
-      background-color: var(--card-bg);
+      background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 10px;
+      border-radius: 12px;
+      padding: 20px;
       display: flex;
       flex-direction: column;
-      overflow: hidden;
+      gap: 15px;
     }
 
-    .card-header {
-      padding: 12px 20px;
-      background-color: rgba(255, 255, 255, 0.02);
-      border-bottom: 1px solid var(--border-color);
-      font-weight: bold;
-      color: var(--text-bright);
+    .card-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-cyan);
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      gap: 8px;
     }
 
-    /* Compiler Styles */
-    .editor-box {
+    /* Code Editor */
+    textarea.code-editor {
       width: 100%;
       height: 250px;
-      background-color: #090d12;
-      color: #7ee787;
-      border: none;
-      padding: 15px;
-      font-family: 'Courier New', Courier, monospace;
+      background-color: #0d1117;
+      color: #e6edf3;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
+      font-family: 'Fira Code', monospace;
       font-size: 0.95rem;
       resize: vertical;
+      direction: ltr;
+      text-align: left;
       outline: none;
     }
 
+    /* Controls */
     .controls {
-      padding: 10px 15px;
       display: flex;
       gap: 10px;
-      justify-content: flex-end;
-      background-color: var(--card-bg);
-      border-bottom: 1px solid var(--border-color);
     }
 
     .btn {
-      padding: 8px 16px;
-      border-radius: 6px;
+      padding: 10px 20px;
       border: none;
+      border-radius: 8px;
+      font-weight: 700;
       cursor: pointer;
-      font-weight: bold;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      gap: 6px;
-      transition: 0.2s;
+      gap: 8px;
+      transition: all 0.2s ease;
     }
 
-    .btn-run {
-      background-color: var(--accent-blue);
-      color: white;
+    .btn-primary {
+      background-color: var(--primary-blue);
+      color: #fff;
     }
 
-    .btn-run:hover {
-      background-color: var(--accent-hover);
+    .btn-primary:hover {
+      background-color: var(--primary-hover);
     }
 
-    .btn-clear {
-      background-color: #21262d;
+    .btn-secondary {
+      background-color: var(--bg-accent);
       color: var(--text-main);
+      border: 1px solid var(--border-color);
     }
 
-    .btn-clear:hover {
-      background-color: #30363d;
+    .btn-secondary:hover {
+      background-color: #334155;
     }
 
+    /* Output Console */
     .console-box {
-      background-color: #040d14;
-      padding: 15px;
-      font-family: 'Courier New', Courier, monospace;
+      background-color: #0d1117;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 12px;
       min-height: 120px;
-      color: #3fb950;
+      max-height: 200px;
+      overflow-y: auto;
+      font-family: 'Fira Code', monospace;
+      font-size: 0.9rem;
+      color: #10b981;
+      direction: ltr;
+      text-align: left;
       white-space: pre-wrap;
     }
 
     .console-box.error {
-      color: var(--error-color);
+      color: var(--danger-red);
     }
 
+    /* Analysis Box */
     .analysis-box {
-      background-color: #1c2128;
-      border-top: 1px solid var(--border-color);
+      background-color: #1e1b4b;
+      border: 1px solid #4338ca;
+      border-radius: 8px;
       padding: 15px;
       display: none;
+      font-size: 0.95rem;
+      line-height: 1.6;
     }
 
     .analysis-box.active {
       display: block;
     }
 
-    /* Chatbot Styles */
+    /* Chat Area */
     .chat-box {
-      flex: 1;
+      height: 380px;
+      background-color: #0d1117;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
       padding: 15px;
       overflow-y: auto;
-      max-height: 450px;
       display: flex;
       flex-direction: column;
       gap: 12px;
@@ -207,117 +237,110 @@
     .chat-msg {
       max-width: 85%;
       padding: 10px 14px;
-      border-radius: 8px;
-      line-height: 1.5;
+      border-radius: 10px;
       font-size: 0.95rem;
-      white-space: pre-wrap;
+      line-height: 1.5;
     }
 
     .chat-msg.bot {
-      background-color: #21262d;
+      background-color: var(--bg-accent);
+      color: var(--text-main);
       align-self: flex-start;
-      border-right: 3px solid var(--accent-blue);
+      border-bottom-right-radius: 2px;
     }
 
     .chat-msg.user {
-      background-color: #1f6feb;
-      color: white;
+      background-color: var(--primary-blue);
+      color: #fff;
       align-self: flex-end;
+      border-bottom-left-radius: 2px;
     }
 
     .chat-input-area {
-      padding: 12px;
-      border-top: 1px solid var(--border-color);
       display: flex;
       gap: 10px;
     }
 
     .chat-input {
       flex: 1;
-      background-color: #0d1117;
+      background-color: var(--bg-accent);
       border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 8px 12px;
-      color: white;
+      border-radius: 8px;
+      padding: 10px 15px;
+      color: var(--text-main);
       outline: none;
-    }
-
-    .chat-input:focus {
-      border-color: var(--accent-blue);
     }
 
     footer {
       text-align: center;
       padding: 15px;
-      border-top: 1px solid var(--border-color);
       font-size: 0.85rem;
-      color: #8b949e;
+      color: var(--text-muted);
+      border-top: 1px solid var(--border-color);
     }
   </style>
 </head>
 <body>
 
   <div class="banner">
-    🎓 تنبيه: هذه المنصة مبادرة طلابية تعليمية غير رسمية لدعم مادة CS 102 بجامعة MUST.
+    <i class="fa-solid fa-graduation-cap"></i> تنبيه: هذه المنصة مبادرة طلابية تعليمية غير رسمية لدعم مادة CS 102 بجامعة MUST.
   </div>
 
   <nav class="navbar">
-    <div class="brand">
-      <i class="fa-solid fa-code"></i> CS 102 MUST
-    </div>
+    <a href="index.html" class="brand"><i class="fa-solid fa-code"></i> CS 102 MUST</a>
     <ul class="nav-links">
-      <li><a href="#">التنبيهات</a></li>
-      <li><a href="#">الأساسيات</a></li>
-      <li><a href="#">الكويزات</a></li>
-      <li><a href="#">المحاضرات</a></li>
-      <li><a href="#">الرئيسية</a></li>
-      <li><a href="#" class="active">منصة البرمجة</a></li>
+      <li><a href="index.html">الرئيسية</a></li>
+      <li><a href="lectures.html">المحاضرات</a></li>
+      <li><a href="quizzes.html">الكويزات</a></li>
+      <li><a href="basics.html">الأساسيات</a></li>
+      <li><a href="compiler.html" class="active">منصة البرمجة</a></li>
     </ul>
   </nav>
 
-  <div class="main-container">
-    
-    <!-- Compiler Section -->
-    <div class="card">
-      <div class="card-header">
-        <span><i class="fa-solid fa-code"></i> محرر أكواد C++</span>
-      </div>
-      <textarea id="codeEditor" class="editor-box" spellcheck="false"></textarea>
-      
-      <div class="controls">
-        <button class="btn btn-clear" onclick="clearAll()"><i class="fa-solid fa-rotate-left"></i> مسح</button>
-        <button class="btn btn-run" onclick="runCode()"><i class="fa-solid fa-play"></i> تشغيل الكود</button>
-      </div>
+  <div class="main-wrapper">
+    <div class="grid-container">
 
-      <div class="card-header" style="border-top: 1px solid var(--border-color);">
-        <span><i class="fa-solid fa-terminal"></i> شاشة المخرجات (Console)</span>
-      </div>
-      <div id="consoleOutput" class="console-box">جاهز للتشغيل...</div>
-
-      <div id="analysisBox" class="analysis-box">
-        <strong style="color: #58a6ff;"><i class="fa-solid fa-robot"></i> تحليل الذكاء الاصطناعي للخطأ:</strong>
-        <p id="analysisContent" style="margin-top: 8px;"></p>
-      </div>
-    </div>
-
-    <!-- AI Chatbot Section -->
-    <div class="card">
-      <div class="card-header">
-        <span><i class="fa-solid fa-comments"></i> الشات التعليمي والمساعد الذكي</span>
-      </div>
-      
-      <div id="chatBox" class="chat-box">
-        <div class="chat-msg bot">
-          مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي في C++ أو طلب شرح للأكواد.
+      <!-- AI Chat Assistant -->
+      <div class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-comments"></i> الشات التعليمي والمساعد الذكي
+        </div>
+        <div class="chat-box" id="chatBox">
+          <div class="chat-msg bot">
+            مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي في C++ أو طلب شرح للأكواد.
+          </div>
+        </div>
+        <div class="chat-input-area">
+          <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك التعليمي هنا..." onkeypress="handleKeyPress(event)">
+          <button class="btn btn-primary" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
         </div>
       </div>
 
-      <div class="chat-input-area">
-        <button class="btn btn-run" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
-        <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك التعليمي هنا..." onkeypress="handleKeyPress(event)">
-      </div>
-    </div>
+      <!-- Code Editor & Runner -->
+      <div class="card">
+        <div class="card-title">
+          <i class="fa-solid fa-code"></i> محرر أكواد C++
+        </div>
+        <textarea id="codeEditor" class="code-editor" placeholder="اكتب كود C++ هنا..."></textarea>
+        
+        <div class="controls">
+          <button class="btn btn-primary" onclick="runCode()"><i class="fa-solid fa-play"></i> تشغيل الكود</button>
+          <button class="btn btn-secondary" onclick="clearAll()"><i class="fa-solid fa-rotate-left"></i> مسح</button>
+        </div>
 
+        <div class="card-title" style="font-size: 0.95rem;">
+          <i class="fa-solid fa-terminal"></i> شاشة المخرجات (Console)
+        </div>
+        <div id="consoleOutput" class="console-box">انقر على "تشغيل الكود" لعرض النتيجة هنا...</div>
+
+        <!-- Error Analysis Container (Shown only when there is an error) -->
+        <div id="analysisBox" class="analysis-box">
+          <strong style="color: #a5b4fc;"><i class="fa-solid fa-robot"></i> تحليل الخطأ بواسطة الذكاء الاصطناعي:</strong>
+          <div id="analysisContent" style="margin-top: 8px;"></div>
+        </div>
+      </div>
+
+    </div>
   </div>
 
   <footer>
@@ -327,7 +350,7 @@
   <script>
     const WORKER_URL = "https://cs102-compiler-api.hhvgg2631.workers.dev/";
 
-    // Default C++ code
+    // Default template code
     document.getElementById('codeEditor').value = `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello CS 102 MUST!" << endl;\n    return 0;\n}`;
 
     function handleKeyPress(e) {
@@ -340,15 +363,12 @@
       document.getElementById('analysisBox').classList.remove('active');
     }
 
-    // Call Cloudflare Worker with JSON Payload
+    // Call Cloudflare Worker API
     async function callAI(promptText) {
       const payload = {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: promptText }]
-          }
-        ]
+        contents: [{
+          parts: [{ text: promptText }]
+        }]
       };
 
       const res = await fetch(WORKER_URL, {
@@ -358,19 +378,14 @@
       });
 
       if (!res.ok) {
-        throw new Error(`Server Error: ${res.status}`);
+        throw new Error(`خطأ في الخادم (${res.status})`);
       }
 
       const data = await res.json();
-      
-      if (data.error) {
-        throw new Error(data.error.message || "API Error");
-      }
-
       return data.candidates[0].content.parts[0].text;
     }
 
-    // AI Chat Handler
+    // AI Chat Engine
     async function sendChatMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
@@ -378,7 +393,7 @@
 
       const chatBox = document.getElementById('chatBox');
       
-      // Add User Message
+      // User message
       const userDiv = document.createElement('div');
       userDiv.className = 'chat-msg user';
       userDiv.innerText = text;
@@ -387,7 +402,7 @@
       input.value = '';
       chatBox.scrollTop = chatBox.scrollHeight;
 
-      // Loading Placeholder
+      // Loading state
       const loadingDiv = document.createElement('div');
       loadingDiv.className = 'chat-msg bot';
       loadingDiv.innerText = 'جاري التفكير والإجابة...';
@@ -395,8 +410,8 @@
       chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
-        const formattedPrompt = `أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح ومنسق باللغة العربية:\n\nسؤال الطالب: ${text}`;
-        const response = await callAI(formattedPrompt);
+        const aiPrompt = `أنت مساعد تعليمي متخصص في مادة CS 102 ولغة C++ بجامعة MUST. أجب بأسلوب واضح ومباشر باللغة العربية:\n${text}`;
+        const response = await callAI(aiPrompt);
         loadingDiv.innerText = response;
       } catch (err) {
         loadingDiv.innerText = "تعذر الاتصال بالذكاء الاصطناعي. يرجى محاولة السؤال مرة أخرى.";
@@ -404,7 +419,7 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Run Code & AI Analysis Logic
+    // Code execution & Error analysis logic
     async function runCode() {
       const code = document.getElementById('codeEditor').value;
       const consoleBox = document.getElementById('consoleOutput');
@@ -415,6 +430,7 @@
       analysisBox.classList.remove('active');
       consoleBox.innerText = "جاري الفحص والتشغيل...";
 
+      // Basic C++ Static Checks
       let hasError = false;
       let errorMessage = "";
 
@@ -433,6 +449,7 @@
         consoleBox.classList.add('error');
         consoleBox.innerText = errorMessage;
         
+        // Trigger AI analysis ONLY when an error occurs
         analysisContent.innerText = "جاري تحليل الخطأ البرمجي بواسطة AI...";
         analysisBox.classList.add('active');
 
@@ -445,6 +462,7 @@
         }
 
       } else {
+        // Successful Mock Execution Output
         let output = "";
         if (code.includes('cout << "Hello CS 102 MUST!"')) {
           output = "Hello CS 102 MUST!\n\nProcess finished with exit code 0";
