@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>منصة البرمجة والشات التعليمي - CS 102 MUST</title>
   
-  <!-- Content Security Policy (CSP) -->
+  <!-- Content Security Policy المحدث لضمان عمل كافة العناصر بدون حظر -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
@@ -15,7 +15,7 @@
     img-src 'self' data:;
   ">
 
-  <!-- Icons & Fonts -->
+  <!-- FontAwesome Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
@@ -45,9 +45,10 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      overflow-x: hidden;
     }
 
-    /* Banner */
+    /* Disclaimer Banner */
     .disclaimer-banner {
       background: linear-gradient(90deg, #d97706, #f59e0b);
       color: #000;
@@ -57,7 +58,7 @@
       font-weight: 700;
     }
 
-    /* Navbar Standardized */
+    /* Standardized Navigation Bar */
     nav {
       background-color: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
@@ -66,6 +67,9 @@
       justify-content: space-between;
       align-items: center;
       box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 100;
     }
 
     nav .logo {
@@ -88,20 +92,29 @@
       color: var(--text-main);
       text-decoration: none;
       font-weight: 500;
-      transition: color 0.2s ease;
+      transition: all 0.3s ease;
+      padding: 5px 10px;
+      border-radius: 6px;
     }
 
     nav .nav-links a:hover, nav .nav-links a.active {
       color: var(--accent-color);
+      background-color: rgba(56, 189, 248, 0.1);
     }
 
-    /* Layout Grid */
+    /* Main Container & Animations */
     .main-wrapper {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 20px;
       flex: 1;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (max-width: 992px) {
@@ -146,6 +159,12 @@
       resize: vertical;
       direction: ltr;
       line-height: 1.5;
+      outline: none;
+      transition: border-color 0.3s ease;
+    }
+
+    textarea.code-area:focus {
+      border-color: var(--accent-color);
     }
 
     .action-btn {
@@ -165,11 +184,13 @@
     .action-btn:hover {
       background-color: var(--accent-hover);
       color: #fff;
+      transform: translateY(-2px);
     }
 
     .action-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
+      transform: none;
     }
 
     .console-box {
@@ -184,7 +205,7 @@
       color: #a7f3d0;
     }
 
-    /* Educational Chat Styling */
+    /* Chat Styling */
     .chat-box {
       background-color: #050811;
       border: 1px solid var(--border-color);
@@ -195,6 +216,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
+      scroll-behavior: smooth;
     }
 
     .chat-msg {
@@ -204,6 +226,12 @@
       line-height: 1.6;
       font-size: 0.95rem;
       white-space: pre-wrap;
+      animation: msgPop 0.3s ease;
+    }
+
+    @keyframes msgPop {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
     .chat-msg.user {
@@ -234,6 +262,11 @@
       padding: 10px 15px;
       color: #fff;
       font-size: 0.95rem;
+      outline: none;
+    }
+
+    .chat-input-wrapper input:focus {
+      border-color: var(--accent-color);
     }
 
     footer {
@@ -248,12 +281,10 @@
 </head>
 <body>
 
-  <!-- تنويه المبادرة الطلابية -->
   <div class="disclaimer-banner">
     <i class="fa-solid fa-graduation-cap"></i> تنويه: هذه المنصة مبادرة طلابية تعليمية غير رسمية لدعم مادة CS 102 بجامعة MUST.
   </div>
 
-  <!-- الهيدر والـ Navigation Bar الاصلي -->
   <nav>
     <a href="index.html" class="logo">
       <i class="fa-solid fa-code"></i> CS 102 MUST
@@ -264,14 +295,13 @@
       <li><a href="quizzes.html">الكويزات</a></li>
       <li><a href="basics.html">الأساسيات</a></li>
       <li><a href="compiler.html" class="active">منصة البرمجة</a></li>
-      <li><a href="announcements.html">التنبيهات</a></li>
+      <li><a href="announcements.html">الإعلانات</a></li>
     </ul>
   </nav>
 
-  <!-- محتوى المنصة الرئيسي -->
   <div class="main-wrapper">
     
-    <!-- قسم المحرر والمحاكي -->
+    <!-- Compiler Section -->
     <div class="card-section">
       <div class="section-title">
         <i class="fa-solid fa-terminal"></i> محرر أكواد C++
@@ -300,7 +330,7 @@ int main() {
       <div id="consoleOutput" class="console-box">اضغط على "تشغيل الكود" لرؤية النتيجة...</div>
     </div>
 
-    <!-- قسم الشات التعليمي المباشر -->
+    <!-- Educational Chat Section -->
     <div class="card-section">
       <div class="section-title">
         <i class="fa-solid fa-comments"></i> الشات التعليمي والمساعد الذكي
@@ -327,10 +357,8 @@ int main() {
   </footer>
 
   <script>
-    // رابط خادم الـ Proxy المأمن على Cloudflare
     const BACKEND_API_URL = 'https://cs102-api-proxy.hhvgg2631.workers.dev';
 
-    // دالة محاكي تشغيل الكود المحلي
     function runCode() {
       const code = document.getElementById('codeEditor').value;
       const outputBox = document.getElementById('consoleOutput');
@@ -348,14 +376,12 @@ int main() {
       }, 400);
     }
 
-    // التعامل مع الضغط على زر Enter في الشات
     function handleKeyPress(e) {
       if (e.key === 'Enter') {
         sendChatMessage();
       }
     }
 
-    // دالة إرسال الرسائل للشات التعليمي
     async function sendChatMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
@@ -367,7 +393,6 @@ int main() {
       await callBackendAI(`أنت معلم خبير لمادة CS 102 C++. أجبت السؤال التالي بأسلوب تعليمي مبسط ومباشر باللغة العربية:\n${text}`);
     }
 
-    // دالة إرسال الكود للتحليل بالذكاء الاصطناعي
     async function analyzeCodeWithAI() {
       const code = document.getElementById('codeEditor').value.trim();
       if (!code) {
@@ -379,7 +404,6 @@ int main() {
       await callBackendAI(`أنت مساعد مادة CS 102. حلل كود C++ التالي واشرح أي أخطاء أو تحسينات بأسلوب واضح:\n\n${code}`);
     }
 
-    // الاتصال الآمن بالـ Backend Proxy
     async function callBackendAI(promptText) {
       const chatBox = document.getElementById('chatBox');
       const sendBtn = document.getElementById('sendBtn');
@@ -388,7 +412,7 @@ int main() {
       sendBtn.disabled = true;
       analyzeBtn.disabled = true;
 
-      const loadingMsg = appendMessage("جاري التفكير والأجابة...", 'ai');
+      const loadingMsg = appendMessage("جاري التفكير والتجهيز...", 'ai');
 
       try {
         const payload = {
@@ -404,7 +428,7 @@ int main() {
         });
 
         if (!response.ok) {
-          throw new Error("فشل الاتصال بالخادم");
+          throw new Error(`خطأ في استجابة الخادم: ${response.status}`);
         }
 
         const data = await response.json();
@@ -413,12 +437,12 @@ int main() {
         if (replyText) {
           loadingMsg.textContent = replyText;
         } else {
-          loadingMsg.textContent = "عذراً، لم أستطع فهم الطلب بشكل صحيح.";
+          loadingMsg.textContent = "عذراً، لم أستطع إرجاع رد مناسب حالياً.";
         }
 
       } catch (err) {
         console.error(err);
-        loadingMsg.textContent = "حدث خطأ أثناء الاتصال بالخادم، يرجى المحاولة لاحقاً.";
+        loadingMsg.textContent = "حدث خطأ أثناء الاتصال بالخادم. تأكد من إعدادات Cloudflare Worker ومفتاح GEMINI_API_KEY.";
       } finally {
         sendBtn.disabled = false;
         analyzeBtn.disabled = false;
@@ -426,12 +450,11 @@ int main() {
       }
     }
 
-    // دالة إضافة الرسائل للواجهة بأمان بدون ثغرات XSS
     function appendMessage(text, sender) {
       const chatBox = document.getElementById('chatBox');
       const msgDiv = document.createElement('div');
       msgDiv.className = `chat-msg ${sender}`;
-      msgDiv.textContent = text; // استخدام textContent لحظر أية شفرات خبيثة
+      msgDiv.textContent = text;
       chatBox.appendChild(msgDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
       return msgDiv;
