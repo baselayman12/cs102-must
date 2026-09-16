@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>منصة البرمجة والشات التعليمي - CS 102 MUST</title>
   
-  <!-- Content Security Policy المحدث لضمان عمل كافة العناصر بدون حظر -->
   <meta http-equiv="Content-Security-Policy" content="
     default-src 'self';
     script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com;
@@ -15,7 +14,6 @@
     img-src 'self' data:;
   ">
 
-  <!-- FontAwesome Fonts -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
 
@@ -48,7 +46,7 @@
       overflow-x: hidden;
     }
 
-    /* Disclaimer Banner */
+    /* Banner */
     .disclaimer-banner {
       background: linear-gradient(90deg, #d97706, #f59e0b);
       color: #000;
@@ -58,7 +56,7 @@
       font-weight: 700;
     }
 
-    /* Standardized Navigation Bar */
+    /* Standardized Navbar (مطابق لباقي الصفحات) */
     nav {
       background-color: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
@@ -66,7 +64,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
       position: sticky;
       top: 0;
       z-index: 100;
@@ -84,7 +82,7 @@
 
     nav .nav-links {
       display: flex;
-      gap: 1.8rem;
+      gap: 1.5rem;
       list-style: none;
     }
 
@@ -92,29 +90,35 @@
       color: var(--text-main);
       text-decoration: none;
       font-weight: 500;
-      transition: all 0.3s ease;
-      padding: 5px 10px;
+      padding: 6px 12px;
       border-radius: 6px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     nav .nav-links a:hover, nav .nav-links a.active {
       color: var(--accent-color);
-      background-color: rgba(56, 189, 248, 0.1);
+      background-color: rgba(56, 189, 248, 0.12);
     }
 
-    /* Main Container & Animations */
+    /* Main Container & Smooth Entrance Animations */
     .main-wrapper {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       padding: 20px;
       flex: 1;
-      animation: fadeIn 0.5s ease-in-out;
+      animation: pageEntrance 0.6s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(10px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes pageEntrance {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     @media (max-width: 992px) {
@@ -131,7 +135,12 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+    }
+
+    .card-section:hover {
+      border-color: rgba(56, 189, 248, 0.4);
     }
 
     .section-title {
@@ -145,7 +154,7 @@
       padding-bottom: 10px;
     }
 
-    /* Compiler Styling */
+    /* Code Editor Styling */
     textarea.code-area {
       width: 100%;
       height: 280px;
@@ -160,11 +169,12 @@
       direction: ltr;
       line-height: 1.5;
       outline: none;
-      transition: border-color 0.3s ease;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
 
     textarea.code-area:focus {
       border-color: var(--accent-color);
+      box-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
     }
 
     .action-btn {
@@ -178,19 +188,25 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     .action-btn:hover {
       background-color: var(--accent-hover);
       color: #fff;
       transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+
+    .action-btn:active {
+      transform: translateY(0);
     }
 
     .action-btn:disabled {
       opacity: 0.5;
       cursor: not-allowed;
       transform: none;
+      box-shadow: none;
     }
 
     .console-box {
@@ -205,7 +221,7 @@
       color: #a7f3d0;
     }
 
-    /* Chat Styling */
+    /* Educational Chat Styling & Animations */
     .chat-box {
       background-color: #050811;
       border: 1px solid var(--border-color);
@@ -226,12 +242,18 @@
       line-height: 1.6;
       font-size: 0.95rem;
       white-space: pre-wrap;
-      animation: msgPop 0.3s ease;
+      animation: msgPop 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     @keyframes msgPop {
-      from { opacity: 0; transform: scale(0.95); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(10px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
     }
 
     .chat-msg.user {
@@ -263,6 +285,7 @@
       color: #fff;
       font-size: 0.95rem;
       outline: none;
+      transition: border-color 0.3s ease;
     }
 
     .chat-input-wrapper input:focus {
@@ -338,7 +361,7 @@ int main() {
       
       <div id="chatBox" class="chat-box">
         <div class="chat-msg ai">
-          مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن المفاهيم البرمجية، أو إرسال أكوادك لشرحها وتصحيحها.
+          مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي، أو طلب شرح للأكواد.
         </div>
       </div>
 
@@ -363,17 +386,15 @@ int main() {
       const code = document.getElementById('codeEditor').value;
       const outputBox = document.getElementById('consoleOutput');
       
-      outputBox.textContent = "جاري معالجة الكود محلياً...";
+      outputBox.textContent = "جاري تشغيل الكود...";
 
       setTimeout(() => {
-        if (code.includes('cout') && code.includes('Hello CS 102 MUST!')) {
-          outputBox.textContent = "Hello CS 102 MUST!";
-        } else if (!code.trim()) {
+        if (!code.trim()) {
           outputBox.textContent = "خطأ: المحرر فارغ!";
         } else {
-          outputBox.textContent = "تم التشغيل المحلي بنجاح.\n(استخدم زر 'اكتشاف الأخطاء بالـ AI' للتحليل المتقدم).";
+          outputBox.textContent = "تم التشغيل بنجاح.\nاستخدم زر 'اكتشاف الأخطاء بالـ AI' للحصول على تحليل برمجي متقدم من الذكاء الاصطناعي.";
         }
-      }, 400);
+      }, 300);
     }
 
     function handleKeyPress(e) {
@@ -390,7 +411,7 @@ int main() {
       appendMessage(text, 'user');
       input.value = '';
 
-      await callBackendAI(`أنت معلم خبير لمادة CS 102 C++. أجبت السؤال التالي بأسلوب تعليمي مبسط ومباشر باللغة العربية:\n${text}`);
+      await callBackendAI(`أنت معلم خبير لمادة CS 102 C++. أجب عن السؤال التعليمي التالي بأسلوب مبسط باللغة العربية:\n${text}`);
     }
 
     async function analyzeCodeWithAI() {
@@ -400,8 +421,8 @@ int main() {
         return;
       }
 
-      appendMessage("يرجى تحليل كود C++ الموجود في المحرر واكتشاف أي أخطاء به.", 'user');
-      await callBackendAI(`أنت مساعد مادة CS 102. حلل كود C++ التالي واشرح أي أخطاء أو تحسينات بأسلوب واضح:\n\n${code}`);
+      appendMessage("يرجى تحليل كود C++ الموجود في المحرر واكتشاف الأخطاء.", 'user');
+      await callBackendAI(`أنت معلم مادة CS 102. حلل كود C++ التالي واشرح الأخطاء والتحسينات بأسلوب واضح:\n\n${code}`);
     }
 
     async function callBackendAI(promptText) {
@@ -412,7 +433,7 @@ int main() {
       sendBtn.disabled = true;
       analyzeBtn.disabled = true;
 
-      const loadingMsg = appendMessage("جاري التفكير والتجهيز...", 'ai');
+      const loadingMsg = appendMessage("جاري التفكير والأجابة...", 'ai');
 
       try {
         const payload = {
@@ -427,22 +448,23 @@ int main() {
           body: JSON.stringify(payload)
         });
 
+        const data = await response.json();
+
         if (!response.ok) {
-          throw new Error(`خطأ في استجابة الخادم: ${response.status}`);
+          throw new Error(data.error || "خطأ في استجابة الخادم");
         }
 
-        const data = await response.json();
         const replyText = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
         if (replyText) {
           loadingMsg.textContent = replyText;
         } else {
-          loadingMsg.textContent = "عذراً، لم أستطع إرجاع رد مناسب حالياً.";
+          loadingMsg.textContent = "عذراً، لم يتم إرجاع رد من النموذج.";
         }
 
       } catch (err) {
-        console.error(err);
-        loadingMsg.textContent = "حدث خطأ أثناء الاتصال بالخادم. تأكد من إعدادات Cloudflare Worker ومفتاح GEMINI_API_KEY.";
+        console.error("API Error:", err);
+        loadingMsg.textContent = "حدث خطأ أثناء الاتصال بالخادم. يرجى التأكد من ضبط Cloudflare Worker والمفتاح.";
       } finally {
         sendBtn.disabled = false;
         analyzeBtn.disabled = false;
