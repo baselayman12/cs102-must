@@ -240,6 +240,7 @@
       border-radius: 10px;
       font-size: 0.95rem;
       line-height: 1.5;
+      white-space: pre-wrap;
     }
 
     .chat-msg.bot {
@@ -333,7 +334,7 @@
         </div>
         <div id="consoleOutput" class="console-box">انقر على "تشغيل الكود" لعرض النتيجة هنا...</div>
 
-        <!-- Error Analysis Container (Shown only when there is an error) -->
+        <!-- Error Analysis Container -->
         <div id="analysisBox" class="analysis-box">
           <strong style="color: #a5b4fc;"><i class="fa-solid fa-robot"></i> تحليل الخطأ بواسطة الذكاء الاصطناعي:</strong>
           <div id="analysisContent" style="margin-top: 8px;"></div>
@@ -347,7 +348,7 @@
     © 2026 CS 102 MUST - جميع الحقوق محفوظة لطلاب المبادرة التعليمية
   </footer>
 
-<script>
+  <script>
     const WORKER_URL = "https://cs102-compiler-api.hhvgg2631.workers.dev/";
 
     // الكود الافتراضي
@@ -363,37 +364,47 @@
       document.getElementById('analysisBox').classList.remove('active');
     }
 
-    // استدعاء آمن للـ AI بدون eval أو دمج نصوص آلي
+    // دالة استدعاء الـ AI المراجعة والمطابقة للمعايير بدون eval أو ثغرات
     async function callAI(promptText) {
-      const payload = {
-        contents: [
-          {
-            role: "user",
-            parts: [{ text: promptText }]
-          }
-        ]
-      };
+      try {
+        const payload = {
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: promptText }]
+            }
+          ]
+        };
 
-      const res = await fetch(WORKER_URL, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json" 
+          },
+          body: JSON.stringify(payload)
+        });
 
-      if (!res.ok) {
-        throw new Error(`HTTP Status: ${res.status}`);
+        if (!res.ok) {
+          throw new Error("سيرفر API أرجع خطأ: " + res.status);
+        }
+
+        const data = await res.json();
+
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          return data.candidates[0].content.parts[0].text;
+        } else if (data.error) {
+          throw new Error(data.error.message || "خطأ API");
+        } else {
+          throw new Error("لم يتم استقبال رد ملموس من الذكاء الاصطناعي.");
+        }
+
+      } catch (err) {
+        console.error("AI Error Details:", err);
+        throw err;
       }
-
-      const data = await res.json();
-      
-      if (data.error) {
-        throw new Error(data.error.message || "API Error");
-      }
-
-      return data.candidates[0].content.parts[0].text;
     }
 
-    // الشات التعليمي
+    // إرسال رسائل الشات
     async function sendChatMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
@@ -416,8 +427,8 @@
       chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
-        const formattedPrompt = "أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح باللغة العربية:\n\nسؤال الطالب: " + text;
-        const response = await callAI(formattedPrompt);
+        const prompt = "أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح باللغة العربية:\n\nسؤال الطالب: " + text;
+        const response = await callAI(prompt);
         loadingDiv.innerText = response;
       } catch (err) {
         loadingDiv.innerText = "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. يرجى المحاولة مرة أخرى.";
@@ -425,7 +436,7 @@
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // تشغيل الكود وتحليل الخطأ
+    // تشغيل الكود وتحليل الأخطاء
     async function runCode() {
       const code = document.getElementById('codeEditor').value;
       const consoleBox = document.getElementById('consoleOutput');
