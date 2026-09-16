@@ -293,7 +293,6 @@
       <li><a href="lectures.html">المحاضرات</a></li>
       <li><a href="quizzes.html">الكويزات</a></li>
       <li><a href="basics.html">الأساسيات</a></li>
-      <li><a href="announcements.html">التنبيهات</a></li>
       <li><a href="compiler.html" class="active">منصة البرمجة</a></li>
     </ul>
   </nav>
@@ -364,74 +363,66 @@
       document.getElementById('analysisBox').classList.remove('active');
     }
 
-    // Call Cloudflare Worker API
-   async function callAI(promptText) {
-  const payload = {
-    contents: [
-      {
-        role: "user",
-        parts: [{ text: promptText }]
+    // Call Cloudflare Worker API with Structured Gemini Payload
+    async function callAI(promptText) {
+      const payload = {
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: promptText }]
+          }
+        ]
+      };
+
+      const res = await fetch(WORKER_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload)
+      });
+
+      if (!res.ok) {
+        throw new Error(`HTTP Status: ${res.status}`);
       }
-    ]
-  };
 
-  const res = await fetch(WORKER_URL, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload)
-  });
+      const data = await res.json();
+      
+      if (data.error) {
+        throw new Error(data.error.message || "API Error");
+      }
 
-  if (!res.ok) {
-    throw new Error(`Server status: ${res.status}`);
-  }
-
-  const data = await res.json();
-  if (data.error) {
-    throw new Error(data.error.message || "API Error");
-  }
-
-  return data.candidates[0].content.parts[0].text;
-}
+      return data.candidates[0].content.parts[0].text;
+    }
 
     // AI Chat Engine
-   async function sendChatMessage() {
-  const input = document.getElementById('chatInput');
-  const text = input ? input.value.trim() : '';
-  if (!text) return;
+    async function sendChatMessage() {
+      const input = document.getElementById('chatInput');
+      const text = input.value.trim();
+      if (!text) return;
 
-  const chatBox = document.getElementById('chatBox');
-  
-  // إضافة رسالة المستخدم
-  const userDiv = document.createElement('div');
-  userDiv.className = 'chat-msg user';
-  userDiv.innerText = text;
-  chatBox.appendChild(userDiv);
+      const chatBox = document.getElementById('chatBox');
+      
+      // User message
+      const userDiv = document.createElement('div');
+      userDiv.className = 'chat-msg user';
+      userDiv.innerText = text;
+      chatBox.appendChild(userDiv);
 
-  input.value = '';
-  chatBox.scrollTop = chatBox.scrollHeight;
+      input.value = '';
+      chatBox.scrollTop = chatBox.scrollHeight;
 
-  // رسالة الانتظار
-  const loadingDiv = document.createElement('div');
-  loadingDiv.className = 'chat-msg bot';
-  loadingDiv.innerText = 'جاري التفكير والإجابة...';
-  chatBox.appendChild(loadingDiv);
-  chatBox.scrollTop = chatBox.scrollHeight;
+      // Loading state
+      const loadingDiv = document.createElement('div');
+      loadingDiv.className = 'chat-msg bot';
+      loadingDiv.innerText = 'جاري التفكير والإجابة...';
+      chatBox.appendChild(loadingDiv);
+      chatBox.scrollTop = chatBox.scrollHeight;
 
-  try {
-    const formattedPrompt = `أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح باللغة العربية:\n\nسؤال الطالب: ${text}`;
-    const response = await callAI(formattedPrompt);
-    loadingDiv.innerText = response;
-  } catch (err) {
-    loadingDiv.innerText = "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. اعد المحاولة.";
-  }
-  chatBox.scrollTop = chatBox.scrollHeight;
-}
       try {
-        const aiPrompt = `أنت مساعد تعليمي متخصص في مادة CS 102 ولغة C++ بجامعة MUST. أجب بأسلوب واضح ومباشر باللغة العربية:\n${text}`;
-        const response = await callAI(aiPrompt);
+        const formattedPrompt = `أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح باللغة العربية:\n\nسؤال الطالب: ${text}`;
+        const response = await callAI(formattedPrompt);
         loadingDiv.innerText = response;
       } catch (err) {
-        loadingDiv.innerText = "تعذر الاتصال بالذكاء الاصطناعي. يرجى محاولة السؤال مرة أخرى.";
+        loadingDiv.innerText = "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. يرجى المحاولة مرة أخرى.";
       }
       chatBox.scrollTop = chatBox.scrollHeight;
     }
@@ -463,23 +454,23 @@
       }
 
       if (hasError) {
-  consoleBox.classList.add('error');
-  consoleBox.innerText = errorMessage;
-  
-  analysisContent.innerText = "جاري تحليل الخطأ البرمجي بواسطة AI...";
-  analysisBox.classList.add('active');
+        consoleBox.classList.add('error');
+        consoleBox.innerText = errorMessage;
+        
+        // Trigger AI analysis ONLY when an error occurs
+        analysisContent.innerText = "جاري تحليل الخطأ البرمجي بواسطة AI...";
+        analysisBox.classList.add('active');
 
-  try {
-    const prompt = `اشرح سبب هذا الخطأ البرمجي في كود C++ وكيفية تصحيحه باختصار وبشكل واضح للطلاب:\nالكود:\n${code}\nالخطأ:\n${errorMessage}`;
-    const aiReply = await callAI(prompt);
-    analysisContent.innerText = aiReply;
-  } catch (e) {
-    analysisContent.innerText = "تعذر تحليل الخطأ حالياً.";
-  }
-}
+        try {
+          const prompt = `اشرح سبب هذا الخطأ البرمجي في كود C++ وكيفية تصحيحه باختصار وبشكل واضح للطلاب:\nالكود:\n${code}\nالخطأ:\n${errorMessage}`;
+          const aiReply = await callAI(prompt);
+          analysisContent.innerText = aiReply;
+        } catch (e) {
+          analysisContent.innerText = "تعذر تحليل الخطأ حالياً.";
+        }
 
       } else {
-        // Successful Mock Execution Output
+        // Successful Output
         let output = "";
         if (code.includes('cout << "Hello CS 102 MUST!"')) {
           output = "Hello CS 102 MUST!\n\nProcess finished with exit code 0";
