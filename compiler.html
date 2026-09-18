@@ -120,6 +120,11 @@
       display: flex;
       flex-direction: column;
       gap: 15px;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .card:hover {
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
     }
 
     .card-title {
@@ -294,7 +299,6 @@
       <li><a href="lectures.html">المحاضرات</a></li>
       <li><a href="quizzes.html">الكويزات</a></li>
       <li><a href="basics.html">الأساسيات</a></li>
-      <li><a href="announcements.html">التنبيهات</a></li>
       <li><a href="compiler.html" class="active">منصة البرمجة</a></li>
     </ul>
   </nav>
@@ -308,9 +312,7 @@
           <i class="fa-solid fa-comments"></i> الشات التعليمي والمساعد الذكي
         </div>
         <div class="chat-box" id="chatBox">
-          <div class="chat-msg bot">
-            مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي في C++ أو طلب شرح للأكواد.
-          </div>
+          <div class="chat-msg bot">مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي في C++ أو طلب شرح للأكواد.</div>
         </div>
         <div class="chat-input-area">
           <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك التعليمي هنا..." onkeypress="handleKeyPress(event)">
@@ -321,10 +323,9 @@
       <!-- Code Editor & Runner -->
       <div class="card">
         <div class="card-title">
-  <i class="fa-solid fa-code"></i> محاكي وفاحص أكواد C++ أولي
-</div>
+          <i class="fa-solid fa-code"></i> محاكي وفاحص أكواد C++ أولي
+        </div>
         <textarea id="codeEditor" class="code-editor" placeholder="اكتب كود C++ هنا..."></textarea>
-        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">* ملاحظة: هذه أداة فحص سريعة للأخطاء ومحاكاة تعليمية وليست بيئة تشغيل كاملة (Compiler).</p>
         
         <div class="controls">
           <button class="btn btn-primary" onclick="runCode()"><i class="fa-solid fa-play"></i> تشغيل الكود</button>
@@ -335,6 +336,7 @@
           <i class="fa-solid fa-terminal"></i> شاشة المخرجات (Console)
         </div>
         <div id="consoleOutput" class="console-box">انقر على "تشغيل الكود" لعرض النتيجة هنا...</div>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">* ملاحظة: هذه أداة فحص سريعة للأخطاء ومحاكاة تعليمية وليست بيئة تشغيل كاملة (Compiler).</p>
 
         <!-- Error Analysis Container -->
         <div id="analysisBox" class="analysis-box">
@@ -347,13 +349,12 @@
   </div>
 
   <footer>
-    © 2026 CS 102 MUST - جميع الحقوق محفوظة لطلاب المبادرة التعليمية
+    © 2026 CS 102 MUST - مبادرة طلابية تعليمية غير رسمية
   </footer>
 
   <script>
     const WORKER_URL = "https://cs102-compiler-api.hhvgg2631.workers.dev/";
 
-    // الكود الافتراضي
     document.getElementById('codeEditor').value = `#include <iostream>\nusing namespace std;\n\nint main() {\n    cout << "Hello CS 102 MUST!" << endl;\n    return 0;\n}`;
 
     function handleKeyPress(e) {
@@ -366,56 +367,54 @@
       document.getElementById('analysisBox').classList.remove('active');
     }
 
-    // دالة استدعاء الـ AI المراجعة والمطابقة للمعايير بدون eval أو ثغرات
     async function callAI(promptText) {
-  try {
-    const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 10000); // مهلة 10 ثواني
+      try {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 12000); // مهلة 12 ثانية
 
-    const payload = {
-      contents: [
-        {
-          role: "user",
-          parts: [{ text: promptText }]
+        const payload = {
+          contents: [
+            {
+              role: "user",
+              parts: [{ text: promptText }]
+            }
+          ]
+        };
+
+        const res = await fetch(WORKER_URL, {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json" 
+          },
+          body: JSON.stringify(payload),
+          signal: controller.signal
+        });
+
+        clearTimeout(timeoutId);
+
+        if (!res.ok) {
+          throw new Error("سيرفر API أرجع خطأ: " + res.status);
         }
-      ]
-    };
 
-    const res = await fetch(WORKER_URL, {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json" 
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal
-    });
+        const data = await res.json();
 
-    clearTimeout(timeoutId);
+        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+          return data.candidates[0].content.parts[0].text;
+        } else if (data.error) {
+          throw new Error(data.error.message || "خطأ من سيرفر الذكاء الاصطناعي");
+        } else {
+          throw new Error("لم يتم استقبال رد ملموس من الذكاء الاصطناعي.");
+        }
 
-    if (!res.ok) {
-      throw new Error("سيرفر API أرجع خطأ: " + res.status);
+      } catch (err) {
+        if (err.name === 'AbortError') {
+          throw new Error("استغرق الرد وقتاً أطول من اللازم، يرجى المحاولة مرة أخرى.");
+        }
+        console.error("AI Error Details:", err);
+        throw err;
+      }
     }
 
-    const data = await res.json();
-
-    if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-      return data.candidates[0].content.parts[0].text;
-    } else if (data.error) {
-      throw new Error(data.error.message || "خطأ API");
-    } else {
-      throw new Error("لم يتم استقبال رد ملموس من الذكاء الاصطناعي.");
-    }
-
-  } catch (err) {
-    if (err.name === 'AbortError') {
-      throw new Error("استغرق الرد وقتاً أطول من اللازم، يرجى إعادة المحاولة.");
-    }
-    console.error("AI Error Details:", err);
-    throw err;
-  }
-}
-
-    // إرسال رسائل الشات
     async function sendChatMessage() {
       const input = document.getElementById('chatInput');
       const text = input.value.trim();
@@ -425,7 +424,7 @@
       
       const userDiv = document.createElement('div');
       userDiv.className = 'chat-msg user';
-      userDiv.innerText = text;
+      userDiv.textContent = text;
       chatBox.appendChild(userDiv);
 
       input.value = '';
@@ -433,21 +432,20 @@
 
       const loadingDiv = document.createElement('div');
       loadingDiv.className = 'chat-msg bot';
-      loadingDiv.innerText = 'جاري التفكير والإجابة...';
+      loadingDiv.textContent = 'جاري التفكير والإجابة...';
       chatBox.appendChild(loadingDiv);
       chatBox.scrollTop = chatBox.scrollHeight;
 
       try {
         const prompt = "أنت مساعد تعليمي ذكي لمادة CS 102 (لغة C++) بجامعة MUST. أجب على سؤال الطالب بشكل مفصل وواضح باللغة العربية:\n\nسؤال الطالب: " + text;
         const response = await callAI(prompt);
-        loadingDiv.innerText = response;
+        loadingDiv.textContent = response;
       } catch (err) {
-        loadingDiv.innerText = "حدث خطأ أثناء الاتصال بالذكاء الاصطناعي. يرجى المحاولة مرة أخرى.";
+        loadingDiv.textContent = "تفاصيل الخطأ: " + err.message;
       }
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // تشغيل الكود وتحليل الأخطاء
     async function runCode() {
       const code = document.getElementById('codeEditor').value;
       const consoleBox = document.getElementById('consoleOutput');
@@ -484,7 +482,7 @@
           const aiReply = await callAI(prompt);
           analysisContent.innerText = aiReply;
         } catch (e) {
-          analysisContent.innerText = "تعذر تحليل الخطأ حالياً.";
+          analysisContent.innerText = "تعذر تحليل الخطأ: " + e.message;
         }
 
       } else {
