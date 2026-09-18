@@ -370,7 +370,7 @@
     async function callAI(promptText) {
       try {
         const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 12000); // مهلة 12 ثانية
+        const timeoutId = setTimeout(() => controller.abort(), 25000); // مهلة 25 ثانية
 
         const payload = {
           contents: [
