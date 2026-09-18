@@ -321,9 +321,10 @@
       <!-- Code Editor & Runner -->
       <div class="card">
         <div class="card-title">
-          <i class="fa-solid fa-code"></i> محرر أكواد C++
-        </div>
+  <i class="fa-solid fa-code"></i> محاكي وفاحص أكواد C++ أولي
+</div>
         <textarea id="codeEditor" class="code-editor" placeholder="اكتب كود C++ هنا..."></textarea>
+        <p style="font-size: 0.8rem; color: #94a3b8; margin-top: 5px;">* ملاحظة: هذه أداة فحص سريعة للأخطاء ومحاكاة تعليمية وليست بيئة تشغيل كاملة (Compiler).</p>
         
         <div class="controls">
           <button class="btn btn-primary" onclick="runCode()"><i class="fa-solid fa-play"></i> تشغيل الكود</button>
@@ -367,43 +368,52 @@
 
     // دالة استدعاء الـ AI المراجعة والمطابقة للمعايير بدون eval أو ثغرات
     async function callAI(promptText) {
-      try {
-        const payload = {
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: promptText }]
-            }
-          ]
-        };
+  try {
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 10000); // مهلة 10 ثواني
 
-        const res = await fetch(WORKER_URL, {
-          method: "POST",
-          headers: { 
-            "Content-Type": "application/json" 
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!res.ok) {
-          throw new Error("سيرفر API أرجع خطأ: " + res.status);
+    const payload = {
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: promptText }]
         }
+      ]
+    };
 
-        const data = await res.json();
+    const res = await fetch(WORKER_URL, {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify(payload),
+      signal: controller.signal
+    });
 
-        if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
-          return data.candidates[0].content.parts[0].text;
-        } else if (data.error) {
-          throw new Error(data.error.message || "خطأ API");
-        } else {
-          throw new Error("لم يتم استقبال رد ملموس من الذكاء الاصطناعي.");
-        }
+    clearTimeout(timeoutId);
 
-      } catch (err) {
-        console.error("AI Error Details:", err);
-        throw err;
-      }
+    if (!res.ok) {
+      throw new Error("سيرفر API أرجع خطأ: " + res.status);
     }
+
+    const data = await res.json();
+
+    if (data.candidates && data.candidates[0]?.content?.parts[0]?.text) {
+      return data.candidates[0].content.parts[0].text;
+    } else if (data.error) {
+      throw new Error(data.error.message || "خطأ API");
+    } else {
+      throw new Error("لم يتم استقبال رد ملموس من الذكاء الاصطناعي.");
+    }
+
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      throw new Error("استغرق الرد وقتاً أطول من اللازم، يرجى إعادة المحاولة.");
+    }
+    console.error("AI Error Details:", err);
+    throw err;
+  }
+}
 
     // إرسال رسائل الشات
     async function sendChatMessage() {
