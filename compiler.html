@@ -316,8 +316,8 @@
           <div class="chat-msg bot">مرحباً بك! أنا مساعدك التعليمي لمادة CS 102. يمكنك سؤالي عن أي مفهوم برمجي في C++ أو طلب شرح للأكواد.</div>
         </div>
         <div class="chat-input-area">
-          <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك التعليمي هنا..." onkeypress="handleKeyPress(event)">
-          <button class="btn btn-primary" onclick="sendChatMessage()"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
+          <input type="text" id="chatInput" class="chat-input" placeholder="اكتب سؤالك التعليمي هنا..." aria-label="اكتب سؤالك التعليمي هنا" onkeypress="handleKeyPress(event)">
+          <button class="btn btn-primary" onclick="sendChatMessage()" aria-label="إرسال السؤال للمساعد الذكي"><i class="fa-solid fa-paper-plane"></i> إرسال</button>
         </div>
       </div>
 
@@ -326,7 +326,7 @@
         <div class="card-title">
           <i class="fa-solid fa-code"></i> محاكي وفاحص أكواد C++ أولي
         </div>
-        <textarea id="codeEditor" class="code-editor" placeholder="اكتب كود C++ هنا..."></textarea>
+        <textarea id="codeEditor" class="code-editor" placeholder="اكتب كود C++ هنا..." aria-label="محرر كود لغة سي بلس بلس"></textarea>
         
         <div class="controls">
           <button class="btn btn-primary" onclick="runCode()"><i class="fa-solid fa-play"></i> تشغيل الكود</button>
