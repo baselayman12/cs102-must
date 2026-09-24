@@ -3,18 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CS102 MUST | المحاضرات والملخصات</title>
-    <!-- FontAwesome & Google Fonts -->
+    <title>CS 102 - Lectures & Summaries</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-dark: #080d1a;
             --card-bg: #111a2e;
-            --card-hover: #16223b;
             --border-color: #1e2d4a;
             --accent-blue: #38bdf8;
-            --accent-glow: rgba(56, 189, 248, 0.15);
             --text-main: #f8fafc;
             --text-muted: #94a3b8;
         }
@@ -30,38 +27,21 @@
             background-color: var(--bg-dark);
             color: var(--text-main);
             line-height: 1.6;
-            min-height: 100vh;
         }
 
-        /* Banner Top */
-        .top-banner {
-            background: linear-gradient(90deg, #0284c7, #0369a1);
-            color: #fff;
-            text-align: center;
-            padding: 8px 15px;
-            font-size: 0.88rem;
-            font-weight: 500;
-        }
-
-        /* Navbar */
         header {
             background-color: var(--card-bg);
             border-bottom: 1px solid var(--border-color);
-            padding: 15px 6%;
+            padding: 15px 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            backdrop-filter: blur(10px);
         }
 
         .logo {
-            font-size: 1.3rem;
+            font-size: 1.2rem;
             font-weight: 800;
             color: var(--accent-blue);
-            text-decoration: none;
             display: flex;
             align-items: center;
             gap: 10px;
@@ -74,304 +54,131 @@
         }
 
         .nav-links a {
-            color: var(--text-muted);
+            color: var(--text-main);
             text-decoration: none;
-            font-weight: 600;
-            padding: 6px 12px;
-            border-radius: 8px;
-            transition: all 0.25s ease;
+            font-weight: 500;
         }
 
-        .nav-links a:hover, .nav-links a.active {
-            color: var(--accent-blue);
-            background: rgba(56, 189, 248, 0.1);
-        }
-
-        /* Container & Header */
         .container {
-            max-width: 1200px;
+            max-width: 1000px;
             margin: 40px auto;
             padding: 0 20px;
         }
 
-        .page-title {
+        .page-header {
             text-align: center;
             margin-bottom: 40px;
         }
 
-        .page-title h1 {
-            font-size: 2.3rem;
-            font-weight: 800;
-            margin-bottom: 8px;
+        .page-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
         }
 
-        .page-title p {
+        .page-header p {
             color: var(--text-muted);
         }
 
-        /* Grid Cards */
-        .cards-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-            gap: 25px;
-        }
-
-        /* Card Component */
-        .card {
+        .lecture-card {
             background-color: var(--card-bg);
             border: 1px solid var(--border-color);
-            border-radius: 16px;
+            border-radius: 12px;
             padding: 25px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1), 
-                        border-color 0.3s ease, 
-                        box-shadow 0.3s ease;
+            margin-bottom: 25px;
         }
 
-        .card:hover {
-            transform: translateY(-6px);
-            border-color: var(--accent-blue);
-            box-shadow: 0 12px 28px -5px var(--accent-glow);
-            background-color: var(--card-hover);
-        }
-
-        .card-badge {
-            display: inline-block;
-            background: rgba(56, 189, 248, 0.12);
-            color: var(--accent-blue);
-            padding: 4px 12px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-            margin-bottom: 15px;
-            align-self: flex-start;
-        }
-
-        .card-title {
-            font-size: 1.25rem;
-            font-weight: 700;
-            margin-bottom: 12px;
+        .lecture-title {
+            font-size: 1.3rem;
+            margin-bottom: 10px;
             color: #fff;
-            direction: ltr;
-            text-align: right;
         }
 
-        .card-desc {
+        .lecture-desc {
             color: var(--text-muted);
-            font-size: 0.93rem;
+            font-size: 0.95rem;
             margin-bottom: 20px;
-            line-height: 1.6;
         }
 
-        .card-meta {
+        .lecture-meta {
+            display: flex;
+            gap: 20px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .lecture-actions {
             display: flex;
             gap: 15px;
-            font-size: 0.85rem;
-            color: var(--text-muted);
-            padding-top: 15px;
-            border-top: 1px solid var(--border-color);
-            margin-bottom: 20px;
         }
 
-        .card-actions {
-            display: flex;
-            gap: 10px;
-        }
-
-        /* Buttons Animation */
         .btn {
-            flex: 1;
-            padding: 10px 16px;
-            border-radius: 10px;
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            font-size: 0.95rem;
             font-weight: 700;
-            font-size: 0.9rem;
-            border: 1px solid transparent;
             cursor: pointer;
-            text-decoration: none;
             display: inline-flex;
             align-items: center;
-            justify-content: center;
             gap: 8px;
-            transition: all 0.2s ease;
+            text-decoration: none;
         }
 
         .btn-primary {
-            background-color: var(--accent-blue);
-            color: #080d1a;
-        }
-
-        .btn-primary:hover {
-            background-color: #0284c7;
-            color: #fff;
-            transform: scale(1.02);
+            background-color: #fff;
+            color: #000;
         }
 
         .btn-outline {
-            background: transparent;
-            border-color: var(--border-color);
+            background-color: transparent;
+            border: 1px solid var(--border-color);
             color: var(--text-main);
         }
-
-        .btn-outline:hover {
-            border-color: var(--accent-blue);
-            color: var(--accent-blue);
-            background: rgba(56, 189, 248, 0.05);
-        }
-
-        .btn-disabled {
-            background: #1a2336;
-            color: #475569;
-            border-color: #1e293b;
-            cursor: not-allowed;
-            width: 100%;
-        }
-
-        /* Modal Smooth Animation */
-        .modal {
-            display: none;
-            position: fixed;
-            top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: rgba(8, 13, 26, 0.85);
-            backdrop-filter: blur(6px);
-            z-index: 1000;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-
-        .modal.show {
-            display: flex;
-            opacity: 1;
-        }
-
-        .modal-content {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            max-width: 750px;
-            width: 100%;
-            padding: 30px;
-            position: relative;
-            transform: scale(0.95);
-            transition: transform 0.3s ease;
-        }
-
-        .modal.show .modal-content {
-            transform: scale(1);
-        }
-
-        .close-btn {
-            position: absolute;
-            top: 20px; left: 20px;
-            background: none; border: none;
-            color: var(--text-muted);
-            font-size: 1.4rem;
-            cursor: pointer;
-        }
-
-        .close-btn:hover { color: #fff; }
     </style>
 </head>
 <body>
 
-    <div class="top-banner">
-        <i class="fa-solid fa-circle-info"></i> منصة تعليمية ومبادرة طلابية لدعم مادة CS 102 بجامعة MUST — إشراف Dr. Doha Taha
-    </div>
-
     <header>
-        <a href="index.html" class="logo">
-            <i class="fa-solid fa-code"></i> CS102 MUST Portal
-        </a>
+        <div class="logo">
+            <img src="must-logo.png" alt="MUST Logo" style="height: 30px; display: none;">
+            <span>CS 102 IT Department</span>
+        </div>
         <ul class="nav-links">
             <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="lectures.html" class="active">المحاضرات</a></li>
-            <li><a href="quizzes.html">بنك الكويزات</a></li>
-            <li><a href="compiler.html">فاحص الكود</a></li>
+            <li><a href="lectures.html">المحاضرات</a></li>
+            <li><a href="quizzes.html">الكويزات</a></li>
+            <li><a href="basics.html">الأساسيات</a></li>
+            <li><a href="alerts.html">التنبيهات</a></li>
+            <li><a href="compiler.html">منصة البرمجة</a></li>
         </ul>
     </header>
 
     <div class="container">
-        <div class="page-title">
+        <div class="page-header">
             <h1>محاضرات وملخصات المادة</h1>
-            <p>المواد العلمية والملخصات المعتمدة لمادة CS 102 جاهزة للقراءة والتحميل</p>
+            <p>الملخصات المعتمدة والمواد العلمية لمادة CS 102 جاهزة للتحميل</p>
         </div>
 
-        <div class="cards-grid">
-            <!-- Lecture 1 Card -->
-            <div class="card">
-                <div>
-                    <span class="card-badge">Lecture 01</span>
-                    <h2 class="card-title"><bdi>Lecture 1: Introduction to Computers & C++</bdi></h2>
-                    <p class="card-desc">مقدمة شاملة عن أجيال لغات البرمجة، المكونات المنطقية للكومبيوتر (Hardware/Software)، وحدات قياس البيانات، وأول برنامج بلغة C++.</p>
-                </div>
-                <div>
-                    <div class="card-meta">
-                        <span><i class="fa-solid fa-user-doctor"></i> Dr. Doha Taha</span>
-                        <span><i class="fa-solid fa-file-pdf"></i> PDF & Summary</span>
-                    </div>
-                    <div class="card-actions">
-                        <button onclick="openModal(1)" class="btn btn-primary"><i class="fa-solid fa-book-open"></i> قراءة الملخص</button>
-                        <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline"><i class="fa-solid fa-download"></i> تحميل PDF</a>
-                    </div>
-                </div>
+        <div class="lecture-card">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <span style="font-size: 0.85rem; color: var(--text-muted);">Lecture 01</span>
+            </div>
+            <!-- استخدام bdi يمنع تقلب النصوص والرموز الإنجليزية -->
+            <h2 class="lecture-title"><bdi>Lecture 01: Introduction to Computers & C++</bdi></h2>
+            <p class="lecture-desc">مقدمة شاملة عن أجيال لغات البرمجة، المكونات المنطقية للكومبيوتر (Hardware/Software)، وحدات قياس البيانات، وأول برنامج بلغة C++.</p>
+            
+            <div class="lecture-meta">
+                <span>Dr. Doha Taha</span>
+                <span>PDF & Summary</span>
             </div>
 
-            <!-- Lecture 2 Card -->
-            <div class="card">
-                <div>
-                    <span class="card-badge" style="background: rgba(148, 163, 184, 0.1); color: var(--text-muted);">Lecture 02</span>
-                    <h2 class="card-title"><bdi>Lecture 2: Data Types & Variables</bdi></h2>
-                    <p class="card-desc">شرح أنواع البيانات المختلفة في C++، كيفية تعريف المتغيرات، وإدخال وإخراج البيانات باستخدام cin و cout.</p>
-                </div>
-                <div>
-                    <div class="card-meta">
-                        <span><i class="fa-solid fa-user-doctor"></i> Dr. Doha Taha</span>
-                        <span><i class="fa-solid fa-clock"></i> قريباً</span>
-                    </div>
-                    <div class="card-actions">
-                        <button class="btn btn-disabled" disabled><i class="fa-solid fa-lock"></i> قريباً فور رفع الماتريال</button>
-                    </div>
-                </div>
+            <div class="lecture-actions">
+                <a href="#" class="btn btn-primary">قراءة الملخص</a>
+                <a href="#" class="btn btn-outline">تحميل PDF</a>
             </div>
         </div>
     </div>
 
-    <!-- Modal Modal Structure -->
-    <div id="summaryModal" class="modal" onclick="closeModalOnBackdrop(event)">
-        <div class="modal-content">
-            <button class="close-btn" onclick="closeModal()">&times;</button>
-            <div id="modalBody"></div>
-        </div>
-    </div>
-
-    <script>
-        function openModal(id) {
-            const modal = document.getElementById('summaryModal');
-            const body = document.getElementById('modalBody');
-            if(id === 1) {
-                body.innerHTML = `
-                    <h2 style="color:var(--accent-blue); direction:ltr; text-align:left; margin-bottom:10px;">Lecture 1: Introduction to Computers & C++</h2>
-                    <p style="color:var(--text-muted); font-size:0.9rem; margin-bottom:15px;">د. دوحة طه — ملخص شامل</p>
-                    <hr style="border-color:var(--border-color); margin-bottom:15px;">
-                    <p style="margin-bottom:10px;"><b>1. Computer Hardware:</b> CPU, RAM, Input/Output Devices, Secondary Storage.</p>
-                    <p><b>2. Software Types:</b> System Software (OS) & Application Software.</p>
-                `;
-            }
-            modal.classList.add('show');
-        }
-
-        function closeModal() {
-            document.getElementById('summaryModal').classList.remove('show');
-        }
-
-        function closeModalOnBackdrop(e) {
-            if(e.target.id === 'summaryModal') closeModal();
-        }
-    </script>
 </body>
 </html>
