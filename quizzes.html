@@ -33,6 +33,22 @@
             transition: all 0.3s ease;
         }
 
+        .glass-card {
+            background: rgba(17, 26, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .glass-card:hover:not([style*="not-allowed"]) {
+            transform: translateY(-6px);
+            border-color: rgba(56, 189, 248, 0.4);
+            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.15);
+        }
+
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -173,19 +189,40 @@
             اختبر معلوماتك في مادة CS 102 مع تحليل تفصيلي فوري لكل إجابة.
         </p>
 
-        <!-- Start Screen Card -->
+        <!-- Quizzes Grid / Selection Cards -->
         <div id="start-card" class="quiz-container">
-            <div class="quiz-card" style="text-align: center;">
-                <i class="fas fa-graduation-cap" style="font-size: 3.5rem; color: #38bdf8; margin-bottom: 20px;"></i>
-                <h2>اختبار المحاضرة الأولى: Introduction to Computers & C++</h2>
-                <p style="color: var(--text-sub); margin: 15px 0 25px 0; line-height: 1.8;">
-                    شامل لجميع أفكار المحاضرة الأولى وبنك الأسئلة + نمط امتحانات الفاينل.<br>
-                    <strong>عدد الأسئلة:</strong> 50 سؤالاً (30 اختيار من متعدد - 10 صح وغلط - 10 مقالي)<br>
-                    <strong>الوقت:</strong> مفتوح (يتم احتساب الزمن المستغرق)
-                </p>
-                <button class="btn btn-outline" onclick="showConfirmModal()" style="font-size: 1.1rem; padding: 12px 30px;">
-                    <i class="fas fa-play"></i> لبدء الامتحان اضغط هنا
-                </button>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
+                
+                <!-- Quiz 1 Card (Active) -->
+                <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-graduation-cap" style="font-size: 3rem; color: #38bdf8; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 1: Introduction to Computers & C++</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            شامل لجميع أفكار المحاضرة الأولى وبنك الأسئلة + نمط امتحانات الفاينل.<br>
+                            <strong>50 سؤالاً</strong> (30 اختيار - 10 صح وغلط - 10 مقالي)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal()" style="font-size: 1rem; padding: 12px 20px; width: 100%;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الأولى
+                    </button>
+                </div>
+
+                <!-- Quiz 2 Card (Disabled / Pending) -->
+                <div class="card glass-card" style="text-align: center; opacity: 0.75; cursor: not-allowed; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-lock" style="font-size: 3rem; color: var(--text-sub); margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 2: Introduction to C++ Programming, Input/ Output and Operators</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            اختبار شامـل على جمل الإدخال والإخراج والمعاملات الحسابية والمنطقية.<br>
+                            <strong>قريباً</strong> فور تجهيز بنك الأسئلة الخاص بالمحاضرة.
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" disabled style="opacity: 0.6; cursor: not-allowed; pointer-events: none; width: 100%;">
+                        <i class="fas fa-clock"></i> الكويز غير متاح حالياً
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -332,7 +369,7 @@
             { type: "tf", question: "40. A database management system (DBMS) allows users to query and organize related data tables efficiently.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الـ DBMS يوفر أدوات متكاملة لإدارة واستعلام البيانات والعلاقات بين الجداول." },
 
             // --- 10 Essay Questions (Keyword-Based Soft Match) ---
-            { type: "essay", question: "41. Explain the primary difference between Primary Memory (RAM) and Secondary Memory.", keywords: ["RAM", "volatile", "temporary", "secondary", "permanent", "non-volatile", "fast", "slow", "hard disk", "SSD"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الذاكرة الرئيسية (RAM) سريعة ومؤقتة (Volatile) للبيانات النشطة، بينما الثانوية غير متطايرة (Non-volatile) وبطيئة للتخزين الدائم." },
+            { type: "essay", question: "41. Explain the primary difference between Primary Memory (RAM) and Secondary Memory.", keywords: ["ram", "volatile", "temporary", "secondary", "permanent", "non-volatile", "fast", "slow", "hard disk", "ssd"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الذاكرة الرئيسية (RAM) سريعة ومؤقتة (Volatile) للبيانات النشطة، بينما الثانوية غير متطايرة (Non-volatile) وبطيئة للتخزين الدائم." },
             { type: "essay", question: "42. Name at least four main logical units of a computer system.", keywords: ["input", "output", "memory", "alu", "control unit", "cu", "storage"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الوحدات هي: Input Unit, Output Unit, Memory Unit, ALU, Control Unit, Secondary Storage." },
             { type: "essay", question: "43. Briefly describe the role of a Compiler in software development.", keywords: ["translate", "convert", "high level", "machine code", "object code", "binary", "all at once"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> يقوم الـ Compiler بتحويل لغة البرمجة عالية المستوى كـ C++ إلى لغة الآلة المباشرة دفعة واحدة." },
             { type: "essay", question: "44. Differentiate between Machine Language and High-Level Language.", keywords: ["machine", "binary", "0", "1", "high level", "human", "readable", "compiler", "hardware"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> لغة الآلة هي لغة ثنائية (0 و 1) يفهمها العتاد مباشرة، أما عالية المستوى فقريبة من لغة البشر وتستلزم مترجماً." },
