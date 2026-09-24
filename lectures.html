@@ -46,17 +46,25 @@
         
         <div class="cards-grid">
             <!-- Lecture 1 Card -->
-            <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-desktop"></i></div>
-                <h3>Lecture 1: Introduction to Computers and C++</h3>
-                <p>مقدمة عن مكونات الحساب الآلي، آلية عمل البرامج، وأساسيات لغة C++ ومفهوم الـ Problem Solving.</p>
-                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
-                    <!-- المكان ده جهزناه لملف ה-PDF اول ما تبعتهولي هنحط الرابط المباشر -->
-                    <a href="#" class="btn btn-outline" onclick="alert('جاري تجهيز ملف الملخص وسيكون متاحاً للتحميل فوراً!'); return false;">
-                        <i class="fas fa-download"></i> تحميل ملخص المحاضرة (PDF)
-                    </a>
-                </div>
-            </div>
+<div class="card glass-card">
+    <div class="card-icon"><i class="fas fa-desktop"></i></div>
+    
+    <!-- bdi بيظبط اتجاه الإنجليزي من غير ما يحرك البوكس أو يغير الاستايل -->
+    <h3><bdi>Lecture 1: Introduction to Computers and C++</bdi></h3>
+    
+    <p>مقدمة عن مكونات الحساب الآلي، آلية عمل البرامج، وأساسيات لغة C++ ومفهوم الـ Problem Solving.</p>
+    
+    <!-- الأزرار بدون تعديل في كلاسات الأنيميشن الأصلية -->
+    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+        <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline">
+            <i class="fas fa-download"></i> تحميل ملخص المحاضرة (PDF)
+        </a>
+        
+        <a href="cs102_lecture_1_summary.pdf" target="_blank" class="btn btn-outline">
+            <i class="fas fa-eye"></i> قراءة أونلاين
+        </a>
+    </div>
+</div>
         </div>
     </section>
 
