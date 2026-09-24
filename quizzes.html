@@ -5,15 +5,144 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     
     <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="الكويزات والامتحانات - CS 102 | MUST IT">
-    <meta property="og:description" content="اختبارات تفاعلية واسئلة امتحانات سابقة لمادة CS 102 بكلية IT جامعة مصر.">
+    <meta property="og:title" content="الكويزات - CS 102 | MUST IT">
+    <meta property="og:description" content="اختبارات تفاعلية وشاملة لمادة CS 102 - كلية تكنولوجيا المعلومات جامعة مصر للعلوم والتكنولوجيا.">
     <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
     <meta property="og:type" content="website">
 
-    <title>الكويزات - CS 102</title>
+    <title>الكويز التفاعلي - CS 102</title>
     <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* Quiz Specific Styling with Glassmorphism & Animations */
+        .quiz-container {
+            max-width: 850px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .quiz-card {
+            background: rgba(17, 26, 46, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(8, 13, 26, 0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.3s ease;
+        }
+
+        .quiz-progress-bar {
+            width: 100%;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .quiz-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #38bdf8, #818cf8);
+            width: 0%;
+            transition: width 0.4s ease;
+        }
+
+        .option-btn {
+            width: 100%;
+            text-align: right;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: #fff;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .option-btn:hover:not(:disabled) {
+            background: rgba(56, 189, 248, 0.15);
+            border-color: #38bdf8;
+            transform: translateY(-2px);
+        }
+
+        .option-btn.correct {
+            background: rgba(34, 197, 94, 0.2) !important;
+            border-color: #22c55e !important;
+            color: #4ade80 !important;
+        }
+
+        .option-btn.wrong {
+            background: rgba(239, 68, 68, 0.2) !important;
+            border-color: #ef4444 !important;
+            color: #f87171 !important;
+        }
+
+        .explanation-box {
+            margin-top: 20px;
+            padding: 18px;
+            background: rgba(15, 23, 42, 0.9);
+            border-right: 4px solid #38bdf8;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            animation: fadeIn 0.4s ease;
+        }
+
+        .essay-input {
+            width: 100%;
+            min-height: 100px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            padding: 15px;
+            color: #fff;
+            font-size: 1rem;
+            resize: vertical;
+            margin-bottom: 15px;
+        }
+
+        .essay-input:focus {
+            outline: none;
+            border-color: #38bdf8;
+        }
+
+        .badge-type {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 12px;
+            background: rgba(56, 189, 248, 0.2);
+            color: #38bdf8;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hidden { display: none !important; }
+    </style>
 </head>
 <body>
 
@@ -39,35 +168,339 @@
     </header>
 
     <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
-        <h1 class="section-title">بنك الأسئلة والاختبارات التفاعلية</h1>
-        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 50px; font-size: 1.1rem;">
-            تدريبات وامتحانات مصممة بنفس نظام وأفكار الامتحانات الرسمية للجامعة.
+        <h1 class="section-title">الكويزات والامتحانات التفاعلية</h1>
+        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 40px;">
+            اختبر معلوماتك في مادة CS 102 مع تحليل تفصيلي فوري لكل إجابة.
         </p>
-        
-        <div class="cards-grid">
-            <!-- Lecture 1 Quiz Card -->
-            <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-vial"></i></div>
-                <h3>Quiz 1: Introduction to Computers & C++</h3>
-                <p>اختبار شامل على المحاضرة الأولى يشمل أسئلة صح وخطأ (True/False) واختيارات بنفس نمط امتحانات الفاينل.</p>
-               <button class="btn btn-glow" disabled style="opacity: 0.6; cursor: not-allowed;">
-    <i class="fas fa-play"></i> قريباً فور رفع الماتريال
-</button>
-                </div>
-            </div>
 
-            <!-- Final Exams Prep -->
-            <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-file-signature"></i></div>
-                <h3>Exams & Practice Bank</h3>
-                <p>نماذج وأسئلة امتحانات الفاينل والـ Midterms السابقة مع الحلول النموذجية لشرح أفكار التراكيب والـ Output.</p>
-                <div style="margin-top: 20px;">
-                    <button class="btn btn-outline" style="opacity: 0.7; cursor: not-allowed;">قريباً</button>
+        <!-- Start Screen Card -->
+        <div id="start-card" class="quiz-container">
+            <div class="quiz-card" style="text-align: center;">
+                <i class="fas fa-graduation-cap" style="font-size: 3.5rem; color: #38bdf8; margin-bottom: 20px;"></i>
+                <h2>اختبار المحاضرة الأولى: Introduction to Computers & C++</h2>
+                <p style="color: var(--text-sub); margin: 15px 0 25px 0; line-height: 1.8;">
+                    شامل لجميع أفكار المحاضرة الأولى وبنك الأسئلة + نمط امتحانات الفاينل.<br>
+                    <strong>عدد الأسئلة:</strong> 50 سؤالاً (30 اختيار من متعدد - 10 صح وغلط - 10 مقالي)<br>
+                    <strong>الوقت:</strong> مفتوح (يتم احتساب الزمن المستغرق)
+                </p>
+                <button class="btn btn-outline" onclick="showConfirmModal()" style="font-size: 1.1rem; padding: 12px 30px;">
+                    <i class="fas fa-play"></i> لبدء الامتحان اضغط هنا
+                </button>
+            </div>
+        </div>
+
+        <!-- Confirmation Modal -->
+        <div id="confirm-modal" class="modal-overlay hidden">
+            <div class="quiz-card" style="max-width: 500px; text-align: center;">
+                <i class="fas fa-question-circle" style="font-size: 3rem; color: #818cf8; margin-bottom: 15px;"></i>
+                <h3>هل أنت جاهز لبدء الاختبار؟</h3>
+                <p style="color: var(--text-sub); margin: 15px 0 25px 0;">
+                    تأكد من تركيزك. سيتم بدء حساب الوقت فور تأكيدك!
+                </p>
+                <div style="display: flex; gap: 15px; justify-content: center;">
+                    <button class="btn btn-outline" onclick="startQuiz()" style="background: #38bdf8; color: #000; font-weight: bold;">
+                        نعم، ابدأ الآن
+                    </button>
+                    <button class="btn btn-outline" onclick="hideConfirmModal()">
+                        إلغاء
+                    </button>
                 </div>
             </div>
         </div>
+
+        <!-- Quiz Main Interface -->
+        <div id="quiz-interface" class="quiz-container hidden">
+            <div class="quiz-card">
+                <!-- Header Stats -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                    <span id="question-count" style="font-weight: bold; color: #38bdf8;">سؤال 1 من 50</span>
+                    <span id="timer-display" style="color: var(--text-sub);"><i class="fas fa-stopwatch"></i> 00:00</span>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="quiz-progress-bar">
+                    <div id="progress-fill" class="quiz-progress-fill"></div>
+                </div>
+
+                <!-- Question Body -->
+                <div id="question-box">
+                    <span id="question-type" class="badge-type">اختيار من متعدد</span>
+                    <h3 id="question-text" style="margin-bottom: 20px; line-height: 1.6; color: #fff;"></h3>
+                    
+                    <!-- Options Container -->
+                    <div id="options-container"></div>
+
+                    <!-- Essay Container -->
+                    <div id="essay-container" class="hidden">
+                        <textarea id="essay-answer" class="essay-input" placeholder="اكتب إجابتك هنا بأسلوبك..."></textarea>
+                        <button id="essay-submit-btn" class="btn btn-outline" onclick="checkEssayAnswer()">
+                            <i class="fas fa-check"></i> اعتماد الإجابة وتحليلها
+                        </button>
+                    </div>
+
+                    <!-- Explanation Feedback -->
+                    <div id="explanation-box" class="explanation-box hidden"></div>
+                </div>
+
+                <!-- Bottom Controls -->
+                <div style="display: flex; justify-content: space-between; margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                    <button id="prev-btn" class="btn btn-outline" onclick="prevQuestion()" disabled>
+                        <i class="fas fa-arrow-right"></i> السابق
+                    </button>
+                    <button id="next-btn" class="btn btn-outline" onclick="nextQuestion()" disabled>
+                        التالي <i class="fas fa-arrow-left"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Final Results Interface -->
+        <div id="results-card" class="quiz-container hidden">
+            <div class="quiz-card" style="text-align: center;">
+                <i class="fas fa-trophy" style="font-size: 4rem; color: #f59e0b; margin-bottom: 20px;"></i>
+                <h2>نتيجة الاختبار النهائي</h2>
+                
+                <div style="margin: 30px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; min-width: 150px;">
+                        <span style="display: block; font-size: 0.9rem; color: var(--text-sub);">الدرجة الكلية</span>
+                        <strong id="final-score" style="font-size: 1.8rem; color: #38bdf8;">0 / 50</strong>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; min-width: 150px;">
+                        <span style="display: block; font-size: 0.9rem; color: var(--text-sub);">النسبة المئوية</span>
+                        <strong id="final-percentage" style="font-size: 1.8rem; color: #4ade80;">0%</strong>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; min-width: 150px;">
+                        <span style="display: block; font-size: 0.9rem; color: var(--text-sub);">الوقت المستغرق</span>
+                        <strong id="final-time" style="font-size: 1.8rem; color: #818cf8;">00:00</strong>
+                    </div>
+                </div>
+
+                <button class="btn btn-outline" onclick="location.reload()" style="font-size: 1rem; padding: 10px 25px;">
+                    <i class="fas fa-redo"></i> إعادة الاختبار
+                </button>
+            </div>
+        </div>
+
     </section>
 
     <script src="script.js"></script>
+    <script>
+        // Quiz Data Engine
+        const questions = [
+            // --- 30 MCQ Questions ---
+            { type: "mcq", question: "1. Which logical unit of the computer directly handles calculations and comparison operations?", options: ["Control Unit", "Memory Unit", "Arithmetic and Logic Unit (ALU)", "Output Unit"], answer: 2, explanation: "<strong>التحليل:</strong> وحدة (ALU) هي المسؤولة المباشرة عن تنفيذ كافة العمليات الحسابية والمنطقية داخل المعالج." },
+            { type: "mcq", question: "2. Which software component translates high-level programming language code into machine code all at once before execution?", options: ["Interpreter", "Compiler", "Assembler", "Operating System"], answer: 1, explanation: "<strong>التحليل:</strong> الـ Compiler يقوم بترجمة الكود المكتوب بلغة عالية المستوى دفعة واحدة إلى كود آلة قبل التشغيل." },
+            { type: "mcq", question: "3. What is the smallest, most fundamental unit of data in computer systems?", options: ["Byte", "Nibble", "Bit", "Field"], answer: 2, explanation: "<strong>التحليل:</strong> الـ Bit (0 أو 1) هو أصغر وأساسي وحدة بيانات داخل حاسوب." },
+            { type: "mcq", question: "4. Assembly language requires which of the following tools for translation into machine-executable instructions?", options: ["Compiler", "Interpreter", "Linker", "Assembler"], answer: 3, explanation: "<strong>التحليل:</strong> برنامج الـ Assembler يحول تعليمات لغة التجميع (Assembly) إلى لغة الآلة." },
+            { type: "mcq", question: "5. In computer data hierarchy, what constitutes a record?", options: ["A collection of related bytes", "A single attribute of an entity", "A collection of related fields", "A group of independent tables"], answer: 2, explanation: "<strong>التحليل:</strong> السجل (Record) يتكون من مجموعة حقول مرتبطة ببعضها (Fields) تصف كياناً واحداً." },
+            { type: "mcq", question: "6. Which unit acts as the manager/coordinator for all computer activities and instruction execution cycles?", options: ["ALU", "Control Unit", "Primary Storage", "Secondary Storage"], answer: 1, explanation: "<strong>التحليل:</strong> وحدة التحكم (Control Unit) تدير وتنسق كافة أنشطة الحاسوب وتوجه الإشارات." },
+            { type: "mcq", question: "7. Which of the following is considered volatile primary memory?", options: ["Hard Disk Drive (HDD)", "Solid State Drive (SSD)", "Random Access Memory (RAM)", "Read-Only Memory (ROM)"], answer: 2, explanation: "<strong>التحليل:</strong> ذاكرة الـ RAM هي ذاكرة مؤقتة وتفقد محتوياتها بمجرد انقطاع التيار الكهربائي (Volatile)." },
+            { type: "mcq", question: "8. Why are high-level programming languages preferred over machine language?", options: ["They execute faster", "They require less memory", "They use human-readable syntax and offer portability", "They map directly to CPU clock cycles"], answer: 2, explanation: "<strong>التحليل:</strong> اللغات عالية المستوى قريبة من لغة البشر وتتيح إمكانية نقل الكود وتشغيله على أجهزة مختلفة بسهولة." },
+            { type: "mcq", question: "9. What distinguishes a relational database from a standard file system?", options: ["Files store data relationally", "Databases store raw text only", "Databases organize data into relational tables with controlled access", "File systems manage keys"], answer: 2, explanation: "<strong>التحليل:</strong> قواعد البيانات العلاقاتية تنظم البيانات في جداول مترابطة وتوفر إمكانيات بحث واستعلام متقدمة." },
+            { type: "mcq", question: "10. Which programming language requires NO compilation or assembly before execution?", options: ["Assembly Language", "High-Level Language", "Machine Language", "Object-Oriented Language"], answer: 2, explanation: "<strong>التحليل:</strong> لغة الآلة (Machine Language) مكتوبة بالثنائي (0s and 1s) ويفهمها المعالج مباشرة دون مترجم." },
+            { type: "mcq", question: "11. What is a disadvantage of an interpreted high-level language compared to a compiled language?", options: ["Larger binaries", "Slower execution due to line-by-line translation", "Cannot catch errors", "Not portable"], answer: 1, explanation: "<strong>التحليل:</strong> الـ Interpreter يقوم بالترجمة والتنفيذ سطرًا بسطر أثناء التشغيل، مما يجعل الأداء أبطأ." },
+            { type: "mcq", question: "12. The collection of software that enables structured data creation and manipulation is called:", options: ["Operating System", "Database Management System (DBMS)", "IDE", "Compiler Suite"], answer: 1, explanation: "<strong>التحليل:</strong> نظام إدارة قواعد البيانات (DBMS) هو البرمجية المسؤولة عن تنظيم وقواعد البيانات واختزانها." },
+            { type: "mcq", question: "13. How many bits are in one standard Byte?", options: ["4", "8", "16", "32"], answer: 1, explanation: "<strong>التحليل:</strong> البايت الواحد (1 Byte) يتكون رسمياً من 8 بتات (Bits)." },
+            { type: "mcq", question: "14. Which hardware component holds active program instructions currently being processed by CPU?", options: ["Secondary Storage", "Primary Memory (RAM)", "Optical Drive", "Input Unit"], answer: 1, explanation: "<strong>التحليل:</strong> البرامج والبيانات النشطة قيد التنفيذ يجب تحميلها في الذاكرة الرئيسية (RAM) أولاً." },
+            { type: "mcq", question: "15. What is the logical unit responsible for receiving data and programs from users?", options: ["Output Unit", "Input Unit", "Control Unit", "Storage Unit"], answer: 1, explanation: "<strong>التحليل:</strong> وحدات الإدخال (Input Unit) مثل لوحة المفاتيح والماوس تقوم باستقبال البيانات والأوامر من المستخدم." },
+            { type: "mcq", question: "16. In C++ development, what file is produced immediately after successful source code compilation?", options: ["Source File (.cpp)", "Object File (.obj / .o)", "Text File (.txt)", "Header File (.h)"], answer: 1, explanation: "<strong>التحليل:</strong> عند ترجمة ملف المصدري `.cpp` ينتج الـ Compiler ملف أهداف بترميز الآلة بسابقة `.obj`." },
+            { type: "mcq", question: "17. Which phase in C++ execution combines object code with library code to create an executable (.exe)?", options: ["Preprocessing", "Compiling", "Linking", "Loading"], answer: 2, explanation: "<strong>التحليل:</strong> مرحلة الربط (Linking) دمج ملفات الـ Object مع المكتبات الخارجية لإنتاج الملف التنفيذي النهائي." },
+            { type: "mcq", question: "18. What component loads the compiled executable file from secondary storage into primary memory?", options: ["Linker", "Compiler", "Loader", "Preprocessor"], answer: 2, explanation: "<strong>التحليل:</strong> الـ Loader يتولى نقل الملف التنفيذي من القرص الصلب إلى ذاكرة الـ RAM للتشغيل." },
+            { type: "mcq", question: "19. Logical decision-making in C++ programs (such as x > y) is evaluated inside which unit?", options: ["Control Unit", "ALU", "Secondary Storage", "Output Unit"], answer: 1, explanation: "<strong>التحليل:</strong> عمليات المقارنة واتخاذ القرارات المنطقية تتم داخل وحدة الحساب والمنطق (ALU)." },
+            { type: "mcq", question: "20. Which data hierarchy element represents a single attribute, such as Student_ID?", options: ["Bit", "Byte", "Field", "File"], answer: 2, explanation: "<strong>التحليل:</strong> الحقل (Field) هو عبارة عن مجموعة بايتات تصف خاصية أو صفة واحدة لكيان معين." },
+            { type: "mcq", question: "21. High-level language statement 'x = a + b' is converted into machine instructions by:", options: ["Operating System", "Compiler / Interpreter", "RAM Controller", "CPU Registers"], answer: 1, explanation: "<strong>التحليل:</strong> المترجمات (Compilers/Interpreters) هي المسؤولة عن تفكيك العبارات عالية المستوى إلى تعليمات آلة." },
+            { type: "mcq", question: "22. What type of storage retention is provided by secondary storage devices like SSDs?", options: ["Volatile storage", "Temporary storage", "Non-volatile storage", "Cache storage"], answer: 2, explanation: "<strong>التحليل:</strong> أدوات التخزين الثانوي تعتبر غير متطايرة (Non-volatile) حيث تحتفظ بالبيانات دائمة بعد إيقاف التشغيل." },
+            { type: "mcq", question: "23. Early generations of computer programming relied entirely on which language format?", options: ["High-Level Language", "Machine Language", "Assembly Language", "Object-Oriented Language"], answer: 1, explanation: "<strong>التحليل:</strong> الجيل الأول من برمجة الحاسوب كان يعتمد كلياً على الكتابة الثنائية المباشرة (Machine Language)." },
+            { type: "mcq", question: "24. Which of the following is NOT an example of computer hardware?", options: ["CPU", "Hard Disk", "C++ Compiler", "RAM"], answer: 2, explanation: "<strong>التحليل:</strong> مترجم C++ Compiler يعتبر برمجية نظام (Software) وليس مكوناً مادياً (Hardware)." },
+            { type: "mcq", question: "25. What occurs during the Preprocessing phase in C++ compilation?", options: ["Converting to machine code", "Executing directives like #include and #define", "Linking libraries", "Loading into RAM"], answer: 1, explanation: "<strong>التحليل:</strong> المعالج التمهيدي (Preprocessor) ينفذ التوجيهات التي تبدأ بـ `#` قبل البدء الفعلي في عملية الترجمة." },
+            { type: "mcq", question: "26. Which unit transfers processed information from the computer to external users or devices?", options: ["Input Unit", "Output Unit", "Memory Unit", "ALU"], answer: 1, explanation: "<strong>التحليل:</strong> وحدات الإخراج (Output Unit) مثل الشاشة والمطبعة تقوم بتقديم البيانات والمعلومات المعالجة للمستخدم." },
+            { type: "mcq", question: "27. In database management, a table is structured as a combination of:", options: ["Bytes and Bits", "Rows (Records) and Columns (Fields)", "Compilers and Linkers", "Files and Archives"], answer: 1, explanation: "<strong>التحليل:</strong> جداول قواعد البيانات تنظم البيانات هيكلياً في أسطر (Records) وأعمدة (Fields)." },
+            { type: "mcq", question: "28. Which component stores instructions that the CPU needs immediately with the fastest access time?", options: ["Secondary SSD", "Primary RAM / Registers", "Database File", "Magnetic Tape"], answer: 1, explanation: "<strong>التحليل:</strong> المسجلات (Registers) والذاكرة الرئيسية تقدم أسرع زمن وصول لمعالجة البيانات بواسطة المعالج." },
+            { type: "mcq", question: "29. Assembly language is considered a:", options: ["High-Level Language", "Low-Level Language", "Database Language", "Natural Language"], answer: 1, explanation: "<strong>التحليل:</strong> لغة التجميع تعتبر لغة منخفضة المستوى (Low-Level) نظراً لارتباطها الوثيق بمعمارية المعالج." },
+            { type: "mcq", question: "30. Problem-solving through computer programming primarily begins with:", options: ["Writing machine binaries", "Algorithm design and logical step formulation", "Linking libraries", "Allocating RAM"], answer: 1, explanation: "<strong>التحليل:</strong> البرمجة تبدأ بوضع الخوارزمية (Algorithm) والخطوات المنطقية لحل المشكلة أولاً قبل كتابة الكود." },
+
+            // --- 10 True/False Questions ---
+            { type: "tf", question: "31. Machine language programs written for one CPU architecture can run without modification on any other CPU.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> لغة الآلة تعتمد كلياً على معمارية المعالج المحدد ولا تعمل على معمارية أخرى دون تعديل." },
+            { type: "tf", question: "32. Primary storage (RAM) is non-volatile, meaning its contents are permanently saved when power is lost.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ RAM متطايرة (Volatile) وتفقد بياناتها فور فصل الكهرباء." },
+            { type: "tf", question: "33. An assembler translates high-level C++ code into executable programs.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ Assembler يترجم لغة التجميع (Assembly) بينما C++ تعتمد على الـ Compiler." },
+            { type: "tf", question: "34. A record is a logical collection of related fields within a database or file structure.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> تعريف السجل هو تجميعة لحقول ذات صلة بنفس الكيان." },
+            { type: "tf", question: "35. The linker is responsible for loading the executable file into RAM memory for execution.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ Loader هو المسؤول عن التحميل في الـ RAM بينما الـ Linker يربط الكود بالمكتبات." },
+            { type: "tf", question: "36. High-level programming languages execute faster on hardware than equivalent native machine code programs.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> كود الآلة المباشر ينفذ أسرع بدون طبقات ترجمة إضافية." },
+            { type: "tf", question: "37. The Control Unit (CU) executes mathematical operations such as addition and multiplication.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> وحدة الـ ALU هي المسؤولة عن العمليات الحسابية وليس الـ CU." },
+            { type: "tf", question: "38. Secondary storage devices (such as SSDs) provide slower access speed compared to primary memory (RAM).", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الذاكرة الثانوية تقدم سعات كبيرة بدوام دائم لكن سرعة القراءة والكتابة أبطأ من الـ RAM." },
+            { type: "tf", question: "39. Compilers translate source code line by line during runtime.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> المفسر (Interpreter) هو من يترجم سطر بسطر، أما الـ Compiler يترجم الملف كاملاً مرة واحدة." },
+            { type: "tf", question: "40. A database management system (DBMS) allows users to query and organize related data tables efficiently.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الـ DBMS يوفر أدوات متكاملة لإدارة واستعلام البيانات والعلاقات بين الجداول." },
+
+            // --- 10 Essay Questions (Keyword-Based Soft Match) ---
+            { type: "essay", question: "41. Explain the primary difference between Primary Memory (RAM) and Secondary Memory.", keywords: ["RAM", "volatile", "temporary", "secondary", "permanent", "non-volatile", "fast", "slow", "hard disk", "SSD"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الذاكرة الرئيسية (RAM) سريعة ومؤقتة (Volatile) للبيانات النشطة، بينما الثانوية غير متطايرة (Non-volatile) وبطيئة للتخزين الدائم." },
+            { type: "essay", question: "42. Name at least four main logical units of a computer system.", keywords: ["input", "output", "memory", "alu", "control unit", "cu", "storage"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الوحدات هي: Input Unit, Output Unit, Memory Unit, ALU, Control Unit, Secondary Storage." },
+            { type: "essay", question: "43. Briefly describe the role of a Compiler in software development.", keywords: ["translate", "convert", "high level", "machine code", "object code", "binary", "all at once"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> يقوم الـ Compiler بتحويل لغة البرمجة عالية المستوى كـ C++ إلى لغة الآلة المباشرة دفعة واحدة." },
+            { type: "essay", question: "44. Differentiate between Machine Language and High-Level Language.", keywords: ["machine", "binary", "0", "1", "high level", "human", "readable", "compiler", "hardware"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> لغة الآلة هي لغة ثنائية (0 و 1) يفهمها العتاد مباشرة، أما عالية المستوى فقريبة من لغة البشر وتستلزم مترجماً." },
+            { type: "essay", question: "45. List the main phases of executing a C++ program in order.", keywords: ["edit", "preprocess", "compile", "link", "load", "execute"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> المراحل الخمس هي: Edit -> Preprocess -> Compile -> Link -> Load / Execute." },
+            { type: "essay", question: "46. Explain the concept of Data Hierarchy in computers from smallest to largest.", keywords: ["bit", "byte", "field", "record", "file", "database"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الترتيب الهرمي: Bit -> Byte -> Field -> Record -> File -> Database." },
+            { type: "essay", question: "47. What is the main function of the Arithmetic and Logic Unit (ALU)?", keywords: ["math", "arithmetic", "logical", "calculations", "comparison", "decision"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> تنفيذ كافة الحسابات الرياضية (الجمع/الضرب) واتخاذ القرارات والمقارنات المنطقية." },
+            { type: "essay", question: "48. Why do computers require secondary storage when they already have primary memory (RAM)?", keywords: ["volatile", "lose", "power", "permanent", "non volatile", "save", "files"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> لأن الـ RAM تفقد محتوياتها فور قطع الكهرباء (Volatile)، بينما التخزين الثانوي يحفظ الملفات بشكل دائم." },
+            { type: "essay", question: "49. Explain the difference between a Compiler and an Interpreter.", keywords: ["compiler", "all at once", "interpreter", "line by line", "runtime", "speed"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الـ Compiler يترجم الكود كاملاً دفعة واحدة، بينما الـ Interpreter يترجم وينفذ سطرًا بسطر." },
+            { type: "essay", question: "50. What is a Database Management System (DBMS) and why is it important?", keywords: ["software", "manage", "organize", "database", "query", "tables", "data"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> هو البرمجية التي تنظم وتدير قواعد البيانات العلاقاتية وتسهل حفظ واسترجاع البيانات بكفاءة." }
+        ];
+
+        let currentIdx = 0;
+        let score = 0;
+        let userAnswers = new Array(questions.length).fill(null);
+        let timerInterval = null;
+        let secondsElapsed = 0;
+
+        function showConfirmModal() {
+            document.getElementById('confirm-modal').classList.remove('hidden');
+        }
+
+        function hideConfirmModal() {
+            document.getElementById('confirm-modal').classList.add('hidden');
+        }
+
+        function startQuiz() {
+            hideConfirmModal();
+            document.getElementById('start-card').classList.add('hidden');
+            document.getElementById('quiz-interface').classList.remove('hidden');
+            
+            // Start Timer
+            timerInterval = setInterval(() => {
+                secondsElapsed++;
+                let mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+                let secs = (secondsElapsed % 60).toString().padStart(2, '0');
+                document.getElementById('timer-display').innerHTML = `<i class="fas fa-stopwatch"></i> ${mins}:${secs}`;
+            }, 1000);
+
+            renderQuestion();
+        }
+
+        function renderQuestion() {
+            const q = questions[currentIdx];
+            document.getElementById('question-count').innerText = `سؤال ${currentIdx + 1} من ${questions.length}`;
+            document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
+            document.getElementById('question-text').innerText = q.question;
+            
+            // Badge Type
+            const typeBadge = document.getElementById('question-type');
+            if(q.type === 'mcq') typeBadge.innerText = "اختيار من متعدد";
+            else if(q.type === 'tf') typeBadge.innerText = "صح أم خطأ";
+            else typeBadge.innerText = "سؤال مقالي مفهوماتي";
+
+            // Reset Containers
+            const optionsDiv = document.getElementById('options-container');
+            const essayDiv = document.getElementById('essay-container');
+            const expBox = document.getElementById('explanation-box');
+            optionsDiv.innerHTML = '';
+            expBox.classList.add('hidden');
+            
+            if(q.type === 'essay') {
+                optionsDiv.classList.add('hidden');
+                essayDiv.classList.remove('hidden');
+                document.getElementById('essay-answer').value = userAnswers[currentIdx] ? userAnswers[currentIdx].text : '';
+                
+                if(userAnswers[currentIdx] !== null) {
+                    document.getElementById('essay-answer').disabled = true;
+                    document.getElementById('essay-submit-btn').disabled = true;
+                    showExplanation(q.explanation, userAnswers[currentIdx].isCorrect);
+                } else {
+                    document.getElementById('essay-answer').disabled = false;
+                    document.getElementById('essay-submit-btn').disabled = false;
+                }
+            } else {
+                essayDiv.classList.add('hidden');
+                optionsDiv.classList.remove('hidden');
+
+                q.options.forEach((opt, idx) => {
+                    const btn = document.createElement('button');
+                    btn.className = 'option-btn';
+                    btn.innerHTML = `<span>${opt}</span> <i class="far fa-circle"></i>`;
+                    
+                    if(userAnswers[currentIdx] !== null) {
+                        btn.disabled = true;
+                        if(idx === q.answer) btn.classList.add('correct');
+                        if(userAnswers[currentIdx].selected === idx && idx !== q.answer) btn.classList.add('wrong');
+                    } else {
+                        btn.onclick = () => selectOption(idx);
+                    }
+                    optionsDiv.appendChild(btn);
+                });
+
+                if(userAnswers[currentIdx] !== null) {
+                    showExplanation(q.explanation, userAnswers[currentIdx].isCorrect);
+                }
+            }
+
+            // Button Control
+            document.getElementById('prev-btn').disabled = currentIdx === 0;
+            document.getElementById('next-btn').disabled = userAnswers[currentIdx] === null;
+            
+            if(currentIdx === questions.length - 1 && userAnswers[currentIdx] !== null) {
+                document.getElementById('next-btn').innerHTML = `إنهاء الاختبار <i class="fas fa-check-double"></i>`;
+            } else {
+                document.getElementById('next-btn').innerHTML = `التالي <i class="fas fa-arrow-left"></i>`;
+            }
+        }
+
+        function selectOption(idx) {
+            const q = questions[currentIdx];
+            const isCorrect = (idx === q.answer);
+            if(isCorrect) score++;
+
+            userAnswers[currentIdx] = { selected: idx, isCorrect: isCorrect };
+            renderQuestion();
+        }
+
+        function checkEssayAnswer() {
+            const text = document.getElementById('essay-answer').value.trim().toLowerCase();
+            if(!text) return alert('برجاء كتابة إجابة قصيرة أولاً!');
+
+            const q = questions[currentIdx];
+            // Flexible match: if student mentions at least 1-2 keywords
+            const matched = q.keywords.filter(kw => text.includes(kw));
+            const isCorrect = matched.length >= 1; // Flexible passing condition
+
+            if(isCorrect) score++;
+            userAnswers[currentIdx] = { text: text, isCorrect: isCorrect };
+            renderQuestion();
+        }
+
+        function showExplanation(expText, isCorrect) {
+            const expBox = document.getElementById('explanation-box');
+            expBox.classList.remove('hidden');
+            const statusHeader = isCorrect 
+                ? `<span style="color: #4ade80; font-weight: bold;"><i class="fas fa-check-circle"></i> إجابة صحيحة!</span><br>`
+                : `<span style="color: #f87171; font-weight: bold;"><i class="fas fa-times-circle"></i> إجابة غير دقيقة!</span><br>`;
+            expBox.innerHTML = statusHeader + expText;
+        }
+
+        function nextQuestion() {
+            if(currentIdx < questions.length - 1) {
+                currentIdx++;
+                renderQuestion();
+            } else {
+                finishQuiz();
+            }
+        }
+
+        function prevQuestion() {
+            if(currentIdx > 0) {
+                currentIdx--;
+                renderQuestion();
+            }
+        }
+
+        function finishQuiz() {
+            clearInterval(timerInterval);
+            document.getElementById('quiz-interface').classList.add('hidden');
+            document.getElementById('results-card').classList.remove('hidden');
+
+            let mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
+            let secs = (secondsElapsed % 60).toString().padStart(2, '0');
+
+            document.getElementById('final-score').innerText = `${score} / ${questions.length}`;
+            document.getElementById('final-percentage').innerText = `${Math.round((score / questions.length) * 100)}%`;
+            document.getElementById('final-time').innerText = `${mins}:${secs}`;
+        }
+    </script>
 </body>
 </html>
