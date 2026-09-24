@@ -46,20 +46,85 @@
         
         <div class="cards-grid">
             <!-- Lecture 1 Card -->
-            <div class="card glass-card">
-                <div class="card-icon"><i class="fas fa-desktop"></i></div>
-                <h3>Lecture 1: Introduction to Computers and C++</h3>
-                <p>مقدمة عن مكونات الحساب الآلي، آلية عمل البرامج، وأساسيات لغة C++ ومفهوم الـ Problem Solving.</p>
-                <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center;">
-                    <!-- المكان ده جهزناه لملف ה-PDF اول ما تبعتهولي هنحط الرابط المباشر -->
-                   <button class="btn btn-glow" disabled style="opacity: 0.6; cursor: not-allowed;">
-    <i class="fas fa-play"></i> قريباً فور رفع الماتريال
-</button>
-                </div>
-            </div>
-        </div>
-    </section>
+<div class="lecture-card">
+  <div class="lecture-badge">Lecture 01</div>
+  <h3 class="lecture-title">Introduction to Computers & C++</h3>
+  <p class="lecture-desc">
+    مقدمة شاملة عن أجيال لغات البرمجة، المكونات المنطقية للكومبيوتر (Hardware/Software)، وحدات قياس البيانات، وأول برنامج بلغة C++.
+  </p>
+  
+  <div class="lecture-meta">
+    <span><i class="fa-solid fa-user-doctor"></i> Dr. Doha Taha</span>
+    <span><i class="fa-solid fa-file-pdf"></i> PDF & Summary</span>
+  </div>
 
+  <div class="lecture-actions" style="display: flex; gap: 10px; margin-top: 15px;">
+    <!-- زر فتح الملخص أونلاين -->
+    <button onclick="openSummaryModal(1)" class="btn btn-primary" style="flex: 1;" aria-label="عرض ملخص المحاضرة الأولى">
+      <i class="fa-solid fa-book-open"></i> قراءة الملخص
+    </button>
+    
+    <!-- زر تحميل ملف الـ PDF -->
+    <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline" style="flex: 1; text-align: center; text-decoration: none;" aria-label="تحميل ملف ملخص المحاضرة الأولى PDF">
+      <i class="fa-solid fa-download"></i> تحميل PDF
+    </a>
+  </div>
+</div>
+    </section>
+<!-- Summary View Modal -->
+<div id="summaryModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
+  <div class="modal-content" style="background:#1e293b; color:#f8fafc; padding:25px; border-radius:12px; max-width:800px; width:90%; max-height:85vh; overflow-y:auto; border:1px solid #334155; position:relative;">
+    <button onclick="closeSummaryModal()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#94a3b8; font-size:1.5rem; cursor:pointer;" aria-label="إغلاق النافذة">&times;</button>
+    
+    <div id="summaryModalBody">
+      <!-- هنا بيتحط محتوى الملخص ديناميكياً -->
+    </div>
+  </div>
+</div>
     <script src="script.js"></script>
+    <!-- Summary View Modal -->
+<div id="summaryModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
+  <div class="modal-content" style="background:#1e293b; color:#f8fafc; padding:25px; border-radius:12px; max-width:800px; width:90%; max-height:85vh; overflow-y:auto; border:1px solid #334155; position:relative;">
+    <button onclick="closeSummaryModal()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#94a3b8; font-size:1.5rem; cursor:pointer;" aria-label="إغلاق النافذة">&times;</button>
+    
+    <div id="summaryModalBody">
+      <!-- هنا بيتحط محتوى الملخص ديناميكياً -->
+    </div>
+  </div>
+</div>
+
+<script>
+function openSummaryModal(lectureNo) {
+  const modal = document.getElementById('summaryModal');
+  const body = document.getElementById('summaryModalBody');
+  
+  if(lectureNo === 1) {
+    body.innerHTML = `
+      <h2 style="color:#38bdf8; margin-bottom:15px;"><i class="fa-solid fa-graduation-cap"></i> Lecture 1: Introduction to Computers & C++</h2>
+      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">المحاضر: Dr. Doha Taha | إعداد وتلخيص: CS102 MUST Student Initiative</p>
+      <hr style="border-color:#334155; margin-bottom:20px;">
+      
+      <h3 style="color:#facc15;">1. Basic Definitions</h3>
+      <ul>
+        <li><b>Computer Program:</b> A sequence of instructions written to perform a specified task. <span style="color:#94a3b8;">(مجموعة تعليمات لتنفيذ مهام محددة)</span></li>
+        <li><b>Source Code:</b> Human-readable code written by programmers. <span style="color:#94a3b8;">(الكود المصدري)</span></li>
+        <li><b>Executable File (.exe):</b> Obtained after compiling source code. <span style="color:#94a3b8;">(الملف التنفيذي)</span></li>
+      </ul>
+
+      <h3 style="color:#facc15; margin-top:20px;">2. Hardware & Logical Units</h3>
+      <p>Computers consist of 6 logical units: <b>Input, Output, Memory (RAM), ALU, Control Unit (CU),</b> and <b>Secondary Storage</b>.</p>
+
+      <div style="background:#0f172a; padding:15px; border-radius:8px; border-right:4px solid #38bdf8; margin-top:20px;">
+        <p style="margin:0; font-size:0.85rem; color:#cbd5e1;">📌 <b>تنبيه أمني وتوضيحي:</b> هذا الملخص أُعد بواسطة مبادرة طلابية لدعم المادة، ويفضل دائماً مراجعته بالتكامل مع السلايدات والماتريال الرسمية من Dr. Doha Taha.</p>
+      </div>
+    `;
+  }
+  modal.style.display = 'flex';
+}
+
+function closeSummaryModal() {
+  document.getElementById('summaryModal').style.display = 'none';
+}
+</script>
 </body>
 </html>
