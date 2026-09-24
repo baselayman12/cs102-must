@@ -3,128 +3,423 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Open Graph Meta Tags -->
-    <meta property="og:title" content="المحاضرات - CS 102 | MUST IT">
-    <meta property="og:description" content="محاضرات وملخصات مادة CS 102 - كلية تكنولوجيا المعلومات جامعة مصر للعلوم والتكنولوجيا.">
-    <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
-    <meta property="og:type" content="website">
+    <title>CS 102 - Lectures & Summaries | جامعة MUST</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-dark: #0b0f19;
+            --card-bg: #151d30;
+            --card-border: #232f48;
+            --accent-blue: #38bdf8;
+            --accent-yellow: #facc15;
+            --text-main: #f8fafc;
+            --text-sub: #94a3b8;
+        }
 
-    <title>المحاضرات - CS 102</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Tajawal', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-main);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        /* Top Disclaimer Banner */
+        .disclaimer-banner {
+            background: linear-gradient(90deg, #1e3a8a, #0284c7);
+            color: #ffffff;
+            text-align: center;
+            padding: 10px 15px;
+            font-size: 0.88rem;
+            font-weight: 500;
+        }
+
+        /* Header Navigation */
+        header {
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--card-border);
+            padding: 15px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 20px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-main);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover, .nav-links a.active {
+            color: var(--accent-blue);
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1200px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 45px;
+        }
+
+        .page-header h1 {
+            font-size: 2.2rem;
+            color: var(--text-main);
+            margin-bottom: 10px;
+            font-weight: 800;
+        }
+
+        .page-header p {
+            color: var(--text-sub);
+            font-size: 1rem;
+        }
+
+        /* Grid Layout */
+        .lectures-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 30px;
+        }
+
+        /* Card Styling */
+        .lecture-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            padding: 28px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+
+        .lecture-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-blue);
+            box-shadow: 0 15px 30px -5px rgba(56, 189, 248, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .badge {
+            background: rgba(56, 189, 248, 0.12);
+            color: var(--accent-blue);
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        /* Fix English Text Orientation */
+        .lecture-title {
+            font-size: 1.35rem;
+            color: var(--text-main);
+            margin-bottom: 12px;
+            direction: ltr;
+            text-align: right;
+            font-weight: 700;
+            line-height: 1.4;
+        }
+
+        .lecture-desc {
+            color: var(--text-sub);
+            font-size: 0.95rem;
+            margin-bottom: 22px;
+            line-height: 1.7;
+            text-align: justify;
+        }
+
+        .lecture-meta {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+            font-size: 0.88rem;
+            color: var(--text-sub);
+            padding-top: 15px;
+            border-top: 1px solid var(--card-border);
+            margin-bottom: 20px;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .meta-item i {
+            color: var(--accent-blue);
+        }
+
+        /* Actions Buttons */
+        .lecture-actions {
+            display: flex;
+            gap: 12px;
+        }
+
+        .btn {
+            padding: 12px 18px;
+            border-radius: 10px;
+            border: none;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            flex: 1;
+        }
+
+        .btn-primary {
+            background-color: var(--accent-blue);
+            color: #0b0f19;
+        }
+
+        .btn-primary:hover {
+            background-color: #0284c7;
+            color: #ffffff;
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 1px solid var(--card-border);
+            color: var(--text-main);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--accent-blue);
+            color: var(--accent-blue);
+            background: rgba(56, 189, 248, 0.05);
+        }
+
+        .btn-disabled {
+            background-color: #1e293b;
+            color: #64748b;
+            border: 1px solid #334155;
+            cursor: not-allowed;
+            width: 100%;
+        }
+
+        /* Modal Styles */
+        .modal-backdrop {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(11, 15, 25, 0.85);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-box {
+            background-color: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 16px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 30px;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: none;
+            border: none;
+            color: var(--text-sub);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-close:hover { color: var(--accent-yellow); }
+
+        .en-title { direction: ltr; text-align: left; color: var(--accent-blue); }
+    </style>
 </head>
 <body>
 
-    <header class="navbar">
-        <div class="container nav-container">
-            <div class="logo-area">
-                <img src="images.png" alt="MUST Logo" class="university-logo">
-                <div class="brand-divider"></div>
-                <div class="cs-badge">
-                    <span class="cs-code">CS 102</span>
-                    <span class="cs-title">IT Department</span>
-                </div>
-            </div>
-            <nav class="nav-links">
-                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
-                <a href="lectures.html" class="active"><i class="fas fa-book-open"></i> المحاضرات</a>
-                <a href="quizzes.html"><i class="fas fa-laptop-code"></i> الكويزات</a>
-                <a href="basics.html"><i class="fas fa-code"></i> الأساسيات</a>
-                <a href="announcements.html"><i class="fas fa-bullhorn"></i> التنبيهات</a>
-                <a href="compiler.html"><i class="fas fa-terminal"></i> منصة البرمجة</a>
-            </nav>
+    <div class="disclaimer-banner">
+        <i class="fa-solid fa-circle-info"></i> منصة تعليمية ومبادرة طلابية غير رسمية لدعم مادة CS 102 بجامعة MUST — إشراف Dr. Doha Taha
+    </div>
+
+    <header>
+        <div class="logo">
+            <i class="fa-solid fa-code"></i> CS102 MUST Portal
         </div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="lectures.html" class="active">المحاضرات والملخصات</a></li>
+            <li><a href="quizzes.html">بنك الكويزات</a></li>
+            <li><a href="compiler.html">فاحص الكود</a></li>
+        </ul>
     </header>
 
-    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
-        <h1 class="section-title">محاضرات وملخصات المادة</h1>
-        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 50px; font-size: 1.1rem;">
-            الملخصات المعتمدة والمواد العلمية لمادة CS 102 جاهزة للتحميل.
-        </p>
-        
-        <div class="cards-grid">
+    <div class="container">
+        <div class="page-header">
+            <h1>محاضرات وملخصات المادة</h1>
+            <p>الملخصات المعتمدة والمواد العلمية لمادة CS 102 جاهزة للقراءة والتحميل</p>
+        </div>
+
+        <div class="lectures-grid">
+
             <!-- Lecture 1 Card -->
-<div class="lecture-card">
-  <div class="lecture-badge">Lecture 01</div>
-  <h3 class="lecture-title">Introduction to Computers & C++</h3>
-  <p class="lecture-desc">
-    مقدمة شاملة عن أجيال لغات البرمجة، المكونات المنطقية للكومبيوتر (Hardware/Software)، وحدات قياس البيانات، وأول برنامج بلغة C++.
-  </p>
-  
-  <div class="lecture-meta">
-    <span><i class="fa-solid fa-user-doctor"></i> Dr. Doha Taha</span>
-    <span><i class="fa-solid fa-file-pdf"></i> PDF & Summary</span>
-  </div>
+            <div class="lecture-card">
+                <div>
+                    <div class="card-header">
+                        <span class="badge">Lecture 01</span>
+                    </div>
 
-  <div class="lecture-actions" style="display: flex; gap: 10px; margin-top: 15px;">
-    <!-- زر فتح الملخص أونلاين -->
-    <button onclick="openSummaryModal(1)" class="btn btn-primary" style="flex: 1;" aria-label="عرض ملخص المحاضرة الأولى">
-      <i class="fa-solid fa-book-open"></i> قراءة الملخص
-    </button>
-    
-    <!-- زر تحميل ملف الـ PDF -->
-    <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline" style="flex: 1; text-align: center; text-decoration: none;" aria-label="تحميل ملف ملخص المحاضرة الأولى PDF">
-      <i class="fa-solid fa-download"></i> تحميل PDF
-    </a>
-  </div>
-</div>
-    </section>
-<!-- Summary View Modal -->
-<div id="summaryModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
-  <div class="modal-content" style="background:#1e293b; color:#f8fafc; padding:25px; border-radius:12px; max-width:800px; width:90%; max-height:85vh; overflow-y:auto; border:1px solid #334155; position:relative;">
-    <button onclick="closeSummaryModal()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#94a3b8; font-size:1.5rem; cursor:pointer;" aria-label="إغلاق النافذة">&times;</button>
-    
-    <div id="summaryModalBody">
-      <!-- هنا بيتحط محتوى الملخص ديناميكياً -->
+                    <!-- LTR Span for C++ Title Fix -->
+                    <h2 class="lecture-title"><bdi>Lecture 1: Introduction to Computers & C++</bdi></h2>
+
+                    <p class="lecture-desc">
+                        مقدمة شاملة عن أجيال لغات البرمجة، المكونات المنطقية للكومبيوتر (Hardware/Software)، وحدات قياس البيانات، وأول برنامج بلغة C++.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="lecture-meta">
+                        <div class="meta-item">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Dr. Doha Taha</span>
+                        </div>
+                        <div class="meta-item">
+                            <div class="meta-item">
+                                <i class="fa-solid fa-file-pdf"></i>
+                                <span>PDF & Summary</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="lecture-actions">
+                        <button onclick="openSummaryModal(1)" class="btn btn-primary" aria-label="قراءة الملخص أونلاين">
+                            <i class="fa-solid fa-book-open"></i> قراءة الملخص
+                        </button>
+                        <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline" aria-label="تحميل ملف PDF">
+                            <i class="fa-solid fa-download"></i> تحميل PDF
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lecture 2 Card (Upcoming) -->
+            <div class="lecture-card">
+                <div>
+                    <div class="card-header">
+                        <span class="badge" style="background: rgba(148, 163, 184, 0.1); color: var(--text-sub); border-color: transparent;">Lecture 02</span>
+                    </div>
+
+                    <h2 class="lecture-title"><bdi>Lecture 2: C++ Basics & Data Types</bdi></h2>
+
+                    <p class="lecture-desc">
+                        أساسيات لغة C++، الأنواع المختلفة للبيانات، أساليب الإدخال والإخراج، والعمليات الحسابية.
+                    </p>
+                </div>
+
+                <div>
+                    <div class="lecture-meta">
+                        <div class="meta-item">
+                            <i class="fa-solid fa-user-doctor"></i>
+                            <span>Dr. Doha Taha</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <span>قريباً</span>
+                        </div>
+                    </div>
+
+                    <div class="lecture-actions">
+                        <button class="btn btn-disabled" disabled aria-label="غير متاحة حالياً">
+                            <i class="fa-solid fa-lock"></i> قريباً فور رفع الماتريال
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
     </div>
-  </div>
-</div>
-    <script src="script.js"></script>
-    <!-- Summary View Modal -->
-<div id="summaryModal" class="modal" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center;">
-  <div class="modal-content" style="background:#1e293b; color:#f8fafc; padding:25px; border-radius:12px; max-width:800px; width:90%; max-height:85vh; overflow-y:auto; border:1px solid #334155; position:relative;">
-    <button onclick="closeSummaryModal()" style="position:absolute; top:15px; left:15px; background:none; border:none; color:#94a3b8; font-size:1.5rem; cursor:pointer;" aria-label="إغلاق النافذة">&times;</button>
-    
-    <div id="summaryModalBody">
-      <!-- هنا بيتحط محتوى الملخص ديناميكياً -->
+
+    <!-- Summary Modal -->
+    <div id="summaryModal" class="modal-backdrop" onclick="closeModalOnBackdrop(event)">
+        <div class="modal-box">
+            <button onclick="closeSummaryModal()" class="modal-close" aria-label="إغلاق">&times;</button>
+            <div id="summaryContent"></div>
+        </div>
     </div>
-  </div>
-</div>
 
-<script>
-function openSummaryModal(lectureNo) {
-  const modal = document.getElementById('summaryModal');
-  const body = document.getElementById('summaryModalBody');
-  
-  if(lectureNo === 1) {
-    body.innerHTML = `
-      <h2 style="color:#38bdf8; margin-bottom:15px;"><i class="fa-solid fa-graduation-cap"></i> Lecture 1: Introduction to Computers & C++</h2>
-      <p style="color:#94a3b8; font-size:0.9rem; margin-bottom:20px;">المحاضر: Dr. Doha Taha | إعداد وتلخيص: CS102 MUST Student Initiative</p>
-      <hr style="border-color:#334155; margin-bottom:20px;">
-      
-      <h3 style="color:#facc15;">1. Basic Definitions</h3>
-      <ul>
-        <li><b>Computer Program:</b> A sequence of instructions written to perform a specified task. <span style="color:#94a3b8;">(مجموعة تعليمات لتنفيذ مهام محددة)</span></li>
-        <li><b>Source Code:</b> Human-readable code written by programmers. <span style="color:#94a3b8;">(الكود المصدري)</span></li>
-        <li><b>Executable File (.exe):</b> Obtained after compiling source code. <span style="color:#94a3b8;">(الملف التنفيذي)</span></li>
-      </ul>
+    <script>
+        function openSummaryModal(lectureNo) {
+            const modal = document.getElementById('summaryModal');
+            const content = document.getElementById('summaryContent');
+            
+            if(lectureNo === 1) {
+                content.innerHTML = `
+                    <h2 class="en-title">Lecture 1: Introduction to Computers & C++</h2>
+                    <p style="color:var(--text-sub); font-size:0.9rem; margin-bottom:20px;">المحاضر: Dr. Doha Taha</p>
+                    <hr style="border-color:var(--card-border); margin-bottom:20px;">
+                    <p><b>1. Computer Program:</b> Sequence of instructions written to perform a task.</p>
+                    <p><b>2. Hardware Units:</b> Input, Output, Memory (RAM), ALU, Control Unit (CU), and Secondary Storage.</p>
+                `;
+            }
+            modal.style.display = 'flex';
+        }
 
-      <h3 style="color:#facc15; margin-top:20px;">2. Hardware & Logical Units</h3>
-      <p>Computers consist of 6 logical units: <b>Input, Output, Memory (RAM), ALU, Control Unit (CU),</b> and <b>Secondary Storage</b>.</p>
+        function closeSummaryModal() {
+            document.getElementById('summaryModal').style.display = 'none';
+        }
 
-      <div style="background:#0f172a; padding:15px; border-radius:8px; border-right:4px solid #38bdf8; margin-top:20px;">
-        <p style="margin:0; font-size:0.85rem; color:#cbd5e1;">📌 <b>تنبيه أمني وتوضيحي:</b> هذا الملخص أُعد بواسطة مبادرة طلابية لدعم المادة، ويفضل دائماً مراجعته بالتكامل مع السلايدات والماتريال الرسمية من Dr. Doha Taha.</p>
-      </div>
-    `;
-  }
-  modal.style.display = 'flex';
-}
-
-function closeSummaryModal() {
-  document.getElementById('summaryModal').style.display = 'none';
-}
-</script>
+        function closeModalOnBackdrop(e) {
+            if(e.target.id === 'summaryModal') closeSummaryModal();
+        }
+    </script>
 </body>
 </html>
