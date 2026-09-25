@@ -56,15 +56,15 @@
         تغطي هذه المحاضرة المفاهيم الأساسية للغة C++، كـ cin و cout، المتغيرات، وأنواع البيانات الأساسية.
     </p>
 
-    <!-- أزرار التحميل والقراءة -->
-    <div class="lecture-actions">
+    <!-- الأزرار متظبطة جوه Container واحد عشان الأنيميشن ما يبوظش -->
+    <div class="lecture-actions" style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
         
-        <!-- 1. تحميل ملف المحاضرة الأصلي (بدون قراءة أونلاين) -->
-        <a href="files/lecture1.pdf" download class="btn btn-primary" style="width: 100%; text-align: center; justify-content: center; margin-bottom: 10px;">
-            <i class="fas fa-file-download"></i> تحميل ملف المحاضرة (PDF)
+        <!-- 1. زرار تحميل المحاضرة الأصلية (ازرق شيك وعريض) -->
+        <a href="files/lecture1.pdf" download class="btn" style="background: rgba(37, 99, 235, 0.2); border: 1px solid #3b82f6; color: #60a5fa; width: 100%; text-align: center; justify-content: center; padding: 10px; border-radius: 8px; transition: all 0.3s ease;">
+            <i class="fas fa-file-pdf"></i> تحميل ملف المحاضرة (PDF)
         </a>
 
-        <!-- 2. أزرار الملخص (تحميل + قراءة أونلاين) -->
+        <!-- 2. أزرار الملخص جنب بعض -->
         <div style="display: flex; gap: 10px; width: 100%;">
             <a href="files/summary1.pdf" download class="btn btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
                 <i class="fas fa-download"></i> تحميل الملخص
