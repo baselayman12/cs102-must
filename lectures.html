@@ -46,7 +46,7 @@
         
         <div class="cards-grid">
            <!-- Lecture 1 Card -->
-<div class="lecture-card">
+<div class="card glass-card">
     <div class="lecture-header">
         <span class="lecture-badge">المحاضرة 1</span>
         <h3>مقدمة في لغة C++ والأساسيات</h3>
@@ -56,24 +56,19 @@
         تغطي هذه المحاضرة المفاهيم الأساسية للغة C++، كـ cin و cout، المتغيرات، وأنواع البيانات الأساسية.
     </p>
 
-    <!-- الأزرار متظبطة جوه Container واحد عشان الأنيميشن ما يبوظش -->
-    <div class="lecture-actions" style="display: flex; flex-direction: column; gap: 12px; margin-top: 20px;">
-        
-        <!-- 1. زرار تحميل المحاضرة الأصلية (ازرق شيك وعريض) -->
-        <a href="files/lecture1.pdf" download class="btn" style="background: rgba(37, 99, 235, 0.2); border: 1px solid #3b82f6; color: #60a5fa; width: 100%; text-align: center; justify-content: center; padding: 10px; border-radius: 8px; transition: all 0.3s ease;">
+    <div class="lecture-actions">
+        <!-- 1. تحميل ملف المحاضرة الأصلي -->
+        <a href="files/lecture1.pdf" download class="btn btn-primary">
             <i class="fas fa-file-pdf"></i> تحميل ملف المحاضرة (PDF)
         </a>
 
-        <!-- 2. أزرار الملخص جنب بعض -->
-        <div style="display: flex; gap: 10px; width: 100%;">
-            <a href="files/summary1.pdf" download class="btn btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
-                <i class="fas fa-download"></i> تحميل الملخص
-            </a>
-            <a href="files/summary1.pdf" target="_blank" class="btn btn-outline" style="flex: 1; text-align: center; justify-content: center;">
-                <i class="fas fa-eye"></i> قراءة الملخص
-            </a>
-        </div>
-
+        <!-- 2. أزرار الملخص -->
+        <a href="files/summary1.pdf" download class="btn btn-secondary">
+            <i class="fas fa-download"></i> تحميل الملخص
+        </a>
+        <a href="files/summary1.pdf" target="_blank" class="btn btn-outline">
+            <i class="fas fa-eye"></i> قراءة الملخص
+        </a>
     </div>
 </div>
             <!-- Lecture 2 Card (Disabled / Pending) -->
