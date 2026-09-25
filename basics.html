@@ -101,42 +101,48 @@
     <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
         <h1 class="section-title">أساسيات لغة C++ المقررة</h1>
         <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 40px;">
-            ملخص سريع لأهم المفاهيم الأساسية: جمل الإدخال والإخراج، المصفوفات، والمؤشرات مع أمثلة توضيحية.
+            دليل كامل ومرتب للمفاهيم البرمجية الأساسية المطلوبة هذا الترم مع أمثلة كود مبسطة.
         </p>
 
         <div class="basics-container">
 
-            <!-- 1. Output (cout) -->
+            <!-- 1. Input & Output -->
             <div class="concept-card">
                 <div class="concept-header">
-                    <i class="fas fa-desktop"></i>
-                    <h3>1. جملة الإخراج (cout)</h3>
+                    <i class="fas fa-exchange-alt"></i>
+                    <h3>1. الإدخال والإخراج (cin / cout)</h3>
                 </div>
                 <p style="color: var(--text-sub); line-height: 1.7;">
-                    تُستخدم طباعة النصوص والبيانات على الشاشة باستخدام المعامل <bdi>`<<`</bdi> (Insertion Operator) وتتطلب تضمين المكتبة <bdi>`#include <iostream>`</bdi>.
+                    أساس التعامل مع المستخدم في C++. نستخدم <bdi>`cout`</bdi> مع المعامل <bdi>`<<`</bdi> لطباعة البيانات، ونستخدم <bdi>`cin`</bdi> مع المعامل <bdi>`>>`</bdi> لاستقبال البيانات وتخزينها في المتغيرات.
                 </p>
                 <div class="code-block">
-<span class="code-comment">// مثال على طباعة نص ومتغير</span>
-<span class="code-type">int</span> age = 19;
-cout << <span class="code-string">"Hello, MUST IT Students!"</span> << endl;
+<span class="code-type">int</span> age;
+cout << <span class="code-string">"Enter your age: "</span>; <span class="code-comment">// إخراج</span>
+cin >> age;                      <span class="code-comment">// إدخال</span>
 cout << <span class="code-string">"Your age is: "</span> << age;
                 </div>
             </div>
 
-            <!-- 2. Input (cin) -->
+            <!-- 2. Increment & Assignment Operators -->
             <div class="concept-card">
                 <div class="concept-header">
-                    <i class="fas fa-keyboard"></i>
-                    <h3>2. جملة الإدخال (cin)</h3>
+                    <i class="fas fa-plus-circle"></i>
+                    <h3>2. المعاملات الحسابية والزيادة (x++, x += 1)</h3>
                 </div>
                 <p style="color: var(--text-sub); line-height: 1.7;">
-                    تُستخدم لاستقبال البيانات والمُدخلات من المستخدم وتخزينها داخل متغيرات باستخدام المعامل <bdi>`>>`</bdi> (Extraction Operator).
+                    تُستخدم لزيادة قيمة المتغير، وهناك تكافؤ في المعنى بين الطرق لكن بفرق بسيط في التنفيذ:
                 </p>
+                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 20px; margin-top: 10px;">
+                    <li><bdi><b>x++</b></bdi> أو <bdi><b>x += 1</b></bdi> أو <bdi><b>x = x + 1</b></bdi> : كلها تقوم بزيادة قيمة <bdi>x</bdi> بمقدار 1.</li>
+                    <li><b>الفرق بين Post-increment و Compound Assignment:</b>
+                        <br>• <bdi>`x++`</bdi> تستخدم قيمة <bdi>x</bdi> الحالية أولاً في السطر ثم تزود 1.
+                        <br>• <bdi>`x += 5`</bdi> تزيد قيمة <bdi>x</bdi> بأي قيمة تحددها (مثلاً 5) اختصاراً لـ <bdi>`x = x + 5`</bdi>.
+                    </li>
+                </ul>
                 <div class="code-block">
-<span class="code-comment">// مثال على إدخال رقم من المستخدم</span>
-<span class="code-type">int</span> id;
-cout << <span class="code-string">"Enter your ID: "</span>;
-cin >> id;
+<span class="code-type">int</span> x = 5;
+x++;      <span class="code-comment">// x أصبحت 6</span>
+x += 4;   <span class="code-comment">// x أصبحت 10 (اختصار لـ x = x + 4)</span>
                 </div>
             </div>
 
@@ -147,13 +153,13 @@ cin >> id;
                     <h3>3. المصفوفات (Arrays)</h3>
                 </div>
                 <p style="color: var(--text-sub); line-height: 1.7;">
-                    المصفوفة هي مجموعة من عناصر متتالية في الذاكرة من نفس نوع البيانات. يبدأ الترقيم (Index) دائماً من **0**.
+                    طريقة لتخزين مجموعة عناصر متتالية من <b>نفس نوع البيانات</b> تحت اسم واحد في الذاكرة. يبدأ الترقيم (Index) من **0**.
                 </p>
                 <div class="code-block">
-<span class="code-comment">// تعريف مصفوفة بها 3 عناصر وطباعة العنصر الأول</span>
-<span class="code-type">int</span> grades[3] = {90, 85, 95};
+<span class="code-type">int</span> grades[3] = {90, 85, 95}; <span class="code-comment">// مصفوفة من 3 أرقام</span>
 
-cout << <span class="code-string">"First Grade: "</span> << grades[0]; <span class="code-comment">// Outputs 90</span>
+cout << grades[0]; <span class="code-comment">// يطبع العنصر الأول (90)</span>
+grades[1] = 88;    <span class="code-comment">// تعديل العنصر الثاني إلى 88</span>
                 </div>
             </div>
 
@@ -164,15 +170,38 @@ cout << <span class="code-string">"First Grade: "</span> << grades[0]; <span cla
                     <h3>4. المؤشرات (Pointers)</h3>
                 </div>
                 <p style="color: var(--text-sub); line-height: 1.7;">
-                    المؤشر هو متغير خاص يقوم بتخزين **عنوان في الذاكرة (Memory Address)** لمتغير آخر. يُرمز له بالرمز <bdi>`*`</bdi> ونحصل على عنوان المتغير باستخدام <bdi>`&`</bdi>.
+                    المؤشر هو متغير يخزن **عنوان متغير آخر في الذاكرة** بدلاً من قيمته.
+                    <br>• نستخدم الرمز <bdi>`&`</bdi> لجلب عنوان المتغير.
+                    <br>• نستخدم الرمز <bdi>`*`</bdi> لإنشاء المؤشر أو للوصول للقيمة المخزنة في العنوان (Dereferencing).
                 </p>
                 <div class="code-block">
-<span class="code-comment">// تعريف متغير ومؤشر يشير إلى عنوانه</span>
 <span class="code-type">int</span> num = 10;
-<span class="code-type">int</span>* ptr = &num; <span class="code-comment">// ptr يحمل عنوان num</span>
+<span class="code-type">int</span>* ptr = &num; <span class="code-comment">// ptr يخزن عنوان num</span>
 
-cout << <span class="code-string">"Address: "</span> << ptr;  <span class="code-comment">// يطبع عنوان الذاكرة</span>
-cout << <span class="code-string">"Value: "</span> << *ptr;   <span class="code-comment">// يطبع القيمة 10 (Dereferencing)</span>
+cout << ptr;   <span class="code-comment">// يطبع عنوان الذاكرة (Hexadecimal)</span>
+cout << *ptr;  <span class="code-comment">// يطبع القيمة نفسها (10)</span>
+                </div>
+            </div>
+
+            <!-- 5. Call by Value vs Call by Reference -->
+            <div class="concept-card">
+                <div class="concept-header">
+                    <i class="fas fa-code-branch"></i>
+                    <h3>5. التمرير للدوال (Call by Value vs Call by Reference)</h3>
+                </div>
+                <p style="color: var(--text-sub); line-height: 1.7;">
+                    عند إرسال متغيرات إلى دالة (Function)، هناك طريقتان للتعامل معها:
+                </p>
+                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 20px; margin-top: 10px;">
+                    <li><b>Call by Value (التمرير بالقيمة):</b> تُرسل نسخة من قيمة المتغير. أي تعديل داخل الدالة <u>لا يؤثر</u> على المتغير الأصلي.</li>
+                    <li><b>Call by Reference (التمرير بالمرجع):</b> نستخدم <bdi>`&`</bdi> في الدالة لإرسال عنوان المتغير نفسه. أي تعديل داخل الدالة <u>يُعدّل فوراً</u> على المتغير الأصلي.</li>
+                </ul>
+                <div class="code-block">
+<span class="code-comment">// 1. Call by Value</span>
+<span class="code-type">void</span> addVal(<span class="code-type">int</span> x) { x += 10; } <span class="code-comment">// لا يغير المتغير الأصلي</span>
+
+<span class="code-comment">// 2. Call by Reference</span>
+<span class="code-type">void</span> addRef(<span class="code-type">int</span> &x) { x += 10; } <span class="code-comment">// يغير المتغير الأصلي مباشرة</span>
                 </div>
             </div>
 
