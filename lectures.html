@@ -45,24 +45,35 @@
         </p>
         
         <div class="cards-grid">
-            <!-- Lecture 1 Card -->
-<div class="card glass-card">
-    <div class="card-icon"><i class="fas fa-desktop"></i></div>
+           <!-- Lecture 1 Card -->
+<div class="lecture-card">
+    <div class="lecture-header">
+        <span class="lecture-badge">المحاضرة 1</span>
+        <h3>مقدمة في لغة C++ والأساسيات</h3>
+    </div>
     
-    <!-- bdi بيظبط اتجاه الإنجليزي من غير ما يحرك البوكس أو يغير الاستايل -->
-    <h3><bdi>Lecture 1: Introduction to Computers and C++</bdi></h3>
-    
-    <p>مقدمة عن مكونات الحساب الآلي، آلية عمل البرامج، وأساسيات لغة C++ ومفهوم الـ Problem Solving.</p>
-    
-    <!-- الأزرار بدون تعديل في كلاسات الأنيميشن الأصلية -->
-    <div style="margin-top: 20px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-        <a href="cs102_lecture_1_summary.pdf" download class="btn btn-outline">
-            <i class="fas fa-download"></i> تحميل ملخص المحاضرة (PDF)
-        </a>
+    <p class="lecture-desc">
+        تغطي هذه المحاضرة المفاهيم الأساسية للغة C++، كـ cin و cout، المتغيرات، وأنواع البيانات الأساسية.
+    </p>
+
+    <!-- أزرار التحميل والقراءة داخل نفس البوكس -->
+    <div class="lecture-actions" style="display: flex; flex-direction: column; gap: 10px; margin-top: 15px;">
         
-        <a href="cs102_lecture_1_summary.pdf" target="_blank" class="btn btn-outline">
-            <i class="fas fa-eye"></i> قراءة أونلاين
+        <!-- 1. تحميل ملف المحاضرة الأصلي (بدون قراءة أونلاين) -->
+        <a href="files/lecture1.pdf" download class="btn btn-primary" style="background: #2563eb; color: #fff; text-align: center; justify-content: center;">
+            <i class="fas fa-file-download"></i> تحميل ملف المحاضرة (PDF)
         </a>
+
+        <!-- 2. أزرار الملخص (تحميل + قراءة أونلاين) -->
+        <div style="display: flex; gap: 10px;">
+            <a href="files/summary1.pdf" download class="btn btn-secondary" style="flex: 1; text-align: center; justify-content: center;">
+                <i class="fas fa-download"></i> تحميل الملخص
+            </a>
+            <a href="files/summary1.pdf" target="_blank" class="btn btn-outline" style="flex: 1; text-align: center; justify-content: center;">
+                <i class="fas fa-eye"></i> قراءة الملخص
+            </a>
+        </div>
+
     </div>
 </div>
             <!-- Lecture 2 Card (Disabled / Pending) -->
