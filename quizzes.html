@@ -193,7 +193,7 @@
         <div id="start-card" class="quiz-container">
             <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px;">
                 
-                <!-- Quiz 1 Card (Active) -->
+                <!-- Quiz 1 Card -->
                 <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
                         <i class="fas fa-graduation-cap" style="font-size: 3rem; color: #38bdf8; margin-bottom: 15px;"></i>
@@ -203,23 +203,23 @@
                             <strong>50 سؤالاً</strong> (30 اختيار - 10 صح وغلط - 10 مقالي)
                         </p>
                     </div>
-                    <button class="btn btn-outline" onclick="showConfirmModal()" style="font-size: 1rem; padding: 12px 20px; width: 100%;">
+                    <button class="btn btn-outline" onclick="showConfirmModal(1)" style="font-size: 1rem; padding: 12px 20px; width: 100%;">
                         <i class="fas fa-play"></i> ابدأ كويز المحاضرة الأولى
                     </button>
                 </div>
 
-                <!-- Quiz 2 Card (Disabled / Pending) -->
-                <div class="card glass-card" style="text-align: center; opacity: 0.75; cursor: not-allowed; display: flex; flex-direction: column; justify-content: space-between;">
+                <!-- Quiz 2 Card (Activated!) -->
+                <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
                     <div>
-                        <i class="fas fa-lock" style="font-size: 3rem; color: var(--text-sub); margin-bottom: 15px;"></i>
-                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 2: Introduction to C++ Programming, Input/ Output and Operators</bdi></h3>
+                        <i class="fas fa-laptop-code" style="font-size: 3rem; color: #818cf8; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 2: C++ Input/Output & Operators</bdi></h3>
                         <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
-                            اختبار شامـل على جمل الإدخال والإخراج والمعاملات الحسابية والمنطقية.<br>
-                            <strong>قريباً</strong> فور تجهيز بنك الأسئلة الخاص بالمحاضرة.
+                            اختبار شامل على جمل الإدخال والإخراج، أولويات العمليات وتتبع الكود.<br>
+                            <strong>60 سؤالاً</strong> (30 اختيار - 10 صح وغلط - 10 مقالي - 10 تتبع كود)
                         </p>
                     </div>
-                    <button class="btn btn-outline" disabled style="opacity: 0.6; cursor: not-allowed; pointer-events: none; width: 100%;">
-                        <i class="fas fa-clock"></i> الكويز غير متاح حالياً
+                    <button class="btn btn-outline" onclick="showConfirmModal(2)" style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #818cf8; color: #818cf8;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الثانية
                     </button>
                 </div>
 
@@ -230,7 +230,7 @@
         <div id="confirm-modal" class="modal-overlay hidden">
             <div class="quiz-card" style="max-width: 500px; text-align: center;">
                 <i class="fas fa-question-circle" style="font-size: 3rem; color: #818cf8; margin-bottom: 15px;"></i>
-                <h3>هل أنت جاهز لبدء الاختبار؟</h3>
+                <h3 id="modal-quiz-title">هل أنت جاهز لبدء الاختبار؟</h3>
                 <p style="color: var(--text-sub); margin: 15px 0 25px 0;">
                     تأكد من تركيزك. سيتم بدء حساب الوقت فور تأكيدك!
                 </p>
@@ -250,7 +250,7 @@
             <div class="quiz-card">
                 <!-- Header Stats -->
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
-                    <span id="question-count" style="font-weight: bold; color: #38bdf8;">سؤال 1 من 50</span>
+                    <span id="question-count" style="font-weight: bold; color: #38bdf8;">سؤال 1</span>
                     <span id="timer-display" style="color: var(--text-sub);"><i class="fas fa-stopwatch"></i> 00:00</span>
                 </div>
 
@@ -300,7 +300,7 @@
                 <div style="margin: 30px 0; display: flex; justify-content: center; gap: 30px; flex-wrap: wrap;">
                     <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; min-width: 150px;">
                         <span style="display: block; font-size: 0.9rem; color: var(--text-sub);">الدرجة الكلية</span>
-                        <strong id="final-score" style="font-size: 1.8rem; color: #38bdf8;">0 / 50</strong>
+                        <strong id="final-score" style="font-size: 1.8rem; color: #38bdf8;">0 / 0</strong>
                     </div>
                     <div style="background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; min-width: 150px;">
                         <span style="display: block; font-size: 0.9rem; color: var(--text-sub);">النسبة المئوية</span>
@@ -313,7 +313,7 @@
                 </div>
 
                 <button class="btn btn-outline" onclick="location.reload()" style="font-size: 1rem; padding: 10px 25px;">
-                    <i class="fas fa-redo"></i> إعادة الاختبار
+                    <i class="fas fa-redo"></i> العودة لقائمة الكويزات
                 </button>
             </div>
         </div>
@@ -322,72 +322,78 @@
 
     <script src="script.js"></script>
     <script>
-        // Quiz Data Engine
-        const questions = [
-            // --- 30 MCQ Questions ---
+        // Quiz 1 Questions
+        const quiz1Questions = [
             { type: "mcq", question: "1. Which logical unit of the computer directly handles calculations and comparison operations?", options: ["Control Unit", "Memory Unit", "Arithmetic and Logic Unit (ALU)", "Output Unit"], answer: 2, explanation: "<strong>التحليل:</strong> وحدة (ALU) هي المسؤولة المباشرة عن تنفيذ كافة العمليات الحسابية والمنطقية داخل المعالج." },
             { type: "mcq", question: "2. Which software component translates high-level programming language code into machine code all at once before execution?", options: ["Interpreter", "Compiler", "Assembler", "Operating System"], answer: 1, explanation: "<strong>التحليل:</strong> الـ Compiler يقوم بترجمة الكود المكتوب بلغة عالية المستوى دفعة واحدة إلى كود آلة قبل التشغيل." },
             { type: "mcq", question: "3. What is the smallest, most fundamental unit of data in computer systems?", options: ["Byte", "Nibble", "Bit", "Field"], answer: 2, explanation: "<strong>التحليل:</strong> الـ Bit (0 أو 1) هو أصغر وأساسي وحدة بيانات داخل حاسوب." },
             { type: "mcq", question: "4. Assembly language requires which of the following tools for translation into machine-executable instructions?", options: ["Compiler", "Interpreter", "Linker", "Assembler"], answer: 3, explanation: "<strong>التحليل:</strong> برنامج الـ Assembler يحول تعليمات لغة التجميع (Assembly) إلى لغة الآلة." },
             { type: "mcq", question: "5. In computer data hierarchy, what constitutes a record?", options: ["A collection of related bytes", "A single attribute of an entity", "A collection of related fields", "A group of independent tables"], answer: 2, explanation: "<strong>التحليل:</strong> السجل (Record) يتكون من مجموعة حقول مرتبطة ببعضها (Fields) تصف كياناً واحداً." },
-            { type: "mcq", question: "6. Which unit acts as the manager/coordinator for all computer activities and instruction execution cycles?", options: ["ALU", "Control Unit", "Primary Storage", "Secondary Storage"], answer: 1, explanation: "<strong>التحليل:</strong> وحدة التحكم (Control Unit) تدير وتنسق كافة أنشطة الحاسوب وتوجه الإشارات." },
-            { type: "mcq", question: "7. Which of the following is considered volatile primary memory?", options: ["Hard Disk Drive (HDD)", "Solid State Drive (SSD)", "Random Access Memory (RAM)", "Read-Only Memory (ROM)"], answer: 2, explanation: "<strong>التحليل:</strong> ذاكرة الـ RAM هي ذاكرة مؤقتة وتفقد محتوياتها بمجرد انقطاع التيار الكهربائي (Volatile)." },
-            { type: "mcq", question: "8. Why are high-level programming languages preferred over machine language?", options: ["They execute faster", "They require less memory", "They use human-readable syntax and offer portability", "They map directly to CPU clock cycles"], answer: 2, explanation: "<strong>التحليل:</strong> اللغات عالية المستوى قريبة من لغة البشر وتتيح إمكانية نقل الكود وتشغيله على أجهزة مختلفة بسهولة." },
-            { type: "mcq", question: "9. What distinguishes a relational database from a standard file system?", options: ["Files store data relationally", "Databases store raw text only", "Databases organize data into relational tables with controlled access", "File systems manage keys"], answer: 2, explanation: "<strong>التحليل:</strong> قواعد البيانات العلاقاتية تنظم البيانات في جداول مترابطة وتوفر إمكانيات بحث واستعلام متقدمة." },
-            { type: "mcq", question: "10. Which programming language requires NO compilation or assembly before execution?", options: ["Assembly Language", "High-Level Language", "Machine Language", "Object-Oriented Language"], answer: 2, explanation: "<strong>التحليل:</strong> لغة الآلة (Machine Language) مكتوبة بالثنائي (0s and 1s) ويفهمها المعالج مباشرة دون مترجم." },
-            { type: "mcq", question: "11. What is a disadvantage of an interpreted high-level language compared to a compiled language?", options: ["Larger binaries", "Slower execution due to line-by-line translation", "Cannot catch errors", "Not portable"], answer: 1, explanation: "<strong>التحليل:</strong> الـ Interpreter يقوم بالترجمة والتنفيذ سطرًا بسطر أثناء التشغيل، مما يجعل الأداء أبطأ." },
-            { type: "mcq", question: "12. The collection of software that enables structured data creation and manipulation is called:", options: ["Operating System", "Database Management System (DBMS)", "IDE", "Compiler Suite"], answer: 1, explanation: "<strong>التحليل:</strong> نظام إدارة قواعد البيانات (DBMS) هو البرمجية المسؤولة عن تنظيم وقواعد البيانات واختزانها." },
-            { type: "mcq", question: "13. How many bits are in one standard Byte?", options: ["4", "8", "16", "32"], answer: 1, explanation: "<strong>التحليل:</strong> البايت الواحد (1 Byte) يتكون رسمياً من 8 بتات (Bits)." },
-            { type: "mcq", question: "14. Which hardware component holds active program instructions currently being processed by CPU?", options: ["Secondary Storage", "Primary Memory (RAM)", "Optical Drive", "Input Unit"], answer: 1, explanation: "<strong>التحليل:</strong> البرامج والبيانات النشطة قيد التنفيذ يجب تحميلها في الذاكرة الرئيسية (RAM) أولاً." },
-            { type: "mcq", question: "15. What is the logical unit responsible for receiving data and programs from users?", options: ["Output Unit", "Input Unit", "Control Unit", "Storage Unit"], answer: 1, explanation: "<strong>التحليل:</strong> وحدات الإدخال (Input Unit) مثل لوحة المفاتيح والماوس تقوم باستقبال البيانات والأوامر من المستخدم." },
-            { type: "mcq", question: "16. In C++ development, what file is produced immediately after successful source code compilation?", options: ["Source File (.cpp)", "Object File (.obj / .o)", "Text File (.txt)", "Header File (.h)"], answer: 1, explanation: "<strong>التحليل:</strong> عند ترجمة ملف المصدري `.cpp` ينتج الـ Compiler ملف أهداف بترميز الآلة بسابقة `.obj`." },
-            { type: "mcq", question: "17. Which phase in C++ execution combines object code with library code to create an executable (.exe)?", options: ["Preprocessing", "Compiling", "Linking", "Loading"], answer: 2, explanation: "<strong>التحليل:</strong> مرحلة الربط (Linking) دمج ملفات الـ Object مع المكتبات الخارجية لإنتاج الملف التنفيذي النهائي." },
-            { type: "mcq", question: "18. What component loads the compiled executable file from secondary storage into primary memory?", options: ["Linker", "Compiler", "Loader", "Preprocessor"], answer: 2, explanation: "<strong>التحليل:</strong> الـ Loader يتولى نقل الملف التنفيذي من القرص الصلب إلى ذاكرة الـ RAM للتشغيل." },
-            { type: "mcq", question: "19. Logical decision-making in C++ programs (such as x > y) is evaluated inside which unit?", options: ["Control Unit", "ALU", "Secondary Storage", "Output Unit"], answer: 1, explanation: "<strong>التحليل:</strong> عمليات المقارنة واتخاذ القرارات المنطقية تتم داخل وحدة الحساب والمنطق (ALU)." },
-            { type: "mcq", question: "20. Which data hierarchy element represents a single attribute, such as Student_ID?", options: ["Bit", "Byte", "Field", "File"], answer: 2, explanation: "<strong>التحليل:</strong> الحقل (Field) هو عبارة عن مجموعة بايتات تصف خاصية أو صفة واحدة لكيان معين." },
-            { type: "mcq", question: "21. High-level language statement 'x = a + b' is converted into machine instructions by:", options: ["Operating System", "Compiler / Interpreter", "RAM Controller", "CPU Registers"], answer: 1, explanation: "<strong>التحليل:</strong> المترجمات (Compilers/Interpreters) هي المسؤولة عن تفكيك العبارات عالية المستوى إلى تعليمات آلة." },
-            { type: "mcq", question: "22. What type of storage retention is provided by secondary storage devices like SSDs?", options: ["Volatile storage", "Temporary storage", "Non-volatile storage", "Cache storage"], answer: 2, explanation: "<strong>التحليل:</strong> أدوات التخزين الثانوي تعتبر غير متطايرة (Non-volatile) حيث تحتفظ بالبيانات دائمة بعد إيقاف التشغيل." },
-            { type: "mcq", question: "23. Early generations of computer programming relied entirely on which language format?", options: ["High-Level Language", "Machine Language", "Assembly Language", "Object-Oriented Language"], answer: 1, explanation: "<strong>التحليل:</strong> الجيل الأول من برمجة الحاسوب كان يعتمد كلياً على الكتابة الثنائية المباشرة (Machine Language)." },
-            { type: "mcq", question: "24. Which of the following is NOT an example of computer hardware?", options: ["CPU", "Hard Disk", "C++ Compiler", "RAM"], answer: 2, explanation: "<strong>التحليل:</strong> مترجم C++ Compiler يعتبر برمجية نظام (Software) وليس مكوناً مادياً (Hardware)." },
-            { type: "mcq", question: "25. What occurs during the Preprocessing phase in C++ compilation?", options: ["Converting to machine code", "Executing directives like #include and #define", "Linking libraries", "Loading into RAM"], answer: 1, explanation: "<strong>التحليل:</strong> المعالج التمهيدي (Preprocessor) ينفذ التوجيهات التي تبدأ بـ `#` قبل البدء الفعلي في عملية الترجمة." },
-            { type: "mcq", question: "26. Which unit transfers processed information from the computer to external users or devices?", options: ["Input Unit", "Output Unit", "Memory Unit", "ALU"], answer: 1, explanation: "<strong>التحليل:</strong> وحدات الإخراج (Output Unit) مثل الشاشة والمطبعة تقوم بتقديم البيانات والمعلومات المعالجة للمستخدم." },
-            { type: "mcq", question: "27. In database management, a table is structured as a combination of:", options: ["Bytes and Bits", "Rows (Records) and Columns (Fields)", "Compilers and Linkers", "Files and Archives"], answer: 1, explanation: "<strong>التحليل:</strong> جداول قواعد البيانات تنظم البيانات هيكلياً في أسطر (Records) وأعمدة (Fields)." },
-            { type: "mcq", question: "28. Which component stores instructions that the CPU needs immediately with the fastest access time?", options: ["Secondary SSD", "Primary RAM / Registers", "Database File", "Magnetic Tape"], answer: 1, explanation: "<strong>التحليل:</strong> المسجلات (Registers) والذاكرة الرئيسية تقدم أسرع زمن وصول لمعالجة البيانات بواسطة المعالج." },
-            { type: "mcq", question: "29. Assembly language is considered a:", options: ["High-Level Language", "Low-Level Language", "Database Language", "Natural Language"], answer: 1, explanation: "<strong>التحليل:</strong> لغة التجميع تعتبر لغة منخفضة المستوى (Low-Level) نظراً لارتباطها الوثيق بمعمارية المعالج." },
-            { type: "mcq", question: "30. Problem-solving through computer programming primarily begins with:", options: ["Writing machine binaries", "Algorithm design and logical step formulation", "Linking libraries", "Allocating RAM"], answer: 1, explanation: "<strong>التحليل:</strong> البرمجة تبدأ بوضع الخوارزمية (Algorithm) والخطوات المنطقية لحل المشكلة أولاً قبل كتابة الكود." },
-
-            // --- 10 True/False Questions ---
             { type: "tf", question: "31. Machine language programs written for one CPU architecture can run without modification on any other CPU.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> لغة الآلة تعتمد كلياً على معمارية المعالج المحدد ولا تعمل على معمارية أخرى دون تعديل." },
             { type: "tf", question: "32. Primary storage (RAM) is non-volatile, meaning its contents are permanently saved when power is lost.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ RAM متطايرة (Volatile) وتفقد بياناتها فور فصل الكهرباء." },
-            { type: "tf", question: "33. An assembler translates high-level C++ code into executable programs.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ Assembler يترجم لغة التجميع (Assembly) بينما C++ تعتمد على الـ Compiler." },
-            { type: "tf", question: "34. A record is a logical collection of related fields within a database or file structure.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> تعريف السجل هو تجميعة لحقول ذات صلة بنفس الكيان." },
-            { type: "tf", question: "35. The linker is responsible for loading the executable file into RAM memory for execution.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> الـ Loader هو المسؤول عن التحميل في الـ RAM بينما الـ Linker يربط الكود بالمكتبات." },
-            { type: "tf", question: "36. High-level programming languages execute faster on hardware than equivalent native machine code programs.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> كود الآلة المباشر ينفذ أسرع بدون طبقات ترجمة إضافية." },
-            { type: "tf", question: "37. The Control Unit (CU) executes mathematical operations such as addition and multiplication.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> وحدة الـ ALU هي المسؤولة عن العمليات الحسابية وليس الـ CU." },
-            { type: "tf", question: "38. Secondary storage devices (such as SSDs) provide slower access speed compared to primary memory (RAM).", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الذاكرة الثانوية تقدم سعات كبيرة بدوام دائم لكن سرعة القراءة والكتابة أبطأ من الـ RAM." },
-            { type: "tf", question: "39. Compilers translate source code line by line during runtime.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: الخطأ!</strong> المفسر (Interpreter) هو من يترجم سطر بسطر، أما الـ Compiler يترجم الملف كاملاً مرة واحدة." },
-            { type: "tf", question: "40. A database management system (DBMS) allows users to query and organize related data tables efficiently.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الـ DBMS يوفر أدوات متكاملة لإدارة واستعلام البيانات والعلاقات بين الجداول." },
-
-            // --- 10 Essay Questions (Keyword-Based Soft Match) ---
-            { type: "essay", question: "41. Explain the primary difference between Primary Memory (RAM) and Secondary Memory.", keywords: ["ram", "volatile", "temporary", "secondary", "permanent", "non-volatile", "fast", "slow", "hard disk", "ssd"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الذاكرة الرئيسية (RAM) سريعة ومؤقتة (Volatile) للبيانات النشطة، بينما الثانوية غير متطايرة (Non-volatile) وبطيئة للتخزين الدائم." },
-            { type: "essay", question: "42. Name at least four main logical units of a computer system.", keywords: ["input", "output", "memory", "alu", "control unit", "cu", "storage"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الوحدات هي: Input Unit, Output Unit, Memory Unit, ALU, Control Unit, Secondary Storage." },
-            { type: "essay", question: "43. Briefly describe the role of a Compiler in software development.", keywords: ["translate", "convert", "high level", "machine code", "object code", "binary", "all at once"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> يقوم الـ Compiler بتحويل لغة البرمجة عالية المستوى كـ C++ إلى لغة الآلة المباشرة دفعة واحدة." },
-            { type: "essay", question: "44. Differentiate between Machine Language and High-Level Language.", keywords: ["machine", "binary", "0", "1", "high level", "human", "readable", "compiler", "hardware"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> لغة الآلة هي لغة ثنائية (0 و 1) يفهمها العتاد مباشرة، أما عالية المستوى فقريبة من لغة البشر وتستلزم مترجماً." },
-            { type: "essay", question: "45. List the main phases of executing a C++ program in order.", keywords: ["edit", "preprocess", "compile", "link", "load", "execute"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> المراحل الخمس هي: Edit -> Preprocess -> Compile -> Link -> Load / Execute." },
-            { type: "essay", question: "46. Explain the concept of Data Hierarchy in computers from smallest to largest.", keywords: ["bit", "byte", "field", "record", "file", "database"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الترتيب الهرمي: Bit -> Byte -> Field -> Record -> File -> Database." },
-            { type: "essay", question: "47. What is the main function of the Arithmetic and Logic Unit (ALU)?", keywords: ["math", "arithmetic", "logical", "calculations", "comparison", "decision"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> تنفيذ كافة الحسابات الرياضية (الجمع/الضرب) واتخاذ القرارات والمقارنات المنطقية." },
-            { type: "essay", question: "48. Why do computers require secondary storage when they already have primary memory (RAM)?", keywords: ["volatile", "lose", "power", "permanent", "non volatile", "save", "files"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> لأن الـ RAM تفقد محتوياتها فور قطع الكهرباء (Volatile)، بينما التخزين الثانوي يحفظ الملفات بشكل دائم." },
-            { type: "essay", question: "49. Explain the difference between a Compiler and an Interpreter.", keywords: ["compiler", "all at once", "interpreter", "line by line", "runtime", "speed"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الـ Compiler يترجم الكود كاملاً دفعة واحدة، بينما الـ Interpreter يترجم وينفذ سطرًا بسطر." },
-            { type: "essay", question: "50. What is a Database Management System (DBMS) and why is it important?", keywords: ["software", "manage", "organize", "database", "query", "tables", "data"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> هو البرمجية التي تنظم وتدير قواعد البيانات العلاقاتية وتسهل حفظ واسترجاع البيانات بكفاءة." }
+            { type: "essay", question: "41. Explain the primary difference between Primary Memory (RAM) and Secondary Memory.", keywords: ["ram", "volatile", "temporary", "secondary", "permanent", "non-volatile", "fast", "slow"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> الذاكرة الرئيسية (RAM) سريعة ومؤقتة (Volatile) للبيانات النشطة، بينما الثانوية غير متطايرة (Non-volatile) وبطيئة للتخزين الدائم." }
         ];
 
+        // Quiz 2 Questions (Lecture 2 Full 60 Questions)
+        const quiz2Questions = [
+            // --- 30 MCQs ---
+            { type: "mcq", question: "1. What is the execution starting point of every C++ program?", options: ["#include <iostream>", "std::cout", "main() function", "Variable declarations"], answer: 2, explanation: "<strong>التحليل:</strong> الدالة main() هي نقطة البداية الإجبارية لتنفيذ أي برنامج C++." },
+            { type: "mcq", question: "2. Which sequence is used to move the screen cursor to the next tab stop?", options: ["\\n", "\\t", "\\r", "\\\\"], answer: 1, explanation: "<strong>التحليل:</strong> الرمز \\t يقوم بعمل مسافة جدولية (Tab) أفقية." },
+            { type: "mcq", question: "3. What is the output of std::cout << \"A\\\\B\\\"C\"; ?", options: ["A\\B\"C", "A\\\\B\\\"C", "Syntax Error", "ABC"], answer: 0, explanation: "<strong>التحليل:</strong> الرمز \\\\ يطبع backslash واحدة والرمز \\\" يطبع علامة تنصيص مزدوجة." },
+            { type: "mcq", question: "4. Which operator is referred to as the 'stream extraction operator' in C++?", options: ["<<", ">>", "::", "%"], answer: 1, explanation: "<strong>التحليل:</strong> المعامل >> يستخرج البيانات من الإدخال cin لتخزينها في المتغيرات." },
+            { type: "mcq", question: "5. Which C++ standard line initialization syntax was introduced in C++11?", options: ["int x = 0;", "int x{0};", "int x(0);", "x := 0;"], answer: 1, explanation: "<strong>التحليل:</strong> استخدام الأقواس {} يسمى List Initialization وهو الأسلوب المعتمد منذ C++11 لتجنب أخطاء القيم العشوائية." },
+            { type: "mcq", question: "6. What happens when integer division is performed in C++ (e.g., 17 / 5)?", options: ["Rounds to nearest integer (4)", "Produces decimal (3.4)", "The fractional part is truncated/discarded (3)", "Execution error"], answer: 2, explanation: "<strong>التحليل:</strong> قسمة الأعداد الصحيحة تطرح الكسر بالكامل دون تقريب والناتج يكون 3." },
+            { type: "mcq", question: "7. Which of the following is a fundamental data type in C++?", options: ["string", "double", "vector", "array"], answer: 1, explanation: "<strong>التحليل:</strong> الأنواع الأساسية المدمجة باللغة هي int, double, char." },
+            { type: "mcq", question: "8. Which of the following is a valid identifier name in C++?", options: ["2nd_number", "_student_id", "student-id", "float"], answer: 1, explanation: "<strong>التحليل:</strong> اسم المتغير يمكن أن يبدأ بشرطة سفلية _، لكن لا يبدأ برقم ولا يحتوي على - ولا يكون كلمة محجوزة." },
+            { type: "mcq", question: "9. The % (modulus) operator can be used with which type of operands?", options: ["double only", "int (integers) only", "Any numeric type", "float"], answer: 1, explanation: "<strong>التحليل:</strong> معامل باقي القسمة % يعمل حصراً مع الأعداد الصحيحة int." },
+            { type: "mcq", question: "10. What is the primary characteristic of a destructive memory operation?", options: ["Reading data without modifying it", "Overwriting a previous value in a memory location", "Clearing system RAM", "Deleting variables"], answer: 1, explanation: "<strong>التحليل:</strong> تخزين قيمة جديدة يمسح القيمة السابقة المخزنة في نفس المكان بالذاكرة (Destructive)." },
+            { type: "mcq", question: "11. What is the result of the expression 15 % 4 in C++?", options: ["3", "3.75", "1", "0"], answer: 0, explanation: "<strong>التحليل:</strong> 15 تقسيم 4 يساوي 3 والمتبقي هو 3." },
+            { type: "mcq", question: "12. Which statement correctly describes std::endl compared to \\n?", options: ["Both only move to next line", "std::endl creates a newline and flushes the output buffer", "std::endl is faster", "\\n flushes buffer"], answer: 1, explanation: "<strong>التحليل:</strong> الميزّة في std::endl أنها تُجبر النظام على تفريغ البافر (Flush) فوراً وإظهار النص على الشاشة." },
+            { type: "mcq", question: "13. What is the evaluation result of the C++ expression 2 + 3 * 4?", options: ["20", "14", "24", "10"], answer: 1, explanation: "<strong>التحليل:</strong> أولوية الضرب أولاً: 3 * 4 = 12 ثم إضافة 2 فيصبح الناتج 14." },
+            { type: "mcq", question: "14. Which symbol is known as the statement terminator in C++?", options: ["Period (.)", "Semicolon (;)", "Colon (:)", "Comma (,)"], answer: 1, explanation: "<strong>التحليل:</strong> الفاصلة المنقوطة ; هي التي تُنهي معظم الجمل البرمجية." },
+            { type: "mcq", question: "15. What will the computer do when executing std::cin >> number1;?", options: ["Displays number1", "Pauses execution and waits for user input from keyboard", "Assigns 0", "Compiles code"], answer: 1, explanation: "<strong>التحليل:</strong> ينتظر البرنامج إدخال المستخدم من لوحة المفاتيح ويضغط Enter." },
+            { type: "mcq", question: "16. Which operator has the lowest precedence in C++ arithmetic expressions?", options: ["*", "+", "= (Assignment)", "%"], answer: 2, explanation: "<strong>التحليل:</strong> معامل المساواة والتخزين = ينفذ في نهاية المعاملات الحسابية." },
+            { type: "mcq", question: "17. What is an uninitialized variable's initial value in standard C++?", options: ["Always 0", "Undefined / Garbage value from memory", "1", "NULL"], answer: 1, explanation: "<strong>التحليل:</strong> المتغير بدون قيمة أولية يحمل قيم عشوائية غير متوقعة (Garbage Value)." },
+            { type: "mcq", question: "18. Which header file must be included to use std::cin and std::cout?", options: ["<cmath>", "<iostream>", "<string>", "<conio.h>"], answer: 1, explanation: "<strong>التحليل:</strong> المكتبة القياسية للإدخال والإخراج هي <iostream>." },
+            { type: "mcq", question: "19. Which of the following is an invalid C++ identifier?", options: ["_Value", "1Value", "Value_1", "value"], answer: 1, explanation: "<strong>التحليل:</strong> غير مقبول البدء برقم (1Value)." },
+            { type: "mcq", question: "20. What is the result of std::cout << 7 / 2.0;?", options: ["3", "3.5", "3.0", "Error"], answer: 1, explanation: "<strong>التحليل:</strong> قسمة عدد صحيح على عدد عشري float/double تنتج عدداً عشرياً حقيقياً 3.5." },
+
+            // --- 10 True / False ---
+            { type: "tf", question: "31. Every C++ program can contain multiple main() functions.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> يجب وجود دالة main واحدة فقط في البرنامج." },
+            { type: "tf", question: "32. The preprocessor directive #include <iostream> ends with a semicolon ;.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> أوامر المعالج المسبق التي تبدأ بـ # لا تُنهى بفاصلة منقوطة." },
+            { type: "tf", question: "33. Reading a value from a memory variable is a nondestructive operation.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> قراءة القيمة من الذاكرة لا يغيرها ولا يمسحها." },
+            { type: "tf", question: "34. Identifiers Total_Sum and total_sum represent the exact same variable in C++.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> لغة C++ حساسة لحالة الأحرف (Case-sensitive)." },
+            { type: "tf", question: "35. The C++ expression x^2 evaluates x raised to the power of 2.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> الرمز ^ ليس معُامل أسسي في C++ وتُكتب x * x." },
+            { type: "tf", question: "36. Redundant parentheses in arithmetic expressions cause compilation errors.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> الأقواس الإضافية مسموحة لتوضيح الترتيب وتسهيل القراءة." },
+            { type: "tf", question: "37. The modulus operator % can yield remainders for floating-point values like 7.5 % 2.1.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> % يشتغل فقط مع الأعداد الصحيحة int." },
+            { type: "tf", question: "38. Single-line comments starting with // are translated into machine code by the compiler.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> الكومبايلر يتجاهل التعليقات تماماً ولا يترجمها." },
+
+            // --- 10 Essay Questions ---
+            { type: "essay", question: "41. What is the role of the C++ preprocessor and directives starting with #?", keywords: ["before", "compil", "header", "include", "مكتب", "قبل", "تجميع"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> ينفذ الأوامر قبل بدء التجميع المباشر لإدراج مكتبات مثل <iostream>." },
+            { type: "essay", question: "42. Explain the difference between destructive and nondestructive memory operations.", keywords: ["overwrite", "erase", "read", "change", "مسح", "قراءة", "تغيير"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> كتابة قيمة جديدة يمسح القيمة السابقة (Destructive)، أما قراءة البيانات فلا يغيرها (Nondestructive)." },
+            { type: "essay", question: "43. Why does integer division in C++ discard fractional parts without rounding? Give an example.", keywords: ["integer", "truncat", "7", "2", "3", "كسر", "إهمال", "صحيح"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> قسمة أعداد صحيحة تنتج عدداً صحيحاً ويتم تجاهل الكسر، مثل 7/2 تعطي 3." },
+            { type: "essay", question: "44. State three rules for naming valid identifiers (variables) in C++.", keywords: ["letter", "digit", "underscore", "start", "keyword", "حرف", "رقم", "شخط"], explanation: "<strong>الإجابة النموذجية والتحليل:</strong> تتكون من حروف وأرقام و_، ألا تبدأ برقم، وألا تكون كلمة محجوزة." },
+
+            // --- 10 Code Tracing / Fixing ---
+            { type: "essay", question: "51. Trace the output of this code segment: int a = 1, b = 2, c; c = (a == b); std::cout << c;", keywords: ["0"], explanation: "<strong>الإجابة النموذجية:</strong> المخرج هو 0 لأن شرط المساواة 1 == 2 خاطئ." },
+            { type: "essay", question: "52. Evaluate the variable sum after execution: int a = 4, b = 6; int sum = a + b * 2;", keywords: ["16"], explanation: "<strong>الإجابة النموذجية:</strong> المخرج هو 16 لأن الضرب ينفذ أولاً (6*2=12 ثم +4)." },
+            { type: "essay", question: "53. Trace the output: std::cout << 17 % 4;", keywords: ["1"], explanation: "<strong>الإجابة النموذجية:</strong> الناتج هو 1 لأن باقي قسمة 17 على 4 هو 1." },
+            { type: "essay", question: "54. Trace output: std::cout << 5 + 2 * 3 - 4 / 2;", keywords: ["9"], explanation: "<strong>الإجابة النموذجية:</strong> الناتج هو 9 (2*3=6، 4/2=2، 5+6-2 = 9)." }
+        ];
+
+        let selectedQuiz = 1;
+        let questions = [];
         let currentIdx = 0;
         let score = 0;
-        let userAnswers = new Array(questions.length).fill(null);
+        let userAnswers = [];
         let timerInterval = null;
         let secondsElapsed = 0;
 
-        function showConfirmModal() {
+        function showConfirmModal(quizNum) {
+            selectedQuiz = quizNum;
+            document.getElementById('modal-quiz-title').innerText = quizNum === 1 
+                ? "هل أنت جاهز لبدء كويز المحاضرة الأولى؟" 
+                : "هل أنت جاهز لبدء كويز المحاضرة الثانية؟";
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
 
@@ -397,10 +403,19 @@
 
         function startQuiz() {
             hideConfirmModal();
+            
+            // Set Quiz Data
+            questions = (selectedQuiz === 1) ? quiz1Questions : quiz2Questions;
+            currentIdx = 0;
+            score = 0;
+            userAnswers = new Array(questions.length).fill(null);
+            secondsElapsed = 0;
+
             document.getElementById('start-card').classList.add('hidden');
             document.getElementById('quiz-interface').classList.remove('hidden');
             
             // Start Timer
+            if(timerInterval) clearInterval(timerInterval);
             timerInterval = setInterval(() => {
                 secondsElapsed++;
                 let mins = Math.floor(secondsElapsed / 60).toString().padStart(2, '0');
@@ -421,7 +436,7 @@
             const typeBadge = document.getElementById('question-type');
             if(q.type === 'mcq') typeBadge.innerText = "اختيار من متعدد";
             else if(q.type === 'tf') typeBadge.innerText = "صح أم خطأ";
-            else typeBadge.innerText = "سؤال مقالي مفهوماتي";
+            else typeBadge.innerText = "سؤال مقالي / تتبع كود";
 
             // Reset Containers
             const optionsDiv = document.getElementById('options-container');
@@ -492,9 +507,9 @@
             if(!text) return alert('برجاء كتابة إجابة قصيرة أولاً!');
 
             const q = questions[currentIdx];
-            // Flexible match: if student mentions at least 1-2 keywords
+            // Flexible match using keywords
             const matched = q.keywords.filter(kw => text.includes(kw));
-            const isCorrect = matched.length >= 1; // Flexible passing condition
+            const isCorrect = matched.length >= 1;
 
             if(isCorrect) score++;
             userAnswers[currentIdx] = { text: text, isCorrect: isCorrect };
