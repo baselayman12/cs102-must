@@ -6,13 +6,13 @@
     
     <!-- Open Graph / Social Media Preview -->
     <meta property="og:title" content="CS 102 - MUST IT Educational Portal">
-    <meta property="og:description" content="المنصة التعليمية الشاملة لمادة CS 102 (OOP) - كلية تكنولوجيا المعلومات">
+    <meta property="og:description" content="المنصة التعليمية الشاملة لمادة CS 102 (OOP) - كلية تكنولوجيا المعلومات جامعة مصر للعلوم والتكنولوجيا">
     <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
     <meta property="og:type" content="website">
 
     <title>CS 102 - MUST IT</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -20,14 +20,21 @@
     <!-- Header / Navbar -->
     <header class="navbar">
         <div class="container nav-container">
-            <div class="logo-area">
+            <a href="index.html" class="logo-area">
                 <img src="images.png" alt="MUST Logo" class="university-logo">
                 <div class="brand-divider"></div>
                 <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
                     <span class="cs-title">IT Department</span>
                 </div>
-            </div>
+            </a>
+
+            <!-- Mobile Hamburger Button -->
+            <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
             <nav class="nav-links">
                 <a href="index.html" class="active"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
@@ -39,101 +46,115 @@
         </div>
     </header>
 
-    <!-- Hero Section الأصلي بتاعك -->
-    <section class="hero-section" style="padding: 60px 0 40px; text-align: center;">
+    <!-- Hero Section -->
+    <section class="hero-section">
         <div class="container">
-            <div style="display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.3); color: var(--must-green); padding: 6px 18px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; margin-bottom: 20px;">
-                كلية تكنولوجيا المعلومات - جامعة MUST
+            <div class="hero-badge-tag">
+                <i class="fas fa-university"></i> كلية تكنولوجيا المعلومات - جامعة MUST
             </div>
-            <h1 class="hero-title" style="font-size: 3rem; font-weight: 900; margin-bottom: 15px; line-height: 1.2;">
-                بوابتك الذكية لاحتراف مادة <span style="color: var(--must-green);">CS 102</span>
+            <h1 class="hero-title">
+                بوابتك الذكية لاحتراف مادة <span>CS 102</span>
             </h1>
-            <p class="hero-subtitle" style="font-size: 1.1rem; color: var(--text-sub); max-width: 650px; margin: 0 auto 30px; line-height: 1.8;">
-                منصة تعليمية متكاملة لدفعة أولى IT. ملخصات أسبوعية، حلول شيتات نموذجية، واختبارات تفاعلية، بتصميم عصري يفتح النفس على المذاكرة.
+            <p class="hero-subtitle">
+                منصة تعليمية متكاملة لدفعة أولى IT. ملخصات أسبوعية، حلول شيتات نموذجية، واختبارات تفاعلية بتصميم عصري يفتح النفس على المذاكرة.
             </p>
-            <div style="display: flex; gap: 15px; justify-content: center; flex-wrap: wrap;">
-                <a href="lectures.html" class="btn btn-glow"><i class="fas fa-arrow-left"></i> استكشف المحاضرات</a>
-                <a href="basics.html" class="btn btn-outline">أساسيات C++</a>
+            <div class="hero-btns">
+                <a href="lectures.html" class="btn btn-glow"><i class="fas fa-book-open"></i> استكشف المحاضرات</a>
+                <a href="basics.html" class="btn btn-secondary"><i class="fas fa-code"></i> أساسيات C++</a>
             </div>
         </div>
     </section>
 
-    <!-- Platform Sections / استكشف أقسام المنصة -->
-    <section class="container" style="padding-bottom: 80px;">
-        <h2 class="section-title" style="text-align: center; margin-bottom: 40px; font-size: 2.2rem; font-weight: 800;">
+    <!-- Platform Sections Grid -->
+    <section class="container" style="padding-bottom: 70px;">
+        <h2 class="section-title">
             استكشف أقسام المنصة
         </h2>
+        <p class="section-subtitle">
+            كل ما تحتاجه للتميز في المادة من مصادر معتمدة وتطبيقات عملية مجمعة في مكان واحد.
+        </p>
         
         <div class="cards-grid">
             <!-- 1. المحاضرات والملخصات -->
             <div class="card glass-card">
                 <div class="card-icon"><i class="fas fa-graduation-cap"></i></div>
                 <h3>قسم المحاضرات والملخصات</h3>
-                <p>هتلاقي هنا ملخص سريع وفهمان لكل محاضرة، مع الـ PDFs والأكواد اللي الدكتور كتبها جاهزة للتطبيق.</p>
-                <div style="margin-top: 20px;">
-                    <a href="lectures.html" class="btn btn-outline" style="width: 100%; text-align: center;">فتح المحاضرات</a>
-                </div>
+                <p>هتلاقي هنا ملخص سريع وفهمان لكل محاضرة، مع الـ PDFs والأكواد اللي الدكتور كتبها جاهزة للتطبيق الفوري.</p>
+                <a href="lectures.html" class="btn btn-outline" style="width: 100%;">فتح المحاضرات <i class="fas fa-arrow-left"></i></a>
             </div>
 
             <!-- 2. الكويزات والامتحانات -->
             <div class="card glass-card">
                 <div class="card-icon"><i class="fas fa-flask"></i></div>
                 <h3>بنك الكويزات والامتحانات</h3>
-                <p>جهز نفسك للميدتيرم والفاينل مع أسئلة امتحانات سابقة وشيتات مجابة بالكامل أسبوعياً.</p>
-                <div style="margin-top: 20px;">
-                    <a href="quizzes.html" class="btn btn-outline" style="width: 100%; text-align: center;">فتح الكويزات</a>
-                </div>
+                <p>جهز نفسك للميدتيرم والفاينل مع أسئلة امتحانات سابقة وشيتات مجابة بالكامل أسبوعياً مع تحليل الإجابات.</p>
+                <a href="quizzes.html" class="btn btn-outline" style="width: 100%;">فتح الكويزات <i class="fas fa-arrow-left"></i></a>
             </div>
 
             <!-- 3. مرجع الأساسيات -->
             <div class="card glass-card">
                 <div class="card-icon"><i class="fas fa-database"></i></div>
                 <h3>مرجع أساسيات C++</h3>
-                <p>لو واقع في الـ Syntax أو محتاج تراجع على الـ Pointers والـ OOP، القسم ده معمول عشانك.</p>
-                <div style="margin-top: 20px;">
-                    <a href="basics.html" class="btn btn-outline" style="width: 100%; text-align: center;">عرض المرجع</a>
-                </div>
+                <p>لو واقع في الـ Syntax أو محتاج تراجع على الـ Pointers والـ OOP والـ Arrays، القسم ده معمول عشانك.</p>
+                <a href="basics.html" class="btn btn-outline" style="width: 100%;">عرض المرجع <i class="fas fa-arrow-left"></i></a>
             </div>
 
-            <!-- 4. تنبيهات الدكتور (الكارت المضاف) -->
+            <!-- 4. تنبيهات الدكتور -->
             <div class="card glass-card">
                 <div class="card-icon"><i class="fas fa-bullhorn"></i></div>
                 <h3>تنبيهات وملاحظات الدكتور</h3>
-                <p>تابع أهم الأخبار الرسمية والنقاط الهامة الموصى بها مباشرة في المحاضرات والسكاشن.</p>
-                <div style="margin-top: 20px;">
-                    <a href="announcements.html" class="btn btn-outline" style="width: 100%; text-align: center;">عرض التنبيهات</a>
+                <p>تابع أهم الأخبار الرسمية والنقاط الهامة الموصى بها مباشرة في المحاضرات والسكاشن أولاً بأول.</p>
+                <a href="announcements.html" class="btn btn-outline" style="width: 100%;">عرض التنبيهات <i class="fas fa-arrow-left"></i></a>
             </div>
-        </div>
 
             <!-- 5. منصة البرمجة والتحليل الذكي -->
             <div class="card glass-card">
                 <div class="card-icon"><i class="fas fa-terminal"></i></div>
                 <h3>منصة البرمجة والتحليل الذكي</h3>
-                <p>اكتب واختبر أكواد C++ مباشرة، مع تحليل آلي لكودك لتصحيح الأخطاء وشرح الناتج.</p>
-                <div style="margin-top: 20px;">
-                    <a href="compiler.html" class="btn btn-outline" style="width: 100%; text-align: center;">تجربة المحرر</a>
+                <p>اكتب واختبر أكواد C++ مباشرة، مع تحليل آلي لكودك لتصحيح الأخطاء ومساعد ذكي لشرح الأكواد.</p>
+                <a href="compiler.html" class="btn btn-outline" style="width: 100%;">تجربة المحرر <i class="fas fa-arrow-left"></i></a>
+            </div>  
+        </div>
+
+        <!-- Terminal Box -->
+        <div class="terminal-box">
+            <div class="terminal-header">
+                <span class="dot red"></span>
+                <span class="dot yellow"></span>
+                <span class="dot green"></span>
+                <span class="file-name">quick_start.cpp</span>
             </div>
-        </div>  
-    </div>
-        <!-- Terminal Box الأصلي بتاعك -->
-        <div class="terminal-box" style="margin-top: 50px; background: #090d16; border: 1px solid var(--border-glass); border-radius: 12px; padding: 20px; text-align: left; direction: ltr;">
-            <div style="display: flex; gap: 8px; margin-bottom: 15px;">
-                <span style="width: 12px; height: 12px; background: #ef4444; border-radius: 50%;"></span>
-                <span style="width: 12px; height: 12px; background: #f59e0b; border-radius: 50%;"></span>
-                <span style="width: 12px; height: 12px; background: #10b981; border-radius: 50%;"></span>
-                <span style="color: var(--text-sub); font-size: 0.8rem; margin-left: 10px; font-family: monospace;">quick_start.cpp</span>
-            </div>
-            <pre style="color: #f8fafc; font-family: monospace; font-size: 0.9rem; line-height: 1.6;">
-<span style="color: #ef4444;">#include</span> <span style="color: #10b981;">&lt;iostream&gt;</span>
+            <pre><code><span style="color: #ef4444;">#include</span> <span style="color: #10b981;">&lt;iostream&gt;</span>
 <span style="color: #f59e0b;">using namespace</span> std;
 
 <span style="color: #3b82f6;">int</span> <span style="color: #10b981;">main</span>() {
     <span style="color: #64748b;">// أهلاً بكم في المنصة التعليمية لدفعة IT CS 102</span>
-    cout &lt;&lt; <span style="color: #10b981;">"Welcome to the Educational Portal!"</span> &lt;&lt; endl;
+    cout &lt;&lt; <span style="color: #10b981;">"Welcome to CS 102 MUST Educational Portal!"</span> &lt;&lt; endl;
     <span style="color: #f59e0b;">return</span> <span style="color: #3b82f6;">0</span>;
-}</pre>
+}</code></pre>
         </div>
     </section>
+
+    <!-- Unified Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images.png" alt="MUST Logo" class="footer-logo">
+                <span class="footer-brand-text">CS 102 - MUST IT Educational Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات والملخصات</a>
+                <a href="quizzes.html">بنك الكويزات</a>
+                <a href="basics.html">أساسيات C++</a>
+                <a href="announcements.html">التنبيهات</a>
+                <a href="compiler.html">منصة البرمجة</a>
+            </div>
+            <p class="footer-copy">
+                مبادرة طلابية تعليمية لدعم طلاب كلية تكنولوجيا المعلومات - جامعة مصر للعلوم والتكنولوجيا (MUST) © 2026
+            </p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>

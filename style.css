@@ -1,80 +1,136 @@
-/* الألوان والخطوط الأساسية لـ MUST */
+/* ==========================================================================
+   CS 102 - MUST IT Educational Portal Design System
+   Modern, Sleek, Academic Dark Glassmorphism
+   ========================================================================== */
+
 :root {
+    /* MUST University Brand Identity */
     --must-blue: #002b66;
     --must-green: #00a859;
+    --must-green-glow: rgba(0, 168, 89, 0.25);
     --must-accent: #2563eb;
-    --bg-dark: #070a12;
-    --card-bg: rgba(21, 29, 42, 0.6);
+    --must-accent-light: #60a5fa;
+    --must-cyan: #06b6d4;
+
+    /* Theme & Backgrounds */
+    --bg-dark: #070a13;
+    --bg-surface: #0c111d;
+    --card-bg: rgba(18, 25, 40, 0.65);
+    --card-bg-hover: rgba(26, 36, 56, 0.8);
     --card-border: rgba(255, 255, 255, 0.08);
+    --card-border-hover: rgba(96, 165, 250, 0.35);
+
+    /* Typography & Hierarchy */
     --text-main: #f8fafc;
-    --text-sub: #9ca3af;
-    --font-family: 'Cairo', sans-serif;
+    --text-sub: #94a3b8;
+    --text-muted: #64748b;
+    --font-family: 'Cairo', system-ui, -apple-system, sans-serif;
+    --font-code: 'Fira Code', 'Consolas', monospace;
+
+    /* Shadows & Transitions */
+    --shadow-sm: 0 4px 12px rgba(0, 0, 0, 0.25);
+    --shadow-md: 0 10px 30px rgba(0, 0, 0, 0.35);
+    --shadow-glow: 0 0 25px rgba(37, 99, 235, 0.25);
+    --transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* تهيئة الصفحة */
-* {
+/* Base Reset & Core Setup */
+*, *::before, *::after {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
     background-color: var(--bg-dark);
     color: var(--text-main);
     font-family: var(--font-family);
-    line-height: 1.6;
+    line-height: 1.7;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
     overflow-x: hidden;
-    /* خلفية متدرجة خفيفة */
     background-image: 
-        radial-gradient(at 10% 10%, rgba(0, 43, 102, 0.2) 0px, transparent 50%),
-        radial-gradient(at 90% 90%, rgba(0, 168, 89, 0.1) 0px, transparent 50%);
+        radial-gradient(at 15% 15%, rgba(0, 43, 102, 0.25) 0px, transparent 45%),
+        radial-gradient(at 85% 85%, rgba(0, 168, 89, 0.15) 0px, transparent 45%);
+    background-attachment: fixed;
 }
 
+/* Accessibility Focus States */
+:focus-visible {
+    outline: 2px solid var(--must-accent-light);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* Main Container */
 .container {
     width: 90%;
     max-width: 1200px;
     margin: 0 auto;
 }
 
-/* --- الهيدر الزجاجي الرهيب (Glassmorphism) --- */
+/* ==========================================================================
+   Header & Responsive Navbar
+   ========================================================================== */
 .navbar {
-    background: rgba(7, 10, 18, 0.8);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    background: rgba(7, 10, 19, 0.85);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
     border-bottom: 1px solid var(--card-border);
     position: sticky;
     top: 0;
     z-index: 1000;
     padding: 12px 0;
+    transition: var(--transition);
 }
 
 .nav-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    position: relative;
 }
 
 .logo-area {
     display: flex;
     align-items: center;
     gap: 15px;
+    text-decoration: none;
+    color: inherit;
 }
 
 .university-logo {
-    height: 50px;
+    height: 48px;
     width: auto;
-    filter: drop-shadow(0 0 10px rgba(0, 168, 89, 0.3));
+    filter: drop-shadow(0 0 12px rgba(0, 168, 89, 0.35));
+    transition: transform 0.3s ease;
+}
+
+.logo-area:hover .university-logo {
+    transform: scale(1.04);
 }
 
 .brand-divider {
     width: 2px;
-    height: 35px;
+    height: 34px;
     background: linear-gradient(180deg, var(--must-blue), var(--must-green));
+    border-radius: 2px;
+}
+
+.cs-badge {
+    display: flex;
+    flex-direction: column;
 }
 
 .cs-badge .cs-code {
     font-weight: 900;
-    font-size: 1.2rem;
+    font-size: 1.25rem;
+    line-height: 1.2;
     background: linear-gradient(90deg, #60a5fa, #34d399);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
@@ -84,201 +140,375 @@ body {
     font-size: 0.75rem;
     color: var(--text-sub);
     font-weight: 600;
+    letter-spacing: 0.5px;
 }
 
+/* Navigation Links */
 .nav-links {
     display: flex;
-    gap: 10px;
+    gap: 8px;
+    align-items: center;
 }
 
 .nav-links a {
     color: var(--text-sub);
     text-decoration: none;
     font-weight: 700;
-    padding: 10px 18px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
+    font-size: 0.95rem;
+    padding: 8px 16px;
+    border-radius: 10px;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid transparent;
 }
 
-.nav-links a:hover, .nav-links a.active {
+.nav-links a i {
+    font-size: 0.9rem;
+    transition: transform 0.25s ease;
+}
+
+.nav-links a:hover {
     color: #fff;
     background: rgba(255, 255, 255, 0.06);
+    border-color: rgba(255, 255, 255, 0.08);
 }
 
-/* --- قسم الـ Hero والأنيميشن الترحيبي --- */
+.nav-links a:hover i {
+    transform: translateY(-1px);
+}
+
+.nav-links a.active {
+    color: #fff;
+    background: rgba(37, 99, 235, 0.15);
+    border-color: rgba(59, 130, 246, 0.35);
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.15);
+}
+
+/* Mobile Hamburger Toggle Button */
+.mobile-menu-btn {
+    display: none;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--card-border);
+    color: var(--text-main);
+    font-size: 1.25rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 10px;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    padding: 0;
+}
+
+.mobile-menu-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--must-green);
+    border-color: var(--must-green);
+}
+
+.mobile-menu-btn:active {
+    transform: scale(0.95);
+}
+
+/* Mobile Navbar Styles (< 860px) */
+@media (max-width: 860px) {
+    .mobile-menu-btn {
+        display: flex;
+    }
+
+    .nav-links {
+        position: fixed;
+        top: 68px;
+        right: 0;
+        left: 0;
+        background: rgba(8, 12, 22, 0.98);
+        backdrop-filter: blur(25px);
+        -webkit-backdrop-filter: blur(25px);
+        flex-direction: column;
+        padding: 16px 20px 24px;
+        gap: 8px;
+        border-bottom: 1px solid var(--card-border);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+        max-height: 0;
+        overflow: hidden;
+        opacity: 0;
+        visibility: hidden;
+        transition: max-height 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease, visibility 0.3s ease;
+        z-index: 999;
+    }
+
+    .nav-links.active {
+        max-height: 450px;
+        opacity: 1;
+        visibility: visible;
+    }
+
+    .nav-links a {
+        width: 100%;
+        padding: 12px 18px;
+        font-size: 1rem;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        justify-content: flex-start;
+    }
+}
+
+/* ==========================================================================
+   Hero Section
+   ========================================================================== */
 .hero-section {
-    padding: 120px 0 80px;
+    padding: 70px 0 50px;
     text-align: center;
     position: relative;
 }
 
 .hero-badge-tag {
-    display: inline-block;
-    padding: 6px 16px;
-    background: rgba(0, 168, 89, 0.15);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    background: rgba(16, 185, 129, 0.12);
     color: var(--must-green);
-    border: 1px solid var(--must-green);
+    border: 1px solid rgba(16, 185, 129, 0.3);
     border-radius: 30px;
-    font-size: 0.85rem;
+    font-size: 0.9rem;
     font-weight: 700;
-    margin-bottom: 25px;
-    animation: fadeInUp 0.8s ease backwards;
+    margin-bottom: 22px;
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.15);
 }
 
 .hero-title {
-    font-size: 3.5rem;
+    font-size: 3.2rem;
     font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    animation: fadeInUp 1s ease 0.2s backwards;
+    line-height: 1.25;
+    margin-bottom: 18px;
+    letter-spacing: -0.5px;
 }
 
 .hero-title span {
-    background: linear-gradient(135deg, #3b82f6, #10b981);
+    background: linear-gradient(135deg, #60a5fa, #34d399);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    text-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
 }
 
-.hero-desc {
+.hero-subtitle {
+    font-size: 1.15rem;
     color: var(--text-sub);
-    font-size: 1.2rem;
-    max-width: 750px;
-    margin: 0 auto 40px;
-    animation: fadeInUp 1s ease 0.4s backwards;
+    max-width: 680px;
+    margin: 0 auto 32px;
+    line-height: 1.8;
 }
 
 .hero-btns {
     display: flex;
     justify-content: center;
-    gap: 20px;
-    animation: fadeInUp 1s ease 0.6s backwards;
+    gap: 16px;
+    flex-wrap: wrap;
 }
 
-/* --- الزراير الشيك --- */
+/* ==========================================================================
+   Buttons
+   ========================================================================== */
 .btn {
     display: inline-flex;
     align-items: center;
+    justify-content: center;
     gap: 10px;
-    padding: 14px 32px;
+    padding: 13px 28px;
     border-radius: 12px;
     font-weight: 700;
+    font-size: 0.98rem;
     text-decoration: none;
-    transition: all 0.3s ease;
-    font-size: 1rem;
+    transition: var(--transition);
     cursor: pointer;
+    font-family: var(--font-family);
+    border: 1px solid transparent;
 }
 
 .btn-glow {
-    background: linear-gradient(135deg, var(--must-blue), #2563eb);
+    background: linear-gradient(135deg, #1e40af, #2563eb);
     color: #fff;
-    box-shadow: 0 0 20px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 4px 18px rgba(37, 99, 235, 0.35);
 }
 
 .btn-glow:hover {
-    box-shadow: 0 0 30px rgba(37, 99, 235, 0.7);
-    transform: translateY(-3px);
+    background: linear-gradient(135deg, #2563eb, #3b82f6);
+    box-shadow: 0 6px 25px rgba(37, 99, 235, 0.6);
+    transform: translateY(-2px);
+    color: #fff;
 }
 
 .btn-secondary {
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.07);
     color: var(--text-main);
+    border-color: rgba(255, 255, 255, 0.12);
 }
 
 .btn-secondary:hover {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.13);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
 }
 
 .btn-outline {
-    background: transparent;
+    background: rgba(255, 255, 255, 0.03);
     border: 1px solid var(--card-border);
     color: var(--text-sub);
-    width: 100%;
-    margin-top: auto;
 }
 
 .btn-outline:hover {
     border-color: var(--must-green);
-    color: var(--must-green);
-    background: rgba(0, 168, 89, 0.05);
+    color: #34d399;
+    background: rgba(16, 185, 129, 0.08);
+    transform: translateY(-2px);
 }
 
-/* --- الكروت الزجاجية (Glass Cards) بالأنيميشن --- */
-section { padding: 80px 0; }
-
+/* ==========================================================================
+   Section Title & Cards Grid (Glassmorphism)
+   ========================================================================== */
 .section-title {
     text-align: center;
-    font-size: 2.2rem;
-    margin-bottom: 50px;
+    font-size: 2.3rem;
+    margin-bottom: 35px;
     font-weight: 800;
+    letter-spacing: -0.5px;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-sub);
+    font-size: 1.05rem;
+    max-width: 650px;
+    margin: -20px auto 40px;
 }
 
 .cards-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: 30px;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 25px;
 }
 
 .glass-card {
     background: var(--card-bg);
     border: 1px solid var(--card-border);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    padding: 40px;
-    border-radius: 20px;
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    padding: 32px 28px;
+    border-radius: 18px;
+    transition: var(--transition);
     display: flex;
     flex-direction: column;
+    box-shadow: var(--shadow-sm);
+    position: relative;
 }
 
 .glass-card:hover {
-    transform: translateY(-10px) scale(1.02);
-    border-color: rgba(59, 130, 246, 0.4);
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    background: var(--card-bg-hover);
+    border-color: var(--card-border-hover);
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(59, 130, 246, 0.15);
 }
 
 .card-icon {
-    font-size: 2.5rem;
-    color: var(--must-accent);
-    margin-bottom: 20px;
+    font-size: 2.4rem;
+    color: var(--must-accent-light);
+    margin-bottom: 18px;
+    display: inline-block;
+    transition: transform 0.3s ease;
+}
+
+.glass-card:hover .card-icon {
+    transform: scale(1.08);
 }
 
 .glass-card h3 {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     margin-bottom: 12px;
     font-weight: 700;
+    color: #fff;
 }
 
 .glass-card p {
     color: var(--text-sub);
-    font-size: 1rem;
-    margin-bottom: 30px;
+    font-size: 0.98rem;
+    line-height: 1.7;
+    margin-bottom: 22px;
     flex-grow: 1;
 }
 
-/* --- الترمينال الحركي (typing box) --- */
-.terminal-box {
-    background: #030712;
+/* ==========================================================================
+   Search Bar (Lectures & Content Filter)
+   ========================================================================== */
+.search-wrapper {
+    max-width: 580px;
+    margin: 0 auto 38px;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 13px 48px 13px 20px;
+    background: rgba(18, 25, 40, 0.85);
     border: 1px solid var(--card-border);
-    border-radius: 12px;
+    border-radius: 14px;
+    color: #fff;
+    font-size: 0.98rem;
+    font-family: var(--font-family);
+    outline: none;
+    transition: var(--transition);
+}
+
+.search-input:focus {
+    border-color: var(--must-accent-light);
+    background: rgba(22, 32, 52, 0.95);
+    box-shadow: 0 0 20px rgba(96, 165, 250, 0.25);
+}
+
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+.search-icon {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text-muted);
+    font-size: 1.05rem;
+    pointer-events: none;
+}
+
+/* ==========================================================================
+   Terminal & Code Block
+   ========================================================================== */
+.terminal-box {
+    background: #050811;
+    border: 1px solid var(--card-border);
+    border-radius: 14px;
     overflow: hidden;
     direction: ltr;
-    max-width: 700px;
-    margin: 0 auto;
+    text-align: left;
+    max-width: 720px;
+    margin: 45px auto 0;
+    box-shadow: var(--shadow-md);
+    position: relative;
 }
 
 .terminal-header {
-    background: #111827;
-    padding: 10px 15px;
+    background: #0f1524;
+    padding: 10px 16px;
     border-bottom: 1px solid var(--card-border);
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
 }
 
 .dot {
-    width: 12px;
-    height: 12px;
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
 }
 .red { background: #ef4444; }
@@ -286,66 +516,243 @@ section { padding: 80px 0; }
 .green { background: #10b981; }
 
 .file-name {
-    color: var(--text-sub);
-    font-family: monospace;
-    font-size: 0.85rem;
-    margin-left: 10px;
+    color: var(--text-muted);
+    font-family: var(--font-code);
+    font-size: 0.82rem;
+    margin-left: 8px;
 }
 
 .terminal-box pre {
-    padding: 25px;
-    font-family: 'Consolas', 'Courier New', monospace;
-    font-size: 1rem;
+    padding: 22px;
+    font-family: var(--font-code);
+    font-size: 0.92rem;
+    line-height: 1.65;
     color: #e2e8f0;
+    overflow-x: auto;
 }
 
-.keyword { color: #f43f5e; }
-.string { color: #10b981; }
-.func { color: #60a5fa; }
-.type { color: #a78bfa; }
-.comment { color: #6b7280; }
+/* Copy Code Button */
+.copy-code-btn {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: #e2e8f0;
+    border-radius: 6px;
+    padding: 4px 10px;
+    font-size: 0.78rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    transition: var(--transition);
+    font-family: var(--font-family);
+    direction: rtl;
+}
 
-/* --- الفوتر --- */
+.copy-code-btn:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #fff;
+}
+
+.copy-code-btn.copied {
+    background: rgba(16, 185, 129, 0.25);
+    border-color: #10b981;
+    color: #34d399;
+}
+
+/* ==========================================================================
+   Basics & Concept Cards Styling
+   ========================================================================== */
+.basics-container {
+    max-width: 900px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.concept-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--card-border);
+    border-radius: 18px;
+    padding: 30px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.concept-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--card-border-hover);
+    box-shadow: var(--shadow-md), 0 0 20px rgba(56, 189, 248, 0.15);
+}
+
+.concept-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid var(--card-border);
+    padding-bottom: 14px;
+}
+
+.concept-header i {
+    font-size: 1.8rem;
+    color: var(--must-accent-light);
+}
+
+.concept-header h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: #fff;
+}
+
+.code-block {
+    background: #050811;
+    border: 1px solid var(--card-border);
+    border-radius: 12px;
+    padding: 20px;
+    font-family: var(--font-code);
+    color: #e2e8f0;
+    direction: ltr;
+    text-align: left;
+    overflow-x: auto;
+    margin-top: 15px;
+    font-size: 0.92rem;
+    line-height: 1.6;
+    position: relative;
+}
+
+.code-keyword { color: #f472b6; font-weight: bold; }
+.code-type { color: #38bdf8; font-weight: bold; }
+.code-string { color: #4ade80; }
+.code-comment { color: #64748b; font-style: italic; }
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
 footer {
     border-top: 1px solid var(--card-border);
-    padding: 40px 0;
-    text-align: center;
-    background: #030712;
+    padding: 45px 0 25px;
+    background: #04060d;
+    margin-top: auto;
 }
 
-footer p { color: var(--text-sub); margin-bottom: 15px; }
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    text-align: center;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-logo {
+    height: 38px;
+    width: auto;
+    filter: drop-shadow(0 0 8px rgba(0, 168, 89, 0.25));
+}
+
+.footer-brand-text {
+    font-weight: 800;
+    font-size: 1.1rem;
+    color: #fff;
+}
 
 .footer-links {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    flex-wrap: wrap;
+    gap: 22px;
 }
 
 .footer-links a {
     color: var(--text-sub);
     text-decoration: none;
-    font-size: 0.9rem;
-    transition: 0.3s;
+    font-size: 0.92rem;
+    font-weight: 600;
+    transition: var(--transition);
 }
 
 .footer-links a:hover {
     color: var(--must-green);
 }
 
-/* --- الأنيميشن --- */
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
+.footer-copy {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    line-height: 1.6;
+}
+
+/* ==========================================================================
+   Responsive Adjustments
+   ========================================================================== */
+@media (max-width: 768px) {
+    .hero-title {
+        font-size: 2.2rem;
     }
-    to {
-        opacity: 1;
-        transform: translateY(0);
+    .hero-subtitle {
+        font-size: 1rem;
+        padding: 0 10px;
+    }
+    .section-title {
+        font-size: 1.85rem;
+    }
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+    }
+    .glass-card {
+        padding: 24px 20px;
+    }
+    .hero-btns {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin: 0 auto;
+    }
+    .hero-btns .btn {
+        width: 100%;
+    }
+    .terminal-box pre {
+        padding: 16px;
+        font-size: 0.82rem;
+    }
+    .container {
+        width: 92%;
     }
 }
 
-/* Responsive */
-@media (max-width: 768px) {
-    .hero-title { font-size: 2.2rem; }
-    .nav-links { display: none; }
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 1.85rem;
+    }
+    .university-logo {
+        height: 40px;
+    }
+    .cs-badge .cs-code {
+        font-size: 1.1rem;
+    }
+    .cs-badge .cs-title {
+        font-size: 0.7rem;
+    }
+}
+
+/* Respect Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
 }

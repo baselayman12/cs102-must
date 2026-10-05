@@ -164,14 +164,20 @@
 
     <header class="navbar">
         <div class="container nav-container">
-            <div class="logo-area">
+            <a href="index.html" class="logo-area">
                 <img src="images.png" alt="MUST Logo" class="university-logo">
                 <div class="brand-divider"></div>
                 <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
                     <span class="cs-title">IT Department</span>
                 </div>
-            </div>
+            </a>
+
+            <!-- Mobile Hamburger Button -->
+            <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+
             <nav class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
@@ -625,5 +631,28 @@
             document.getElementById('final-time').innerText = `${mins}:${secs}`;
         }
     </script>
+
+    <!-- Unified Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images.png" alt="MUST Logo" class="footer-logo">
+                <span class="footer-brand-text">CS 102 - MUST IT Educational Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات والملخصات</a>
+                <a href="quizzes.html">بنك الكويزات</a>
+                <a href="basics.html">أساسيات C++</a>
+                <a href="announcements.html">التنبيهات</a>
+                <a href="compiler.html">منصة البرمجة</a>
+            </div>
+            <p class="footer-copy">
+                مبادرة طلابية تعليمية لدعم طلاب كلية تكنولوجيا المعلومات - جامعة مصر للعلوم والتكنولوجيا (MUST) © 2026
+            </p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>

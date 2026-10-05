@@ -10,23 +10,31 @@
     <meta property="og:image" content="https://baselayman12.github.io/cs102-must/images.png">
     <meta property="og:type" content="website">
 
-    <title>تنبيهات الدكتور - CS 102</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <title>تنبيهات وملاحظات الدكتور - CS 102</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
+    <!-- Header / Navbar -->
     <header class="navbar">
         <div class="container nav-container">
-            <div class="logo-area">
+            <a href="index.html" class="logo-area">
                 <img src="images.png" alt="MUST Logo" class="university-logo">
                 <div class="brand-divider"></div>
                 <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
                     <span class="cs-title">IT Department</span>
                 </div>
-            </div>
+            </a>
+
+            <!-- Mobile Hamburger Button -->
+            <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
             <nav class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
@@ -38,23 +46,48 @@
         </div>
     </header>
 
-    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 50px; padding-bottom: 80px;">
         <h1 class="section-title">تنبيهات وملاحظات الدكتور</h1>
-        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 50px; font-size: 1.1rem;">
-            المكان الرسمي لمعرفة أهم النقاط والتركيزات الصادرة مباشرة من الدكتور.
+        <p class="section-subtitle">
+            المكان الرسمي لمعرفة أهم النقاط والتوجيهات والتركيزات الصادرة مباشرة من دكاترة المادة والسكاشن.
         </p>
         
         <!-- Empty State Container -->
-        <div class="card glass-card" style="max-width: 700px; margin: 0 auto; padding: 50px 20px; text-align: center;">
-            <div style="font-size: 3.5rem; color: var(--text-sub); opacity: 0.5; margin-bottom: 15px;">
+        <div class="glass-card" style="max-width: 650px; margin: 0 auto; padding: 50px 25px; text-align: center; align-items: center;">
+            <div style="font-size: 3.5rem; color: var(--text-sub); opacity: 0.45; margin-bottom: 18px;">
                 <i class="fas fa-bell-slash"></i>
             </div>
             <h3 style="color: #fff; font-size: 1.4rem; margin-bottom: 10px;">لا توجد تنبيهات جديدة حالياً</h3>
-            <p style="color: var(--text-sub); font-size: 1rem;">
-                سيتم نشر التنبيهات والتعليمات المباشرة فور إعلانها في المحاضرات.
+            <p style="color: var(--text-sub); font-size: 1rem; max-width: 480px; margin-bottom: 25px;">
+                سيتم نشر أي تنبيهات أو توجيهات هامة فور صدورها في المحاضرات أو المعامل الرسمية.
+            </p>
+            <a href="lectures.html" class="btn btn-secondary">
+                <i class="fas fa-book-open"></i> مراجعة المحاضرات والملخصات
+            </a>
+        </div>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images.png" alt="MUST Logo" class="footer-logo">
+                <span class="footer-brand-text">CS 102 - MUST IT Educational Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات والملخصات</a>
+                <a href="quizzes.html">بنك الكويزات</a>
+                <a href="basics.html">أساسيات C++</a>
+                <a href="announcements.html">التنبيهات</a>
+                <a href="compiler.html">منصة البرمجة</a>
+            </div>
+            <p class="footer-copy">
+                مبادرة طلابية تعليمية لدعم طلاب كلية تكنولوجيا المعلومات - جامعة مصر للعلوم والتكنولوجيا (MUST) © 2026
             </p>
         </div>
-    </section>
+    </footer>
 
     <script src="script.js"></script>
 </body>

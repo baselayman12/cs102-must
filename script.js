@@ -1,91 +1,219 @@
-document.addEventListener("DOMContentLoaded", () => {
-    // 1. Scroll Reveal Animation for Cards
-    const observerOptions = {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px"
-    };
+/* ==========================================================================
+   CS 102 - MUST IT Educational Portal Scripts
+   Responsive Menu, Live Search, Safe Interactions & Accessibility
+   ========================================================================== */
 
-    const observer = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
-            if (entry.isIntersecting) {
-                entry.target.style.opacity = "1";
-                entry.target.style.transform = "translateY(0)";
+document.addEventListener("DOMContentLoaded", () => {
+    // ----------------------------------------------------------------------
+    // 1. Mobile Hamburger Menu Toggle
+    // ----------------------------------------------------------------------
+    const mobileMenuBtn = document.querySelector(".mobile-menu-btn");
+    const navLinks = document.querySelector(".nav-links");
+
+    if (mobileMenuBtn && navLinks) {
+        mobileMenuBtn.setAttribute("aria-expanded", "false");
+        mobileMenuBtn.setAttribute("aria-label", "فتح القائمة");
+
+        const toggleMenu = () => {
+            const isOpen = navLinks.classList.toggle("active");
+            mobileMenuBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+            
+            // Switch icon between bars and times (close)
+            const icon = mobileMenuBtn.querySelector("i");
+            if (icon) {
+                if (isOpen) {
+                    icon.classList.remove("fa-bars");
+                    icon.classList.add("fa-xmark");
+                } else {
+                    icon.classList.remove("fa-xmark");
+                    icon.classList.add("fa-bars");
+                }
+            }
+        };
+
+        const closeMenu = () => {
+            if (navLinks.classList.contains("active")) {
+                navLinks.classList.remove("active");
+                mobileMenuBtn.setAttribute("aria-expanded", "false");
+                const icon = mobileMenuBtn.querySelector("i");
+                if (icon) {
+                    icon.classList.remove("fa-xmark");
+                    icon.classList.add("fa-bars");
+                }
+            }
+        };
+
+        mobileMenuBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            toggleMenu();
+        });
+
+        // Close when clicking any nav link
+        navLinks.querySelectorAll("a").forEach(link => {
+            link.addEventListener("click", closeMenu);
+        });
+
+        // Close when clicking outside
+        document.addEventListener("click", (e) => {
+            if (!navLinks.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+                closeMenu();
             }
         });
-    }, observerOptions);
 
-    const cards = document.querySelectorAll(".card");
-    cards.forEach((card, index) => {
-        card.style.opacity = "0";
-        card.style.transform = "translateY(30px)";
-        card.style.transition = `all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275) ${index * 0.1}s`;
-        observer.observe(card);
-    });
-
-    // 2. Interactive 3D Card Hover Effect
-    cards.forEach(card => {
-        card.addEventListener("mousemove", (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = e.clientX - rect.left;
-            const y = e.clientY - rect.top;
-            
-            const centerX = rect.width / 2;
-            const centerY = rect.height / 2;
-            
-            const rotateX = (y - centerY) / 15;
-            const rotateY = (centerX - x) / 15;
-            
-            card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-8px)`;
+        // Close on ESC key
+        document.addEventListener("keydown", (e) => {
+            if (e.key === "Escape") {
+                closeMenu();
+            }
         });
+    }
 
-        card.addEventListener("mouseleave", () => {
-            card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
+    // ----------------------------------------------------------------------
+    // 2. Smooth Scroll Entrance for Cards (Progressive Enhancement)
+    // ----------------------------------------------------------------------
+    const cards = document.querySelectorAll(".card, .glass-card, .concept-card");
+    if ("IntersectionObserver" in window && cards.length > 0) {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1, rootMargin: "0px 0px -40px 0px" });
+
+        cards.forEach((card, index) => {
+            card.style.opacity = "0";
+            card.style.transform = "translateY(20px)";
+            card.style.transition = `opacity 0.5s ease ${Math.min(index * 0.08, 0.4)}s, transform 0.5s ease ${Math.min(index * 0.08, 0.4)}s`;
+            observer.observe(card);
         });
-    });
+    }
 
-    // 3. Typing Effect for C++ Code Terminal (if present)
-    const codeElement = document.querySelector(".code-box code, pre code");
-    if (codeElement) {
-        const fullText = codeElement.innerText;
-        codeElement.innerText = "";
-        let i = 0;
-        
-        function typeWriter() {
-            if (i < fullText.length) {
-                codeElement.innerText += fullText.charAt(i);
-                i++;
-                setTimeout(typeWriter, 15);
+    // ----------------------------------------------------------------------
+    // 3. Subtle 3D Card Tilt (Only on Desktop with Fine Pointers)
+    // ----------------------------------------------------------------------
+    const isFinePointer = window.matchMedia("(hover: hover) and (pointer: fine)").matches;
+    if (isFinePointer) {
+        cards.forEach(card => {
+            card.addEventListener("mousemove", (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left;
+                const y = e.clientY - rect.top;
+                
+                const centerX = rect.width / 2;
+                const centerY = rect.height / 2;
+                
+                const rotateX = ((y - centerY) / centerY) * -5; // Gentle 5deg max
+                const rotateY = ((centerX - x) / centerX) * -5;
+                
+                card.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-5px)`;
+            });
+
+            card.addEventListener("mouseleave", () => {
+                card.style.transform = "perspective(1000px) rotateX(0deg) rotateY(0deg) translateY(0)";
+            });
+        });
+    }
+
+    // ----------------------------------------------------------------------
+    // 4. Live Search Filter for Lectures, Sections & Content
+    // ----------------------------------------------------------------------
+    const searchBar = document.getElementById("searchBar");
+    if (searchBar) {
+        searchBar.addEventListener("input", filterContent);
+    }
+
+    // ----------------------------------------------------------------------
+    // 5. Code Copy Button for Terminal & Code Blocks
+    // ----------------------------------------------------------------------
+    const codeBlocks = document.querySelectorAll(".terminal-box pre, .code-block");
+    codeBlocks.forEach(block => {
+        const parent = block.parentElement;
+        if (!parent) return;
+
+        // Create copy button if not already present
+        if (!parent.querySelector(".copy-code-btn")) {
+            const copyBtn = document.createElement("button");
+            copyBtn.className = "copy-code-btn";
+            copyBtn.innerHTML = '<i class="far fa-copy"></i> <span>نسخ</span>';
+            copyBtn.setAttribute("title", "نسخ الكود");
+            copyBtn.setAttribute("aria-label", "نسخ الكود البرمجي");
+
+            copyBtn.addEventListener("click", async () => {
+                const codeToCopy = block.innerText.trim();
+                try {
+                    await navigator.clipboard.writeText(codeToCopy);
+                    copyBtn.innerHTML = '<i class="fas fa-check"></i> <span>تم النسخ!</span>';
+                    copyBtn.classList.add("copied");
+                    setTimeout(() => {
+                        copyBtn.innerHTML = '<i class="far fa-copy"></i> <span>نسخ</span>';
+                        copyBtn.classList.remove("copied");
+                    }, 2000);
+                } catch (err) {
+                    console.error("Failed to copy code: ", err);
+                }
+            });
+
+            // If terminal-box, insert into header, otherwise append to container
+            const terminalHeader = parent.querySelector(".terminal-header");
+            if (terminalHeader) {
+                copyBtn.style.position = "static";
+                copyBtn.style.marginRight = "auto";
+                terminalHeader.appendChild(copyBtn);
+            } else {
+                parent.style.position = "relative";
+                parent.appendChild(copyBtn);
             }
         }
-        
-        // Trigger typing when section is visible
-        const codeObserver = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
-                typeWriter();
-                codeObserver.disconnect();
-            }
-        }, { threshold: 0.5 });
-        
-        codeObserver.observe(codeElement);
-    }
+    });
 });
 
-// 4. Live Search Filter for Lectures & Quizzes
+// --------------------------------------------------------------------------
+// Global Content Search Function
+// --------------------------------------------------------------------------
 function filterContent() {
     const input = document.getElementById("searchBar");
     if (!input) return;
     
-    const filter = input.value.toLowerCase();
-    const cards = document.querySelectorAll(".cards-grid .card");
+    const filter = input.value.trim().toLowerCase();
+    const cards = document.querySelectorAll(".cards-grid .card, .cards-grid .glass-card");
+    const container = document.querySelector(".cards-grid");
+    
+    let visibleCount = 0;
 
     cards.forEach(card => {
         const title = card.querySelector("h3") ? card.querySelector("h3").innerText.toLowerCase() : "";
         const desc = card.querySelector("p") ? card.querySelector("p").innerText.toLowerCase() : "";
+        const fullContent = card.innerText.toLowerCase();
         
-        if (title.includes(filter) || desc.includes(filter)) {
+        if (!filter || title.includes(filter) || desc.includes(filter) || fullContent.includes(filter)) {
             card.style.display = "flex";
+            visibleCount++;
         } else {
             card.style.display = "none";
         }
     });
+
+    // Handle "No Results" message
+    let noResultsMsg = document.getElementById("no-results-msg");
+    if (visibleCount === 0 && filter !== "") {
+        if (!noResultsMsg && container) {
+            noResultsMsg = document.createElement("div");
+            noResultsMsg.id = "no-results-msg";
+            noResultsMsg.style.gridColumn = "1 / -1";
+            noResultsMsg.style.textAlign = "center";
+            noResultsMsg.style.padding = "40px 20px";
+            noResultsMsg.style.color = "var(--text-sub)";
+            noResultsMsg.innerHTML = `
+                <i class="fas fa-search" style="font-size: 2.5rem; opacity: 0.4; margin-bottom: 12px; display: block;"></i>
+                <h3 style="color: #fff; margin-bottom: 6px;">لا توجد نتائج مطابقة</h3>
+                <p>جرّب البحث بكلمة أخرى مثل: Lecture أو سكشن أو Arrays</p>
+            `;
+            container.appendChild(noResultsMsg);
+        }
+    } else if (noResultsMsg) {
+        noResultsMsg.remove();
+    }
 }

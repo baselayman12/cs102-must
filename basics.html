@@ -11,82 +11,30 @@
     <meta property="og:type" content="website">
 
     <title>أساسيات C++ - CS 102</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        .basics-container {
-            max-width: 900px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 25px;
-        }
-
-        .concept-card {
-            background: rgba(17, 26, 46, 0.85);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 25px;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        .concept-card:hover {
-            transform: translateY(-6px);
-            border-color: rgba(56, 189, 248, 0.4);
-            box-shadow: 0 20px 40px rgba(56, 189, 248, 0.15);
-        }
-
-        .concept-header {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            margin-bottom: 15px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-            padding-bottom: 12px;
-        }
-
-        .concept-header i {
-            font-size: 1.8rem;
-            color: #38bdf8;
-        }
-
-        .code-block {
-            background: rgba(10, 15, 30, 0.95);
-            border: 1px solid rgba(56, 189, 248, 0.2);
-            border-radius: 10px;
-            padding: 15px;
-            font-family: 'Courier New', Courier, monospace;
-            color: #e2e8f0;
-            direction: ltr;
-            text-align: left;
-            overflow-x: auto;
-            margin-top: 12px;
-            font-size: 0.95rem;
-            line-height: 1.5;
-        }
-
-        .code-keyword { color: #f472b6; font-weight: bold; }
-        .code-type { color: #38bdf8; font-weight: bold; }
-        .code-string { color: #4ade80; }
-        .code-comment { color: #64748b; font-style: italic; }
-    </style>
 </head>
 <body>
 
+    <!-- Header / Navbar -->
     <header class="navbar">
         <div class="container nav-container">
-            <div class="logo-area">
+            <a href="index.html" class="logo-area">
                 <img src="images.png" alt="MUST Logo" class="university-logo">
                 <div class="brand-divider"></div>
                 <div class="cs-badge">
                     <span class="cs-code">CS 102</span>
                     <span class="cs-title">IT Department</span>
                 </div>
-            </div>
+            </a>
+
+            <!-- Mobile Hamburger Button -->
+            <button class="mobile-menu-btn" type="button" aria-label="فتح القائمة">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <!-- Navigation Links -->
             <nav class="nav-links">
                 <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
                 <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
@@ -98,10 +46,11 @@
         </div>
     </header>
 
-    <section class="container" style="padding-top: 50px; padding-bottom: 80px;">
+    <!-- Main Content -->
+    <main class="container" style="padding-top: 50px; padding-bottom: 80px;">
         <h1 class="section-title">أساسيات لغة C++ المقررة</h1>
-        <p style="text-align: center; color: var(--text-sub); margin-top: -30px; margin-bottom: 40px;">
-            دليل كامل ومرتب للمفاهيم البرمجية الأساسية المطلوبة هذا الترم مع أمثلة كود مبسطة.
+        <p class="section-subtitle">
+            دليل كامل ومرتب للمفاهيم البرمجية الأساسية المطلوبة هذا الترم مع أمثلة كود مبسطة وشرح عملي.
         </p>
 
         <div class="basics-container">
@@ -112,14 +61,14 @@
                     <i class="fas fa-exchange-alt"></i>
                     <h3>1. الإدخال والإخراج (cin / cout)</h3>
                 </div>
-                <p style="color: var(--text-sub); line-height: 1.7;">
+                <p style="color: var(--text-sub); line-height: 1.8;">
                     أساس التعامل مع المستخدم في C++. نستخدم <bdi>`cout`</bdi> مع المعامل <bdi>`<<`</bdi> لطباعة البيانات، ونستخدم <bdi>`cin`</bdi> مع المعامل <bdi>`>>`</bdi> لاستقبال البيانات وتخزينها في المتغيرات.
                 </p>
                 <div class="code-block">
 <span class="code-type">int</span> age;
-cout << <span class="code-string">"Enter your age: "</span>; <span class="code-comment">// إخراج</span>
-cin >> age;                      <span class="code-comment">// إدخال</span>
-cout << <span class="code-string">"Your age is: "</span> << age;
+cout &lt;&lt; <span class="code-string">"Enter your age: "</span>; <span class="code-comment">// إخراج</span>
+cin &gt;&gt; age;                      <span class="code-comment">// إدخال</span>
+cout &lt;&lt; <span class="code-string">"Your age is: "</span> &lt;&lt; age;
                 </div>
             </div>
 
@@ -129,10 +78,10 @@ cout << <span class="code-string">"Your age is: "</span> << age;
                     <i class="fas fa-plus-circle"></i>
                     <h3>2. المعاملات الحسابية والزيادة (x++, x += 1)</h3>
                 </div>
-                <p style="color: var(--text-sub); line-height: 1.7;">
-                    تُستخدم لزيادة قيمة المتغير، وهناك تكافؤ في المعنى بين الطرق لكن بفرق بسيط في التنفيذ:
+                <p style="color: var(--text-sub); line-height: 1.8;">
+                    تُستخدم لزيادة قيمة المتغير، وهناك تكافؤ في المعنى بين الطرق لكن بفرق بسيط في آلية التنفيذ:
                 </p>
-                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 20px; margin-top: 10px;">
+                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 25px; margin-top: 10px;">
                     <li><bdi><b>x++</b></bdi> أو <bdi><b>x += 1</b></bdi> أو <bdi><b>x = x + 1</b></bdi> : كلها تقوم بزيادة قيمة <bdi>x</bdi> بمقدار 1.</li>
                     <li><b>الفرق بين Post-increment و Compound Assignment:</b>
                         <br>• <bdi>`x++`</bdi> تستخدم قيمة <bdi>x</bdi> الحالية أولاً في السطر ثم تزود 1.
@@ -152,13 +101,13 @@ x += 4;   <span class="code-comment">// x أصبحت 10 (اختصار لـ x = x
                     <i class="fas fa-layer-group"></i>
                     <h3>3. المصفوفات (Arrays)</h3>
                 </div>
-                <p style="color: var(--text-sub); line-height: 1.7;">
-                    طريقة لتخزين مجموعة عناصر متتالية من <b>نفس نوع البيانات</b> تحت اسم واحد في الذاكرة. يبدأ الترقيم (Index) من **0**.
+                <p style="color: var(--text-sub); line-height: 1.8;">
+                    طريقة لتخزين مجموعة عناصر متتالية من <b>نفس نوع البيانات</b> تحت اسم واحد في الذاكرة. يبدأ الترقيم (Index) دائماً من <b>0</b>.
                 </p>
                 <div class="code-block">
 <span class="code-type">int</span> grades[3] = {90, 85, 95}; <span class="code-comment">// مصفوفة من 3 أرقام</span>
 
-cout << grades[0]; <span class="code-comment">// يطبع العنصر الأول (90)</span>
+cout &lt;&lt; grades[0]; <span class="code-comment">// يطبع العنصر الأول (90)</span>
 grades[1] = 88;    <span class="code-comment">// تعديل العنصر الثاني إلى 88</span>
                 </div>
             </div>
@@ -169,17 +118,17 @@ grades[1] = 88;    <span class="code-comment">// تعديل العنصر الث�
                     <i class="fas fa-project-diagram"></i>
                     <h3>4. المؤشرات (Pointers)</h3>
                 </div>
-                <p style="color: var(--text-sub); line-height: 1.7;">
-                    المؤشر هو متغير يخزن **عنوان متغير آخر في الذاكرة** بدلاً من قيمته.
-                    <br>• نستخدم الرمز <bdi>`&`</bdi> لجلب عنوان المتغير.
+                <p style="color: var(--text-sub); line-height: 1.8;">
+                    المؤشر هو متغير يخزن <b>عنوان متغير آخر في الذاكرة</b> بدلاً من قيمته.
+                    <br>• نستخدم الرمز <bdi>`&`</bdi> (Address-of) لجلب عنوان المتغير.
                     <br>• نستخدم الرمز <bdi>`*`</bdi> لإنشاء المؤشر أو للوصول للقيمة المخزنة في العنوان (Dereferencing).
                 </p>
                 <div class="code-block">
 <span class="code-type">int</span> num = 10;
-<span class="code-type">int</span>* ptr = &num; <span class="code-comment">// ptr يخزن عنوان num</span>
+<span class="code-type">int</span>* ptr = &amp;num; <span class="code-comment">// ptr يخزن عنوان num</span>
 
-cout << ptr;   <span class="code-comment">// يطبع عنوان الذاكرة (Hexadecimal)</span>
-cout << *ptr;  <span class="code-comment">// يطبع القيمة نفسها (10)</span>
+cout &lt;&lt; ptr;   <span class="code-comment">// يطبع عنوان الذاكرة (Hexadecimal)</span>
+cout &lt;&lt; *ptr;  <span class="code-comment">// يطبع القيمة نفسها (10)</span>
                 </div>
             </div>
 
@@ -189,24 +138,45 @@ cout << *ptr;  <span class="code-comment">// يطبع القيمة نفسها (1
                     <i class="fas fa-code-branch"></i>
                     <h3>5. التمرير للدوال (Call by Value vs Call by Reference)</h3>
                 </div>
-                <p style="color: var(--text-sub); line-height: 1.7;">
-                    عند إرسال متغيرات إلى دالة (Function)، هناك طريقتان للتعامل معها:
+                <p style="color: var(--text-sub); line-height: 1.8;">
+                    عند إرسال متغيرات إلى دالة (Function)، هناك طريقتان رئيسيتان للتعامل معها:
                 </p>
-                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 20px; margin-top: 10px;">
+                <ul style="color: var(--text-sub); line-height: 1.8; margin-right: 25px; margin-top: 10px;">
                     <li><b>Call by Value (التمرير بالقيمة):</b> تُرسل نسخة من قيمة المتغير. أي تعديل داخل الدالة <u>لا يؤثر</u> على المتغير الأصلي.</li>
-                    <li><b>Call by Reference (التمرير بالمرجع):</b> نستخدم <bdi>`&`</bdi> في الدالة لإرسال عنوان المتغير نفسه. أي تعديل داخل الدالة <u>يُعدّل فوراً</u> على المتغير الأصلي.</li>
+                    <li><b>Call by Reference (التمرير بالمرجع):</b> نستخدم <bdi>`&`</bdi> في تعريف الدالة لإرسال عنوان المتغير نفسه. أي تعديل داخل الدالة <u>يُعدّل فوراً</u> على المتغير الأصلي.</li>
                 </ul>
                 <div class="code-block">
 <span class="code-comment">// 1. Call by Value</span>
 <span class="code-type">void</span> addVal(<span class="code-type">int</span> x) { x += 10; } <span class="code-comment">// لا يغير المتغير الأصلي</span>
 
 <span class="code-comment">// 2. Call by Reference</span>
-<span class="code-type">void</span> addRef(<span class="code-type">int</span> &x) { x += 10; } <span class="code-comment">// يغير المتغير الأصلي مباشرة</span>
+<span class="code-type">void</span> addRef(<span class="code-type">int</span> &amp;x) { x += 10; } <span class="code-comment">// يغير المتغير الأصلي مباشرة</span>
                 </div>
             </div>
 
         </div>
-    </section>
+    </main>
+
+    <!-- Unified Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images.png" alt="MUST Logo" class="footer-logo">
+                <span class="footer-brand-text">CS 102 - MUST IT Educational Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات والملخصات</a>
+                <a href="quizzes.html">بنك الكويزات</a>
+                <a href="basics.html">أساسيات C++</a>
+                <a href="announcements.html">التنبيهات</a>
+                <a href="compiler.html">منصة البرمجة</a>
+            </div>
+            <p class="footer-copy">
+                مبادرة طلابية تعليمية لدعم طلاب كلية تكنولوجيا المعلومات - جامعة مصر للعلوم والتكنولوجيا (MUST) © 2026
+            </p>
+        </div>
+    </footer>
 
     <script src="script.js"></script>
 </body>
