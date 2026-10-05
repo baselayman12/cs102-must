@@ -693,6 +693,30 @@ footer {
     line-height: 1.6;
 }
 
+.footer-credits {
+    color: var(--text-sub);
+    font-size: 0.92rem;
+    font-weight: 700;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: -6px;
+    letter-spacing: 0.3px;
+    direction: ltr;
+    unicode-bidi: isolate;
+}
+
+.footer-credits i {
+    color: #ef4444;
+    animation: heartBeat 2s infinite ease-in-out;
+}
+
+@keyframes heartBeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.18); }
+}
+
 /* ==========================================================================
    Responsive Adjustments
    ========================================================================== */
