@@ -1,6 +1,3 @@
-// ==========================================================================
-// CS 102 MUST - Sync .env to env-config.js for Browser Runtime
-// ==========================================================================
 const fs = require('fs');
 const path = require('path');
 
@@ -8,10 +5,7 @@ const envPath = path.join(__dirname, '.env');
 const targetPath = path.join(__dirname, 'env-config.js');
 
 function syncEnv() {
-    if (!fs.existsSync(envPath)) {
-        console.warn('[sync-env] .env file not found at:', envPath);
-        return;
-    }
+    if (!fs.existsSync(envPath)) return;
 
     const content = fs.readFileSync(envPath, 'utf8');
     const lines = content.split(/\r?\n/);
@@ -31,24 +25,16 @@ function syncEnv() {
         }
     }
 
-    // Only expose frontend-safe variables to the browser
     const clientEnv = {
         SUPABASE_URL: env.SUPABASE_URL || '',
         SUPABASE_ANON_KEY: env.SUPABASE_ANON_KEY || ''
     };
 
-    const jsCode = `// Generated automatically from .env - DO NOT COMMIT\nwindow.__ENV__ = ${JSON.stringify(clientEnv, null, 4)};\n`;
-    fs.writeFileSync(targetPath, jsCode, 'utf8');
-    console.log('[sync-env] Successfully updated env-config.js with Supabase credentials.');
+    fs.writeFileSync(targetPath, `window.__ENV__ = ${JSON.stringify(clientEnv, null, 4)};\n`, 'utf8');
 }
 
 syncEnv();
 
-// If run standalone with --watch, watch for .env file modifications
 if (process.argv.includes('--watch')) {
-    console.log('[sync-env] Watching .env for changes...');
-    fs.watchFile(envPath, { interval: 1000 }, () => {
-        console.log('[sync-env] .env changed, re-syncing...');
-        syncEnv();
-    });
+    fs.watchFile(envPath, { interval: 1000 }, () => syncEnv());
 }
