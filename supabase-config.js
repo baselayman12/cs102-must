@@ -27,15 +27,24 @@ async function loadEnvConfig() {
         return window.__ENV__;
     }
 
-    try {
-        let response = await fetch('.env');
-        if (!response.ok) response = await fetch('/.env');
-        if (response.ok) {
-            const parsed = parseEnvText(await response.text());
-            window.__ENV__ = Object.assign({}, window.__ENV__, parsed);
-            return window.__ENV__;
-        }
-    } catch (err) {}
+    const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+    if (isLocal) {
+        try {
+            let response = await fetch('.env');
+            if (response.ok) {
+                const parsed = parseEnvText(await response.text());
+                window.__ENV__ = Object.assign({}, window.__ENV__, parsed);
+                return window.__ENV__;
+            }
+        } catch (err) {}
+    }
+
+    if (!window.__ENV__ || !window.__ENV__.SUPABASE_URL) {
+        window.__ENV__ = {
+            SUPABASE_URL: "https://mzpuinxbuoeohcnozops.supabase.co",
+            SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im16cHVpbnhidW9lb2hjbm96b3BzIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTE0ODQ0MDQsImV4cCI6MjEwNzA2MDQwNH0.8SjIcC2puPlwB8VmpDMnDMHkzq9SGGCFPZxDjLFx2-M"
+        };
+    }
 
     return window.__ENV__;
 }
@@ -45,13 +54,7 @@ window.supabaseReady = (async function initSupabase() {
     const url = env.SUPABASE_URL;
     const anonKey = env.SUPABASE_ANON_KEY;
 
-    const isPlaceholder = !url || !anonKey ||
-        url.includes("YOUR_SUPABASE") ||
-        url.includes("your-project-id") ||
-        anonKey.includes("YOUR_SUPABASE") ||
-        anonKey.includes("...");
-
-    if (!isPlaceholder && typeof supabase !== 'undefined') {
+    if (url && anonKey && typeof supabase !== 'undefined') {
         try {
             supabaseClient = supabase.createClient(url, anonKey);
             window.supabaseClient = supabaseClient;
