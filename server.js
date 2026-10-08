@@ -71,6 +71,16 @@ app.use((req, res, next) => {
     next();
 });
 
+// Always serve fresh env-config.js dynamically
+app.get('/env-config.js', (req, res) => {
+    const currentEnv = loadEnv();
+    const clientEnv = {
+        SUPABASE_URL: currentEnv.SUPABASE_URL || '',
+        SUPABASE_ANON_KEY: currentEnv.SUPABASE_ANON_KEY || ''
+    };
+    res.type('application/javascript').send(`window.__ENV__ = ${JSON.stringify(clientEnv, null, 4)};\n`);
+});
+
 app.get('/api/r2-status', async (req, res) => {
     if (!isR2Configured || !r2Client) {
         return res.json({ configured: false, message: 'Cloudflare R2 is not configured' });
