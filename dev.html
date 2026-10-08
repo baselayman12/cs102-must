@@ -1,0 +1,1163 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>لوحة التحكم وإدارة المحتوى | CS 102 Dev</title>
+    
+    <!-- Google Fonts & FontAwesome -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Fira+Code:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <!-- Supabase CDN & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env-config.js"></script>
+    <script src="supabase-config.js"></script>
+
+    <style>
+        .dev-container {
+            max-width: 1100px;
+            width: 92%;
+            margin: 40px auto 70px;
+            flex: 1;
+        }
+
+        /* Login Card */
+        .login-card {
+            max-width: 460px;
+            margin: 60px auto;
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 20px;
+            padding: 35px 30px;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: var(--shadow-md);
+            text-align: center;
+        }
+
+        .login-card i.lock-icon {
+            font-size: 3rem;
+            color: var(--must-accent-light);
+            margin-bottom: 18px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            text-align: right;
+        }
+
+        .form-label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .form-input, .form-select, .form-textarea {
+            width: 100%;
+            padding: 13px 16px;
+            background: #050811;
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: #fff;
+            font-family: var(--font-family);
+            font-size: 0.95rem;
+            outline: none;
+            transition: var(--transition);
+        }
+
+        .form-input:focus, .form-select:focus, .form-textarea:focus {
+            border-color: var(--must-accent-light);
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.25);
+            background: #090e1a;
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 90px;
+            line-height: 1.6;
+        }
+
+        /* Top Admin Bar */
+        .admin-top-bar {
+            background: rgba(18, 25, 40, 0.85);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .admin-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+
+        .admin-badge {
+            background: rgba(16, 185, 129, 0.15);
+            color: #34d399;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.82rem;
+        }
+
+        /* Type Switcher Pills */
+        .type-pills {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .type-pill-btn {
+            flex: 1;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid var(--card-border);
+            border-radius: 12px;
+            color: var(--text-sub);
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-family: var(--font-family);
+        }
+
+        .type-pill-btn.active {
+            background: rgba(37, 99, 235, 0.2);
+            border-color: var(--must-accent-light);
+            color: #fff;
+            box-shadow: 0 0 15px rgba(37, 99, 235, 0.25);
+        }
+
+        /* Item Manage Card */
+        .manage-item-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 14px;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+            margin-bottom: 15px;
+        }
+
+        .manage-item-card:hover {
+            border-color: rgba(96, 165, 250, 0.3);
+            background: var(--card-bg-hover);
+        }
+
+        .alert-box {
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            color: #fca5a5;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            display: none;
+            text-align: right;
+        }
+
+        .success-box {
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+            padding: 12px 18px;
+            border-radius: 10px;
+            font-size: 0.9rem;
+            margin-bottom: 18px;
+            display: none;
+            text-align: right;
+        }
+
+        /* Responsive Admin Grid */
+        .admin-grid {
+            display: grid;
+            grid-template-columns: 1.15fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        @media (max-width: 992px) {
+            .admin-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Attachment Badges */
+        .attachment-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 8px;
+        }
+
+        .attachment-badge {
+            font-size: 0.75rem;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: var(--text-sub);
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        /* Confirmation Modal */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 8, 17, 0.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            animation: fadeInModal 0.2s ease-out;
+        }
+
+        .modal-card {
+            background: #0d1527;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.7), 0 0 35px rgba(239, 68, 68, 0.15);
+            border-radius: 20px;
+            max-width: 480px;
+            width: 100%;
+            padding: 32px 26px;
+            text-align: center;
+            animation: scaleUpModal 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .modal-icon.danger {
+            width: 64px;
+            height: 64px;
+            background: rgba(239, 68, 68, 0.15);
+            border: 1px solid rgba(239, 68, 68, 0.35);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            color: #ef4444;
+            font-size: 1.7rem;
+        }
+
+        @keyframes fadeInModal {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleUpModal {
+            from { transform: scale(0.92); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        /* Cloudflare R2 Upload Dropzone */
+        .upload-dropzone {
+            border: 2px dashed rgba(96, 165, 250, 0.35);
+            background: rgba(15, 23, 42, 0.65);
+            border-radius: 12px;
+            padding: 14px 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 8px;
+        }
+
+        .upload-dropzone:hover, .upload-dropzone.dragover {
+            border-color: var(--must-accent-light);
+            background: rgba(30, 58, 138, 0.25);
+            box-shadow: 0 0 15px rgba(96, 165, 250, 0.2);
+        }
+
+        .upload-dropzone.uploading {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            cursor: wait;
+        }
+
+        .upload-dropzone.uploaded {
+            border-color: #10b981;
+            background: rgba(16, 185, 129, 0.12);
+        }
+
+        .upload-icon {
+            font-size: 1.6rem;
+            color: var(--must-accent-light);
+            flex-shrink: 0;
+            transition: transform 0.2s ease;
+        }
+
+        .upload-dropzone:hover .upload-icon {
+            transform: translateY(-2px);
+        }
+
+        .upload-text {
+            display: flex;
+            flex-direction: column;
+            text-align: right;
+            font-size: 0.88rem;
+            flex: 1;
+        }
+
+        .upload-text strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .upload-subtext {
+            font-size: 0.76rem;
+            color: var(--text-sub);
+            margin-top: 2px;
+        }
+
+        .upload-progress-container {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+            display: none;
+        }
+
+        .upload-progress-bar {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #3b82f6, #10b981);
+            border-radius: 4px;
+            transition: width 0.15s ease;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header / Navbar -->
+    <header class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo-area">
+                <img src="images.png" alt="MUST Logo" class="university-logo">
+                <div class="brand-divider"></div>
+                <div class="cs-badge">
+                    <span class="cs-code">CS 102 Dev</span>
+                    <span class="cs-title">IT Department</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="nav-links">
+                <a href="index.html"><i class="fas fa-home"></i> الرئيسية</a>
+                <a href="lectures.html"><i class="fas fa-book-open"></i> المحاضرات</a>
+                <a href="quizzes.html"><i class="fas fa-laptop-code"></i> الكويزات</a>
+                <a href="basics.html"><i class="fas fa-code"></i> الأساسيات</a>
+                <a href="compiler.html"><i class="fas fa-terminal"></i> منصة البرمجة</a>
+            </nav>
+        </div>
+    </header>
+
+    <main class="dev-container">
+
+        <!-- 1. LOGIN SCREEN (Visible when logged out) -->
+        <div id="loginSection" class="login-card">
+            <i class="fas fa-shield-alt lock-icon"></i>
+            <h2 style="color: #fff; margin-bottom: 8px;">بوابة المشرفين (Dev Admin)</h2>
+            <p style="color: var(--text-sub); font-size: 0.92rem; margin-bottom: 24px;">
+                قم بتسجيل الدخول بحساب الأدمن لإضافة وإدارة المحاضرات والسكاشن مباشرة في قاعدة البيانات.
+            </p>
+
+            <div id="loginAlert" class="alert-box"></div>
+
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label class="form-label">البريد الإلكتروني للأدمن (Email):</label>
+                    <input type="email" id="adminEmail" class="form-input" placeholder="admin@must.edu" required dir="ltr">
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">كلمة المرور (Password):</label>
+                    <input type="password" id="adminPassword" class="form-input" placeholder="••••••••" required dir="ltr">
+                </div>
+
+                <button type="submit" id="loginBtn" class="btn btn-glow" style="width: 100%; justify-content: center; margin-top: 10px;">
+                    <i class="fas fa-sign-in-alt"></i> تسجيل الدخول
+                </button>
+            </form>
+
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-top: 20px;">
+                * تتم المصادقة وتأمين الإدخال عبر Supabase Row Level Security (RLS).
+            </p>
+        </div>
+
+        <!-- 2. DASHBOARD SCREEN (Visible when logged in) -->
+        <div id="dashboardSection" style="display: none;">
+            
+            <!-- Admin Top Bar -->
+            <div class="admin-top-bar">
+                <div class="admin-info">
+                    <i class="fas fa-user-check" style="color: #10b981;"></i>
+                    <span>مرحباً بك:</span>
+                    <span id="userEmailBadge" style="color: #60a5fa; direction: ltr;"></span>
+                    <span class="admin-badge">مشرف معتمد</span>
+                </div>
+
+                <div style="display: flex; gap: 10px; align-items: center;">
+                    <a href="lectures.html" target="_blank" class="btn btn-outline" style="padding: 8px 16px; font-size: 0.88rem;">
+                        <i class="fas fa-external-link-alt"></i> عرض صفحة المحاضرات
+                    </a>
+                    <button onclick="handleLogout()" class="btn btn-secondary" style="padding: 8px 16px; font-size: 0.88rem; color: #f87171;">
+                        <i class="fas fa-sign-out-alt"></i> خروج
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid: Add Form (Right) & Current Items List (Left) -->
+            <div class="admin-grid">
+                
+                <!-- Add / Edit Item Form -->
+                <div class="glass-card" id="formCard">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; flex-wrap: wrap; gap: 10px;">
+                        <h3 id="formHeading" style="display: flex; align-items: center; gap: 10px; font-size: 1.25rem;">
+                            <i id="formIcon" class="fas fa-plus-circle" style="color: var(--must-accent-light);"></i>
+                            <span id="formTitleText">إضافة مادة علمية جديدة</span>
+                        </h3>
+                        <span id="editModeBadge" class="admin-badge" style="display: none; background: rgba(245, 158, 11, 0.15); color: #fbbf24; border-color: rgba(245, 158, 11, 0.3);">
+                            <i class="fas fa-edit"></i> وضع التعديل
+                        </span>
+                    </div>
+
+                    <div id="formAlert" class="alert-box"></div>
+                    <div id="formSuccess" class="success-box"></div>
+
+                    <!-- Type Selector -->
+                    <div class="type-pills">
+                        <button type="button" id="typeLectureBtn" class="type-pill-btn active" onclick="setItemType('lecture')">
+                            <i class="fas fa-graduation-cap"></i> محاضرة (Lecture)
+                        </button>
+                        <button type="button" id="typeSectionBtn" class="type-pill-btn" onclick="setItemType('section')">
+                            <i class="fas fa-laptop-code"></i> سكشن عملي (Section)
+                        </button>
+                    </div>
+
+                    <form id="addItemForm" onsubmit="handleFormSubmit(event)">
+                        <input type="hidden" id="itemType" value="lecture">
+                        <input type="hidden" id="editingItemId" value="">
+
+                        <div style="display: grid; grid-template-columns: 1fr 2.5fr; gap: 15px;">
+                            <div class="form-group">
+                                <label class="form-label">الرقم (مثال: 3):</label>
+                                <input type="number" id="itemNumber" class="form-input" min="1" placeholder="3" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">العنوان (Title):</label>
+                                <input type="text" id="itemTitle" class="form-input" placeholder="Lecture 3: Arrays and Strings" required dir="ltr">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">الوصف بالعربية:</label>
+                            <textarea id="itemDesc" class="form-textarea" placeholder="شرح تفصيلي للمصفوفات وطريقة تعريفها وطباعة عناصرها..."></textarea>
+                        </div>
+
+                        <!-- Lecture Specific Fields -->
+                        <div id="lectureFields">
+                            <div class="form-group">
+                                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fas fa-file-pdf" style="color: #ef4444;"></i> ملف المحاضرة الأصلي (PDF):</span>
+                                    <span style="font-size: 0.78rem; color: #60a5fa;"><i class="fas fa-cloud"></i> رفع مباشر لـ Cloudflare R2</span>
+                                </label>
+                                
+                                <div class="upload-dropzone" id="lecturePdfDropzone" onclick="document.getElementById('lecturePdfFile').click()">
+                                    <input type="file" id="lecturePdfFile" accept=".pdf" style="display: none;" onchange="handleFileUpload(this, 'lecturePdfUrl', 'lecturePdfDropzone')">
+                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                    <div class="upload-text">
+                                        <strong id="lecturePdfDropzone-text">اضغط لاختيار ملف المحاضرة (PDF) أو اسحبه هنا</strong>
+                                        <span class="upload-subtext">سيتم رفعه فورياً إلى Cloudflare R2 وتوليد الرابط العام تلقائياً</span>
+                                    </div>
+                                </div>
+                                <div class="upload-progress-container" id="lecturePdfDropzone-progress">
+                                    <div class="upload-progress-bar"></div>
+                                </div>
+                                <input type="text" id="lecturePdfUrl" class="form-input" placeholder="files/lecture3.pdf أو الرابط المرفوع تلقائياً" dir="ltr">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fas fa-file-alt" style="color: #3b82f6;"></i> ملخص المحاضرة (Summary PDF):</span>
+                                    <span style="font-size: 0.78rem; color: #60a5fa;"><i class="fas fa-cloud"></i> رفع مباشر لـ Cloudflare R2</span>
+                                </label>
+
+                                <div class="upload-dropzone" id="summaryPdfDropzone" onclick="document.getElementById('summaryPdfFile').click()">
+                                    <input type="file" id="summaryPdfFile" accept=".pdf" style="display: none;" onchange="handleFileUpload(this, 'summaryPdfUrl', 'summaryPdfDropzone')">
+                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                    <div class="upload-text">
+                                        <strong id="summaryPdfDropzone-text">اضغط لاختيار ملف الملخص (PDF) أو اسحبه هنا</strong>
+                                        <span class="upload-subtext">سيتم رفعه فورياً إلى Cloudflare R2 وتوليد الرابط العام تلقائياً</span>
+                                    </div>
+                                </div>
+                                <div class="upload-progress-container" id="summaryPdfDropzone-progress">
+                                    <div class="upload-progress-bar"></div>
+                                </div>
+                                <input type="text" id="summaryPdfUrl" class="form-input" placeholder="files/summary3.pdf أو الرابط المرفوع تلقائياً" dir="ltr">
+                            </div>
+                        </div>
+
+                        <!-- Section Specific Fields -->
+                        <div id="sectionFields" style="display: none;">
+                            <div class="form-group">
+                                <label class="form-label"><i class="fab fa-youtube" style="color: #f87171;"></i> رابط فيديو الشرح (YouTube URL):</label>
+                                <input type="text" id="videoUrl" class="form-input" placeholder="https://www.youtube.com/watch?v=... أو embed" dir="ltr">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label" style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span><i class="fas fa-file-powerpoint" style="color: #f59e0b;"></i> عرض السكشن (PPTX / PDF):</span>
+                                    <span style="font-size: 0.78rem; color: #60a5fa;"><i class="fas fa-cloud"></i> رفع مباشر لـ Cloudflare R2</span>
+                                </label>
+
+                                <div class="upload-dropzone" id="pptxDropzone" onclick="document.getElementById('pptxFile').click()">
+                                    <input type="file" id="pptxFile" accept=".pptx,.ppt,.pdf" style="display: none;" onchange="handleFileUpload(this, 'pptxUrl', 'pptxDropzone')">
+                                    <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                                    <div class="upload-text">
+                                        <strong id="pptxDropzone-text">اضغط لاختيار ملف العرض (PPTX / PDF) أو اسحبه هنا</strong>
+                                        <span class="upload-subtext">سيتم رفعه فورياً إلى Cloudflare R2 وتوليد الرابط العام تلقائياً</span>
+                                    </div>
+                                </div>
+                                <div class="upload-progress-container" id="pptxDropzone-progress">
+                                    <div class="upload-progress-bar"></div>
+                                </div>
+                                <input type="text" id="pptxUrl" class="form-input" placeholder="files/section2.pptx أو الرابط المرفوع تلقائياً" dir="ltr">
+                            </div>
+                        </div>
+
+                        <div style="display: flex; gap: 12px; margin-top: 15px; flex-wrap: wrap;">
+                            <button type="submit" id="submitBtn" class="btn btn-glow" style="flex: 1; justify-content: center; padding: 14px;">
+                                <i class="fas fa-cloud-upload-alt"></i> نشر في صفحة المحاضرات فوراً
+                            </button>
+                            <button type="button" id="cancelEditBtn" onclick="cancelEdit()" class="btn btn-secondary" style="display: none; padding: 14px 20px; align-items: center; gap: 8px;">
+                                <i class="fas fa-times"></i> إلغاء التعديل
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Current Items List -->
+                <div>
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px;">
+                        <h3 style="font-size: 1.25rem;">
+                            <i class="fas fa-list-ul" style="color: #60a5fa;"></i>
+                            المواد المنشورة حالياً (<span id="itemsCount">0</span>)
+                        </h3>
+                        <button onclick="loadPublishedItems()" class="ide-action-btn" title="تحديث القائمة">
+                            <i class="fas fa-sync-alt"></i> تحديث
+                        </button>
+                    </div>
+
+                    <div id="itemsListContainer">
+                        <p style="color: var(--text-sub); text-align: center; padding: 30px;">جاري تحميل القائمة من Supabase...</p>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Delete Confirmation Modal -->
+    <div id="deleteModal" class="modal-overlay" style="display: none;" onclick="handleModalBackdropClick(event)">
+        <div class="modal-card">
+            <div class="modal-icon danger">
+                <i class="fas fa-trash-alt"></i>
+            </div>
+            <h3 style="margin-bottom: 10px; font-size: 1.3rem; color: #fff;">تأكيد حذف المادة العلمية</h3>
+            <p style="color: var(--text-sub); font-size: 0.92rem; line-height: 1.6; margin-bottom: 24px;">
+                هل أنت متأكد من رغبتك في حذف:
+                <br>
+                <strong id="deleteItemTitleText" style="color: #f87171; display: inline-block; margin-top: 6px; font-size: 1.05rem;" dir="ltr"></strong>؟
+                <br>
+                <span style="font-size: 0.82rem; color: #94a3b8;">هذا الإجراء سيقوم بحذفها نهائياً من قاعدة البيانات ولن تظهر للطلاب في الموقع.</span>
+            </p>
+            <div style="display: flex; gap: 12px; justify-content: center;">
+                <button type="button" id="confirmDeleteBtn" onclick="executeDeleteItem()" class="btn" style="background: #dc2626; color: white; padding: 10px 24px; border-radius: 10px; font-weight: 700; display: inline-flex; align-items: center; gap: 8px;">
+                    <i class="fas fa-trash-alt"></i> نعم، حذف نهائي
+                </button>
+                <button type="button" onclick="closeDeleteModal()" class="btn btn-secondary" style="padding: 10px 22px; border-radius: 10px;">
+                    إلغاء
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Unified Footer -->
+    <footer>
+        <div class="container footer-content">
+            <div class="footer-brand">
+                <img src="images.png" alt="MUST Logo" class="footer-logo">
+                <span class="footer-brand-text">CS 102 - MUST IT Educational Portal</span>
+            </div>
+            <div class="footer-links">
+                <a href="index.html">الرئيسية</a>
+                <a href="lectures.html">المحاضرات والملخصات</a>
+                <a href="quizzes.html">بنك الكويزات</a>
+                <a href="basics.html">أساسيات C++</a>
+                <a href="announcements.html">التنبيهات</a>
+                <a href="compiler.html">منصة البرمجة</a>
+            </div>
+            <p class="footer-copy">
+                مبادرة طلابية تعليمية لدعم طلاب كلية تكنولوجيا المعلومات - جامعة مصر للعلوم والتكنولوجيا (MUST) © 2026
+            </p>
+            <p class="footer-credits" dir="ltr">
+                Made with <i class="fas fa-heart"></i> by Mohamed &amp; Basel
+            </p>
+        </div>
+    </footer>
+
+    <!-- Dev Dashboard Logic Script -->
+    <script>
+        // Check configuration on load
+        document.addEventListener("DOMContentLoaded", async () => {
+            // Setup Drag & Drop for R2 upload zones
+            setupDropzones();
+
+            if (window.supabaseReady) {
+                await window.supabaseReady;
+            }
+
+            if (!supabaseClient) {
+                showLoginAlert("تنبيه: يرجى التأكد من تشغيل السيرفر المحلي بأمر npm run dev ووضع بياناتك في ملف .env لتفعيل لوحة التحكم.");
+                return;
+            }
+
+            // Check if already authenticated session exists
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            if (session) {
+                showDashboard(session.user);
+            } else {
+                showLogin();
+            }
+        });
+
+        // Setup Drag & Drop on dropzones
+        function setupDropzones() {
+            ['lecturePdfDropzone', 'summaryPdfDropzone', 'pptxDropzone'].forEach(id => {
+                const zone = document.getElementById(id);
+                if (!zone) return;
+                const fileInput = zone.querySelector('input[type="file"]');
+                if (!fileInput) return;
+
+                ['dragenter', 'dragover'].forEach(name => {
+                    zone.addEventListener(name, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        zone.classList.add('dragover');
+                    });
+                });
+
+                ['dragleave', 'drop'].forEach(name => {
+                    zone.addEventListener(name, (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        zone.classList.remove('dragover');
+                    });
+                });
+
+                zone.addEventListener('drop', (e) => {
+                    if (e.dataTransfer && e.dataTransfer.files.length > 0) {
+                        fileInput.files = e.dataTransfer.files;
+                        fileInput.dispatchEvent(new Event('change'));
+                    }
+                });
+            });
+        }
+
+        // Handle file upload to Cloudflare R2 via /api/upload
+        async function handleFileUpload(fileInput, targetInputId, dropzoneId) {
+            const file = fileInput.files[0];
+            if (!file) return;
+
+            const dropzone = document.getElementById(dropzoneId);
+            const progressContainer = document.getElementById(`${dropzoneId}-progress`);
+            const progressBar = progressContainer ? progressContainer.querySelector('.upload-progress-bar') : null;
+            const textElem = document.getElementById(`${dropzoneId}-text`);
+            const targetInput = document.getElementById(targetInputId);
+
+            // Size check: limit to 100MB
+            if (file.size > 100 * 1024 * 1024) {
+                alert(`حجم الملف كبير جداً (${(file.size / (1024*1024)).toFixed(1)}MB). الحد الأقصى المسموح به هو 100MB.`);
+                fileInput.value = '';
+                return;
+            }
+
+            // Update dropzone UI to Uploading state
+            dropzone.classList.remove('uploaded');
+            dropzone.classList.add('uploading');
+            if (textElem) textElem.innerHTML = `<i class="fas fa-spinner fa-spin"></i> جاري رفع <strong>${escapeHtml(file.name)}</strong> إلى Cloudflare R2...`;
+            if (progressContainer) progressContainer.style.display = 'block';
+            if (progressBar) progressBar.style.width = '10%';
+
+            const formData = new FormData();
+            formData.append('file', file);
+
+            // Use XMLHttpRequest to track live upload progress
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '/api/upload', true);
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 95);
+                    if (progressBar) progressBar.style.width = `${percent}%`;
+                }
+            };
+
+            xhr.onload = function() {
+                dropzone.classList.remove('uploading');
+                if (xhr.status === 200) {
+                    try {
+                        const res = JSON.parse(xhr.responseText);
+                        if (res.success && res.url) {
+                            if (progressBar) progressBar.style.width = '100%';
+                            dropzone.classList.add('uploaded');
+                            if (textElem) {
+                                textElem.innerHTML = `<span style="color: #10b981;"><i class="fas fa-check-circle"></i> تم الرفع بنجاح: <strong>${escapeHtml(res.filename)}</strong></span>`;
+                            }
+                            // Populate target input with the public CDN URL
+                            targetInput.value = res.url;
+
+                            // Flash the target input
+                            targetInput.style.borderColor = '#10b981';
+                            setTimeout(() => { targetInput.style.borderColor = ''; }, 2500);
+
+                            setTimeout(() => {
+                                if (progressContainer) progressContainer.style.display = 'none';
+                            }, 1200);
+                        } else {
+                            throw new Error(res.message || 'Unknown response');
+                        }
+                    } catch (e) {
+                        handleUploadError(e.message || 'فشل معالجة رد السيرفر');
+                    }
+                } else {
+                    let errMsg = 'فشل الرفع (خطأ ' + xhr.status + ')';
+                    try {
+                        const errRes = JSON.parse(xhr.responseText);
+                        if (errRes.message) errMsg = errRes.message;
+                    } catch (e) {}
+                    handleUploadError(errMsg);
+                }
+            };
+
+            xhr.onerror = function() {
+                dropzone.classList.remove('uploading');
+                handleUploadError('تعذر الاتصال بسيرفر الرفع. يرجى التأكد من تشغيل السيرفر (npm run dev).');
+            };
+
+            function handleUploadError(msg) {
+                if (progressContainer) progressContainer.style.display = 'none';
+                if (progressBar) progressBar.style.width = '0%';
+                if (textElem) {
+                    textElem.innerHTML = `<span style="color: #ef4444;"><i class="fas fa-exclamation-circle"></i> فشل الرفع: ${escapeHtml(msg)}</span>`;
+                }
+                alert("تنبيه الرفع: " + msg);
+            }
+
+            xhr.send(formData);
+        }
+
+        // Toggle Type Switcher
+        function setItemType(type) {
+            document.getElementById('itemType').value = type;
+            const lecBtn = document.getElementById('typeLectureBtn');
+            const secBtn = document.getElementById('typeSectionBtn');
+            const lecFields = document.getElementById('lectureFields');
+            const secFields = document.getElementById('sectionFields');
+
+            if (type === 'lecture') {
+                lecBtn.classList.add('active');
+                secBtn.classList.remove('active');
+                lecFields.style.display = 'block';
+                secFields.style.display = 'none';
+            } else {
+                secBtn.classList.add('active');
+                lecBtn.classList.remove('active');
+                lecFields.style.display = 'none';
+                secFields.style.display = 'block';
+            }
+        }
+
+        // Handle Login
+        async function handleLogin(e) {
+            e.preventDefault();
+            const email = document.getElementById('adminEmail').value.trim();
+            const password = document.getElementById('adminPassword').value;
+            const btn = document.getElementById('loginBtn');
+            const alertBox = document.getElementById('loginAlert');
+
+            alertBox.style.display = 'none';
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري التحقق...';
+
+            try {
+                const { data, error } = await supabaseClient.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                showDashboard(data.user);
+            } catch (err) {
+                showLoginAlert("فشل تسجيل الدخول: " + (err.message || "تأكد من صحة البريد وكلمة المرور"));
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
+            }
+        }
+
+        // Handle Logout
+        async function handleLogout() {
+            if (supabaseClient) {
+                await supabaseClient.auth.signOut();
+            }
+            showLogin();
+        }
+
+        function showLogin() {
+            document.getElementById('loginSection').style.display = 'block';
+            document.getElementById('dashboardSection').style.display = 'none';
+        }
+
+        function showDashboard(user) {
+            document.getElementById('loginSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.getElementById('userEmailBadge').innerText = user.email;
+            loadPublishedItems();
+        }
+
+        function showLoginAlert(msg) {
+            const box = document.getElementById('loginAlert');
+            box.innerText = msg;
+            box.style.display = 'block';
+        }
+
+        // Helper to convert youtube URLs to embed format
+        function formatYouTubeUrl(url) {
+            if (!url) return null;
+            if (url.includes('youtube.com/embed/')) return url;
+            const match = url.match(/(?:youtu\.be\/|youtube\.com\/(?:embed\/|v\/|watch\?v=|watch\?.+&v=))([\w-]{11})/);
+            return match ? `https://www.youtube.com/embed/${match[1]}` : url;
+        }
+
+        // Cache for published items
+        let publishedItemsCache = [];
+        let itemPendingDelete = null;
+
+        // Escape HTML for safe rendering
+        function escapeHtml(str) {
+            if (!str) return '';
+            return String(str).replace(/[&<>'"]/g, tag => ({
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                "'": '&#39;',
+                '"': '&quot;'
+            }[tag] || tag));
+        }
+
+        // Add or Update Item in Supabase
+        async function handleFormSubmit(e) {
+            e.preventDefault();
+            const editingId = document.getElementById('editingItemId').value;
+            const type = document.getElementById('itemType').value;
+            const number = parseInt(document.getElementById('itemNumber').value);
+            const title = document.getElementById('itemTitle').value.trim();
+            const desc = document.getElementById('itemDesc').value.trim();
+            const btn = document.getElementById('submitBtn');
+            const formAlert = document.getElementById('formAlert');
+            const formSuccess = document.getElementById('formSuccess');
+
+            formAlert.style.display = 'none';
+            formSuccess.style.display = 'none';
+
+            let payload = {
+                type: type,
+                item_number: number,
+                title: title,
+                description: desc,
+                order_index: number
+            };
+
+            if (type === 'lecture') {
+                payload.lecture_pdf_url = document.getElementById('lecturePdfUrl').value.trim() || null;
+                payload.summary_pdf_url = document.getElementById('summaryPdfUrl').value.trim() || null;
+                payload.video_url = null;
+                payload.pptx_url = null;
+            } else {
+                payload.video_url = formatYouTubeUrl(document.getElementById('videoUrl').value.trim()) || null;
+                payload.pptx_url = document.getElementById('pptxUrl').value.trim() || null;
+                payload.lecture_pdf_url = null;
+                payload.summary_pdf_url = null;
+            }
+
+            btn.disabled = true;
+            const isEditing = Boolean(editingId);
+            btn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> ${isEditing ? 'جاري حفظ التعديلات...' : 'جاري الحفظ في السيرفر...'}`;
+
+            try {
+                if (isEditing) {
+                    // Update existing item
+                    const { error } = await supabaseClient
+                        .from('lectures_and_sections')
+                        .update(payload)
+                        .eq('id', editingId);
+
+                    if (error) throw error;
+
+                    formSuccess.innerText = `تم حفظ تعديلات ${type === 'lecture' ? 'المحاضرة' : 'السكشن'} (${title}) بنجاح وستظهر للطلاب فوراً!`;
+                    formSuccess.style.display = 'block';
+                    cancelEdit();
+                } else {
+                    // Insert new item
+                    const { error } = await supabaseClient
+                        .from('lectures_and_sections')
+                        .insert([payload]);
+
+                    if (error) throw error;
+
+                    formSuccess.innerText = `تمت إضافة ${type === 'lecture' ? 'المحاضرة' : 'السكشن'} (${title}) بنجاح وستظهر في الموقع فوراً!`;
+                    formSuccess.style.display = 'block';
+                    document.getElementById('addItemForm').reset();
+                    document.getElementById('itemType').value = type;
+                }
+
+                loadPublishedItems();
+            } catch (err) {
+                formAlert.innerText = `حدث خطأ أثناء ${isEditing ? 'تعديل' : 'إضافة'} المادة: ` + (err.message || err);
+                formAlert.style.display = 'block';
+            } finally {
+                btn.disabled = false;
+                if (!document.getElementById('editingItemId').value) {
+                    btn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> نشر في صفحة المحاضرات فوراً';
+                }
+            }
+        }
+
+        // Populate Form for Editing an Item
+        function editItem(id) {
+            const item = publishedItemsCache.find(i => i.id === id);
+            if (!item) return;
+
+            // Reset alerts
+            document.getElementById('formAlert').style.display = 'none';
+            document.getElementById('formSuccess').style.display = 'none';
+
+            // Set hidden editing ID
+            document.getElementById('editingItemId').value = item.id;
+
+            // Switch type
+            setItemType(item.type);
+
+            // Populate fields
+            document.getElementById('itemNumber').value = item.item_number;
+            document.getElementById('itemTitle').value = item.title;
+            document.getElementById('itemDesc').value = item.description || '';
+
+            if (item.type === 'lecture') {
+                document.getElementById('lecturePdfUrl').value = item.lecture_pdf_url || '';
+                document.getElementById('summaryPdfUrl').value = item.summary_pdf_url || '';
+                document.getElementById('videoUrl').value = '';
+                document.getElementById('pptxUrl').value = '';
+            } else {
+                document.getElementById('videoUrl').value = item.video_url || '';
+                document.getElementById('pptxUrl').value = item.pptx_url || '';
+                document.getElementById('lecturePdfUrl').value = '';
+                document.getElementById('summaryPdfUrl').value = '';
+            }
+
+            // Update UI for Edit Mode
+            document.getElementById('formTitleText').innerText = `تعديل: ${item.type === 'lecture' ? 'محاضرة' : 'سكشن'} ${item.item_number} (${item.title})`;
+            document.getElementById('formIcon').className = 'fas fa-edit';
+            document.getElementById('formIcon').style.color = '#f59e0b';
+            document.getElementById('editModeBadge').style.display = 'inline-flex';
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> حفظ التعديلات فوراً';
+            submitBtn.style.background = 'linear-gradient(135deg, #f59e0b, #d97706)';
+            submitBtn.style.boxShadow = '0 0 20px rgba(245, 158, 11, 0.35)';
+
+            document.getElementById('cancelEditBtn').style.display = 'inline-flex';
+
+            // Smooth scroll to form
+            document.getElementById('formCard').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // Cancel Edit Mode and Reset Form to Add Mode
+        function cancelEdit() {
+            document.getElementById('editingItemId').value = '';
+            document.getElementById('addItemForm').reset();
+
+            document.getElementById('formTitleText').innerText = 'إضافة مادة علمية جديدة';
+            document.getElementById('formIcon').className = 'fas fa-plus-circle';
+            document.getElementById('formIcon').style.color = 'var(--must-accent-light)';
+            document.getElementById('editModeBadge').style.display = 'none';
+
+            const submitBtn = document.getElementById('submitBtn');
+            submitBtn.innerHTML = '<i class="fas fa-cloud-upload-alt"></i> نشر في صفحة المحاضرات فوراً';
+            submitBtn.style.background = '';
+            submitBtn.style.boxShadow = '';
+
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            setItemType('lecture');
+        }
+
+        // Load Published Items from Supabase
+        async function loadPublishedItems() {
+            const container = document.getElementById('itemsListContainer');
+            const countBadge = document.getElementById('itemsCount');
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('lectures_and_sections')
+                    .select('*')
+                    .order('order_index', { ascending: true });
+
+                if (error) throw error;
+
+                publishedItemsCache = data || [];
+                countBadge.innerText = publishedItemsCache.length;
+
+                if (!publishedItemsCache || publishedItemsCache.length === 0) {
+                    container.innerHTML = '<p style="color: var(--text-sub); text-align: center; padding: 25px;">لا توجد مواد مضافة حالياً.</p>';
+                    return;
+                }
+
+                container.innerHTML = publishedItemsCache.map(item => {
+                    const isLecture = item.type === 'lecture';
+                    const hasPdf = Boolean(item.lecture_pdf_url);
+                    const hasSummary = Boolean(item.summary_pdf_url);
+                    const hasVideo = Boolean(item.video_url);
+                    const hasPptx = Boolean(item.pptx_url);
+
+                    return `
+                        <div class="manage-item-card">
+                            <div style="flex: 1; min-width: 0;">
+                                <div style="display: flex; gap: 8px; align-items: center; margin-bottom: 6px; flex-wrap: wrap;">
+                                    <span class="admin-badge" style="${!isLecture ? 'color: #6ee7b7; border-color: #10b981;' : 'color: #93c5fd; border-color: #3b82f6;'}">
+                                        ${isLecture ? 'محاضرة ' + item.item_number : 'سكشن ' + item.item_number}
+                                    </span>
+                                    <strong style="color: #fff; font-size: 0.95rem;" dir="ltr">${escapeHtml(item.title)}</strong>
+                                </div>
+                                <p style="color: var(--text-sub); font-size: 0.85rem; line-height: 1.5; margin-bottom: 4px;">
+                                    ${escapeHtml(item.description) || 'بدون وصف'}
+                                </p>
+                                <div class="attachment-badges">
+                                    ${hasPdf ? `<span class="attachment-badge"><i class="fas fa-file-pdf" style="color: #ef4444;"></i> ملف PDF</span>` : ''}
+                                    ${hasSummary ? `<span class="attachment-badge"><i class="fas fa-file-alt" style="color: #3b82f6;"></i> ملخص</span>` : ''}
+                                    ${hasVideo ? `<span class="attachment-badge"><i class="fab fa-youtube" style="color: #f87171;"></i> فيديو شرح</span>` : ''}
+                                    ${hasPptx ? `<span class="attachment-badge"><i class="fas fa-file-powerpoint" style="color: #f59e0b;"></i> عرض PPTX</span>` : ''}
+                                </div>
+                            </div>
+
+                            <div style="display: flex; gap: 8px; align-items: center; flex-shrink: 0;">
+                                <button type="button" onclick="editItem('${item.id}')" class="btn btn-secondary" style="padding: 7px 14px; font-size: 0.82rem; color: #60a5fa; border-color: rgba(96, 165, 250, 0.3);" title="تعديل بيانات المادة">
+                                    <i class="fas fa-edit"></i> تعديل
+                                </button>
+                                <button type="button" onclick="openDeleteModal('${item.id}')" class="btn btn-secondary" style="padding: 7px 14px; font-size: 0.82rem; color: #f87171; border-color: rgba(239, 68, 68, 0.3);" title="حذف المادة">
+                                    <i class="fas fa-trash-alt"></i> حذف
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+            } catch (err) {
+                container.innerHTML = `<p style="color: #f87171; text-align: center; padding: 20px;">تعذر جلب البيانات: ${err.message}</p>`;
+            }
+        }
+
+        // Open Delete Confirmation Modal
+        function openDeleteModal(id) {
+            const item = publishedItemsCache.find(i => i.id === id);
+            if (!item) return;
+
+            itemPendingDelete = item;
+            document.getElementById('deleteItemTitleText').innerText = `${item.type === 'lecture' ? 'المحاضرة' : 'السكشن'} ${item.item_number}: ${item.title}`;
+            document.getElementById('deleteModal').style.display = 'flex';
+        }
+
+        // Close Delete Confirmation Modal
+        function closeDeleteModal() {
+            itemPendingDelete = null;
+            document.getElementById('deleteModal').style.display = 'none';
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-trash-alt"></i> نعم، حذف نهائي';
+        }
+
+        // Close modal when clicking on dark backdrop
+        function handleModalBackdropClick(e) {
+            if (e.target.id === 'deleteModal') {
+                closeDeleteModal();
+            }
+        }
+
+        // Execute Delete from Supabase
+        async function executeDeleteItem() {
+            if (!itemPendingDelete) return;
+
+            const btn = document.getElementById('confirmDeleteBtn');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> جاري الحذف...';
+
+            try {
+                const { error } = await supabaseClient
+                    .from('lectures_and_sections')
+                    .delete()
+                    .eq('id', itemPendingDelete.id);
+
+                if (error) throw error;
+
+                // If currently editing this item, cancel edit
+                if (document.getElementById('editingItemId').value === itemPendingDelete.id) {
+                    cancelEdit();
+                }
+
+                closeDeleteModal();
+                loadPublishedItems();
+            } catch (err) {
+                alert("تعذر حذف المادة: " + (err.message || err));
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-trash-alt"></i> نعم، حذف نهائي';
+            }
+        }
+
+        // ESC key closes modal
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && document.getElementById('deleteModal').style.display === 'flex') {
+                closeDeleteModal();
+            }
+        });
+    </script>
+</body>
+</html>

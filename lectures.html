@@ -18,6 +18,11 @@
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+    
+    <!-- Supabase CDN & Config -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="env-config.js"></script>
+    <script src="supabase-config.js"></script>
 </head>
 
 <body>
@@ -67,7 +72,7 @@
         </div>
 
         <!-- Cards Grid -->
-        <div class="cards-grid">
+        <div class="cards-grid" id="lecturesGrid">
 
             <!-- Lecture 1 Card -->
             <div class="card glass-card">
@@ -242,6 +247,93 @@
             </p>
         </div>
     </footer>
+
+    <!-- Supabase Dynamic Lectures Loader -->
+    <script>
+        document.addEventListener("DOMContentLoaded", async () => {
+            if (window.supabaseReady) {
+                await window.supabaseReady;
+            }
+            if (!supabaseClient) return; // Keep fallback static cards if Supabase not configured yet
+
+            try {
+                const { data, error } = await supabaseClient
+                    .from('lectures_and_sections')
+                    .select('*')
+                    .order('order_index', { ascending: true });
+
+                if (error || !data || data.length === 0) return;
+
+                const grid = document.getElementById('lecturesGrid');
+                if (!grid) return;
+
+                // Render dynamic cards from Supabase
+                grid.innerHTML = data.map(item => {
+                    if (item.type === 'lecture') {
+                        return `
+                            <div class="card glass-card">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <i class="fas fa-desktop" style="color: #60a5fa; font-size: 2rem;"></i>
+                                    <span style="font-size: 0.8rem; background: rgba(59, 130, 246, 0.15); color: #93c5fd; padding: 4px 10px; border-radius: 20px; font-weight: 700;">المحاضرة ${item.item_number}</span>
+                                </div>
+                                <h3 dir="ltr" style="text-align: center; margin-bottom: 12px; font-size: 1.25rem; font-weight: 700;">
+                                    ${item.title}
+                                </h3>
+                                <p style="text-align: center; line-height: 1.7; margin-bottom: 25px; font-size: 0.95rem;">
+                                    ${item.description || ''}
+                                </p>
+                                <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
+                                    ${item.lecture_pdf_url ? `
+                                        <a href="${item.lecture_pdf_url}" download class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                            <i class="fas fa-file-pdf" style="color: #ef4444;"></i>
+                                            <span>تحميل ملف المحاضرة (PDF)</span>
+                                        </a>` : ''}
+                                    ${item.summary_pdf_url ? `
+                                        <a href="${item.summary_pdf_url}" download class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                            <i class="fas fa-download" style="color: #10b981;"></i>
+                                            <span>تحميل ملخص المحاضرة (PDF)</span>
+                                        </a>
+                                        <a href="${item.summary_pdf_url}" target="_blank" rel="noopener noreferrer" class="btn btn-outline" style="width: 100%; justify-content: center; padding: 11px;">
+                                            <i class="fas fa-eye"></i>
+                                            <span>قراءة أونلاين</span>
+                                        </a>` : ''}
+                                </div>
+                            </div>
+                        `;
+                    } else {
+                        return `
+                            <div class="card glass-card">
+                                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px;">
+                                    <i class="fas fa-laptop-code" style="color: #34d399; font-size: 2rem;"></i>
+                                    <span style="font-size: 0.8rem; background: rgba(16, 185, 129, 0.15); color: #6ee7b7; padding: 4px 10px; border-radius: 20px; font-weight: 700;">السكشن ${item.item_number} (فيديو)</span>
+                                </div>
+                                <h3 dir="ltr" style="text-align: center; margin-bottom: 12px; font-size: 1.25rem; font-weight: 700;">
+                                    ${item.title}
+                                </h3>
+                                <p style="text-align: center; line-height: 1.7; margin-bottom: 20px; font-size: 0.95rem;">
+                                    ${item.description || ''}
+                                </p>
+                                ${item.video_url ? `
+                                    <div style="position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; border-radius: 12px; margin-bottom: 18px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                                        <iframe src="${item.video_url}" title="${item.title}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0;" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                                    </div>` : ''}
+                                ${item.pptx_url ? `
+                                    <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
+                                        <a href="${item.pptx_url}" download class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                            <i class="fas fa-file-powerpoint" style="color: #f97316;"></i>
+                                            <span>تحميل عرض السكشن (PPTX)</span>
+                                        </a>
+                                    </div>` : ''}
+                            </div>
+                        `;
+                    }
+                }).join('');
+
+            } catch (err) {
+                console.warn("Could not load dynamic lectures, keeping fallback:", err);
+            }
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>
