@@ -14,7 +14,6 @@
 
     <!-- Supabase CDN & Config -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="env-config.js"></script>
     <script src="supabase-config.js"></script>
 
     <style>
@@ -828,7 +827,11 @@
 
                 showDashboard(data.user);
             } catch (err) {
-                showLoginAlert("فشل تسجيل الدخول: " + (err.message || "تأكد من صحة البريد وكلمة المرور"));
+                let msg = err.message || "تأكد من صحة البريد وكلمة المرور";
+                if (msg.includes("Invalid login credentials")) {
+                    msg = "البريد أو كلمة المرور غير صحيحة، أو أن الحساب يحتاج تأكيد (Confirm User) في لوحة Supabase.";
+                }
+                showLoginAlert("فشل تسجيل الدخول: " + msg);
             } finally {
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> تسجيل الدخول';
