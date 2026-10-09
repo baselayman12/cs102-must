@@ -691,7 +691,10 @@
             });
         }
 
-        // Handle file upload to Cloudflare R2 via /api/upload
+        // Cloudflare R2 Upload Worker URL (allows uploading directly from production on GitHub Pages)
+        const CLOUDFLARE_UPLOAD_WORKER_URL = "https://cs102-upload-api.hhvgg2631.workers.dev";
+
+        // Handle file upload to Cloudflare R2
         async function handleFileUpload(fileInput, targetInputId, dropzoneId) {
             const file = fileInput.files[0];
             if (!file) return;
@@ -709,10 +712,11 @@
                 return;
             }
 
-            // Check if running on localhost for R2 backend upload
             const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
-            if (!isLocal) {
-                alert("تنبيه: ميزة رفع الملفات المباشرة إلى Cloudflare R2 تتطلب تشغيل السيرفر المحلي (npm run dev) على جهازك لحماية مفاتيح التخزين.\n\nعلى موقع الاستضافة العام (GitHub Pages)، يمكنك وضع رابط الملف المباشر (مثل رابط Google Drive أو R2) في الخانة يدوياً، أو تشغيل لوحة التحكم محلياً عبر http://localhost:3000/dev.html للرفع التلقائي.");
+            const uploadEndpoint = CLOUDFLARE_UPLOAD_WORKER_URL || (isLocal ? '/api/upload' : null);
+
+            if (!uploadEndpoint) {
+                alert("تنبيه: ميزة رفع الملفات المباشرة تتطلب تفعيل Cloudflare Upload Worker أو تشغيل السيرفر المحلي (npm run dev).\n\nيمكنك دائماً وضع رابط الملف المباشر يدوياً في الخانة أدناه.");
                 fileInput.value = '';
                 return;
             }
@@ -729,7 +733,7 @@
 
             // Use XMLHttpRequest to track live upload progress
             const xhr = new XMLHttpRequest();
-            xhr.open('POST', '/api/upload', true);
+            xhr.open('POST', uploadEndpoint, true);
 
             xhr.upload.onprogress = function(e) {
                 if (e.lengthComputable) {
@@ -777,7 +781,7 @@
 
             xhr.onerror = function() {
                 dropzone.classList.remove('uploading');
-                handleUploadError('تعذر الاتصال بسيرفر الرفع. يرجى التأكد من تشغيل السيرفر (npm run dev).');
+                handleUploadError('تعذر الاتصال بـ Cloudflare Upload Worker. يرجى التأكد من نشر الـ Worker وربط الـ R2 Bucket.');
             };
 
             function handleUploadError(msg) {
