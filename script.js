@@ -217,3 +217,75 @@ function filterContent() {
         noResultsMsg.remove();
     }
 }
+
+// --------------------------------------------------------------------------
+// Universal Forced File Downloader (Bypasses Browser In-line Viewer)
+// --------------------------------------------------------------------------
+async function forceDownloadFile(url, filename, event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation();
+    }
+
+    const btn = event ? event.currentTarget : null;
+    const originalHtml = btn ? btn.innerHTML : '';
+
+    if (btn) {
+        btn.style.pointerEvents = 'none';
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> <span>جاري بدء التحميل...</span>';
+    }
+
+    const fallbackToProxy = () => {
+        const cleanName = filename || url.split('/').pop().split('?')[0] || 'document.pdf';
+        const workerUrl = `https://cs102-compiler-api.hhvgg2631.workers.dev/api/download?url=${encodeURIComponent(url)}&name=${encodeURIComponent(cleanName)}`;
+        const tempLink = document.createElement('a');
+        tempLink.href = workerUrl;
+        tempLink.style.display = 'none';
+        document.body.appendChild(tempLink);
+        tempLink.click();
+        setTimeout(() => document.body.removeChild(tempLink), 300);
+    };
+
+    try {
+        // Step 1: Attempt direct blob fetch (works for same-origin and CORS assets)
+        const res = await fetch(url, { mode: 'cors' });
+        if (!res.ok) throw new Error('Status: ' + res.status);
+        const blob = await res.blob();
+        const blobUrl = window.URL.createObjectURL(blob);
+
+        const tempLink = document.createElement('a');
+        tempLink.style.display = 'none';
+        tempLink.href = blobUrl;
+        tempLink.download = filename || url.split('/').pop().split('?')[0] || 'document.pdf';
+        document.body.appendChild(tempLink);
+        tempLink.click();
+
+        setTimeout(() => {
+            document.body.removeChild(tempLink);
+            window.URL.revokeObjectURL(blobUrl);
+        }, 500);
+    } catch (err) {
+        // Step 2: Fallback to Cloudflare Worker attachment proxy
+        fallbackToProxy();
+    } finally {
+        if (btn) {
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+                btn.style.pointerEvents = '';
+            }, 800);
+        }
+    }
+}
+window.forceDownloadFile = forceDownloadFile;
+
+// Intercept all download links globally across the website
+document.addEventListener('click', (e) => {
+    const link = e.target.closest('a[download]');
+    if (link && link.hasAttribute('href')) {
+        const href = link.getAttribute('href');
+        if (href && !href.startsWith('blob:') && !href.startsWith('data:') && !href.startsWith('#')) {
+            const rawName = link.getAttribute('download') || href.split('/').pop().split('?')[0] || 'download.pdf';
+            forceDownloadFile(href, rawName, e);
+        }
+    }
+});
