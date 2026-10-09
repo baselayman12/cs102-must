@@ -691,8 +691,8 @@
             });
         }
 
-        // Cloudflare R2 Upload Worker URL (allows uploading directly from production on GitHub Pages)
-        const CLOUDFLARE_UPLOAD_WORKER_URL = "https://cs102-upload-api.hhvgg2631.workers.dev";
+        // Cloudflare R2 Upload Worker URL (unified compiler & upload worker)
+        const CLOUDFLARE_UPLOAD_WORKER_URL = "https://cs102-compiler-api.hhvgg2631.workers.dev";
 
         // Handle file upload to Cloudflare R2
         async function handleFileUpload(fileInput, targetInputId, dropzoneId) {

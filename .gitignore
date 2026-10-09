@@ -3,3 +3,4 @@ skills-lock.json
 .env
 env-config.js
 node_modules/
+cloudflare-upload-worker.js
