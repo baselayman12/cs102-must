@@ -229,6 +229,21 @@
                     </button>
                 </div>
 
+                <!-- Quiz 3 Card -->
+                <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-code-branch" style="font-size: 3rem; color: #4ade80; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 3: Control Structures (if & switch)</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            اختبار شامل على هياكل التحكم، الجمل الشرطية، و switch-case بنفس نمط امتحانات الفاينل.<br>
+                            <strong>60 سؤالاً</strong> (20 صح وغلط - 20 مقالي - 5 اختيار - 15 تتبع كود)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal(3)" style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #4ade80; color: #4ade80;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الثالثة
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -458,6 +473,85 @@
             { type: "essay", question: "60. What happens if division by zero occurs in C++ (e.g., 10 / 0)?", keywords: ["runtime", "crash", "error", "خطأ"], explanation: "<strong>الإجابة النموذجية:</strong> يتسبب في خطأ تشغيل وتوقف البرنامج (Runtime Error / Crash)." }
         ];
 
+        // Quiz 3 Questions (Lecture 3: Control Structures - Full 60 Questions)
+        const quiz3Questions = [
+            // ==========================================
+            // 1. TRUE / FALSE (20 Questions)
+            // ==========================================
+            { type: "tf", question: "1. A C++ control statement redirects the flow of execution based on logical conditions.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> هياكل التحكم (Control Structures) تُستخدم لتوجيه مسار تنفيذ الكود بناءً على شروط منطقية (True/False)." },
+            { type: "tf", question: "2. The if statement performs an indicated action only when the condition is true; otherwise, the action is skipped.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> جملة `if` البسيطة ينفذ كودها فقط عندما يتحقق الشرط[cite: 21, 25]." },
+            { type: "tf", question: "3. The conditional operator (?:) tests multiple cases by placing if...else statements inside each other.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> المعامل الشرطي (Ternary Operator `?:`) يُستخدم كبديل مختصر لـ if...else البسيطة وليس للشرط المتداخل التكراري[cite: 25]." },
+            { type: "tf", question: "4. The default case is required in every switch selection statement.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> حالة `default` في الـ `switch` هي اختيارية وليست إجبارية[cite: 25]." },
+            { type: "tf", question: "5. One of the alternatives to nested if statements is the switch structure or conditional operators.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> يمكن استبدال `nested if` بالـ `switch` أو استخدام الجداول والشرط المتعدد لتبسيط الكود[cite: 15]." },
+            { type: "tf", question: "6. An expression containing the || (OR) operator is true if both of the relational expressions are true.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> المعامل `||` يعطي True إذا تحقق *أحد* الشرطين على الأقل وليس كلاهما (الذي يتطلب `&&`)[cite: 15]." },
+            { type: "tf", question: "7. When used as a condition in C++, any non-zero value implicitly converts to true, and 0 converts to false.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> القيمة `0` تعتبر False في الشروط، بينما أي رقم غير الصفر (موجب أو سالب) يعتبر True[cite: 20]." },
+            { type: "tf", question: "8. The word case in a switch statement can be followed by a floating-point condition like 3.14.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> قيم الـ `case` في الـ switch يجب أن تكون قيم ثوابت صحيحة (Integers) أو رموز (Characters) فقط ولا تقبل float/double." },
+            { type: "tf", question: "9. If the break statement is omitted from a case in a switch, execution will fall through to the next case.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> غياب `break` يتسبب في تنفيذ كافة الحالات التالية (Fall-through) حتى الوصول لـ break أو نهاية switch[cite: 16]." },
+            { type: "tf", question: "10. Sequential execution means C++ statements are executed one after the other in the order they are written.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> التتابع (Sequence) ينفذ الكود سطرًا بسطر بترتيب كتابته." },
+            { type: "tf", question: "11. A break statement is required in the default case of a switch selection statement to exit properly.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> إذا كان `default` في آخر الـ switch فإنه لا يحتاج لـ break لكونه في نهاية البلوك[cite: 21]." },
+            { type: "tf", question: "12. In a nested if-else structure, an 'else' clause is always matched with the closest preceding 'if' that doesn't have an else.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الـ `else` ترتبط بالـ `if` الأقرب إليها برمجياً ما لم تُحدد أقواس `{}` زاوية نطاق أخرى." },
+            { type: "tf", question: "13. The expression (x == 7) uses the assignment operator to test if x is equal to 7.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> المعامل `==` هو معامل مقارنة (Equality) وليس معامل تخصيص وتخزين (`=`)." },
+            { type: "tf", question: "14. A compound statement (block) consists of multiple C++ statements grouped together inside curly braces { }.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> مجموعة الأوامر محاطة بـ `{}` تعامل كبلوك أو جملة واحدة في هياكل الشرط[cite: 16]." },
+            { type: "tf", question: "15. The condition inside an if statement must always be enclosed in parentheses ( ).", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> القواعد النحوية لـ C++ تفرض وضع الشرط داخل أقواس `if (condition)`." },
+            { type: "tf", question: "16. Logical operator ! (NOT) reverses the truth value of its boolean operand.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> النفي المنطقي يقلب الـ True إلى False والـ False إلى True." },
+            { type: "tf", question: "17. An if...else double-selection statement chooses between two different actions.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الجملة الثنائية تنفذ مسار إذا صح الشرط ومسار آخر تماماً إذا خاب." },
+            { type: "tf", question: "18. Writing if (x = 0) in C++ results in a compilation syntax error.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> لا تعطي خطأ ترجمة، بل تخزن 0 في x وتُقيم كـ False دائماً، وهي خطأ منطقي شائع (Logic Error)." },
+            { type: "tf", question: "19. Switches can evaluate complex conditions like x > 10 and y < 20 directly in case statements.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> الـ `switch` يقارن فقط مطابقة قيمة ثابته `case value:` ولا يختبر شروط الفترات المفتوحة." },
+            { type: "tf", question: "20. Selection structures like if and switch redirect standard sequential code execution.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> الجمل الشرطية تمكن الكود من اتخاذ قرارات والتحكم في التدفق." },
+
+            // ==========================================
+            // 2. ESSAY QUESTIONS (20 Questions)
+            // ==========================================
+            { type: "essay", question: "21. What is the main purpose of C++ Control Structures?", keywords: ["flow", "execution", "redirect", "decision", "sequence", "مسار", "تنفيذ", "تحكم"], explanation: "<strong>الإجابة النموذجية:</strong> التحكم في مسار وتدفق تنفيذ البرامج لتنفيذ أجزاء معينة بناءً على الشروط." },
+            { type: "essay", question: "22. Differentiate between Single Selection (if) and Double Selection (if...else).", keywords: ["single", "double", "one", "two", "action", "else", "مسار", "شرط"], explanation: "<strong>الإجابة النموذجية:</strong> الـ if تنفذ أمراً فقط لو الشرط صحيح وتتخطاه لو خطأ، أما if...else فتقدم مسارين متقابلين لكل حالة." },
+            { type: "essay", question: "23. Explain the function of the 'break' statement inside a switch structure.", keywords: ["stop", "exit", "fall", "switch", "terminate", "إيقاف", "خروج"], explanation: "<strong>الإجابة النموذجية:</strong> إيقاف التنفيذ والخروج فوراً من جملة الـ switch بعد تطبيق الحالة وتجنب الانزلاق للحالات التالية[cite: 16]." },
+            { type: "essay", question: "24. What happens if 'break' is omitted in a switch case?", keywords: ["fall", "next", "continue", "execute", "انزلاق", "تنفيذ"], explanation: "<strong>الإجابة النموذجية:</strong> يحدث الانزلاق (Fall-through) وينفذ البرنامج كود الحالات التالية تلقائياً بغض النظر عن الشروط[cite: 16]." },
+            { type: "essay", question: "25. Describe the purpose of the 'default' case in a switch statement.", keywords: ["no match", "none", "otherwise", "catch", "افتراضي", "تطابق"], explanation: "<strong>الإجابة النموذجية:</strong> الكود الذي ينفذ عندما لا تطابق قيمة المتغير أي حالة من حالات الـ `case` المعرفة[cite: 16]." },
+            { type: "essay", question: "26. What is a Nested If structure? Give a brief description.", keywords: ["inside", "another", "nested", "multiple", "داخلي", "متداخل"], explanation: "<strong>الإجابة النموذجية:</strong> وضع جملة if أو if...else داخل جسم جملة if أو else أخرى لاختبار شروط متتابعة." },
+            { type: "essay", question: "27. Convert this statement to Ternary Operator (?:): if (a > b) max = a; else max = b;", keywords: ["?", ":", "max", "a > b"], explanation: "<strong>الإجابة النموذجية:</strong> `max = (a > b) ? a : b;`[cite: 17]" },
+            { type: "essay", question: "28. Explain what a Compound Statement (Block) is in C++.", keywords: ["braces", "{", "}", "group", "block", "مجموعة", "أقواس"], explanation: "<strong>الإجابة النموذجية:</strong> مجموعة من الجمل البرمجية المحاطة بأقواس `{}` وتنفذ معاً كأنها جملة واحدة[cite: 16]." },
+            { type: "essay", question: "29. What is the logic error in writing: if (x = 5) instead of if (x == 5)?", keywords: ["assign", "equal", "true", "always", "تخصيص", "تخزين"], explanation: "<strong>الإجابة النموذجية:</strong> `x = 5` تقوم بتخزين القيمة 5 في x وترجع True دائماً بدلاً من اختبار المساواة[cite: 22, 26]." },
+            { type: "essay", question: "30. Why are constant integer expressions required in switch case labels?", keywords: ["constant", "integer", "char", "type", "ثابت", "صحيح"], explanation: "<strong>الإجابة النموذجية:</strong> لأن الـ switch تعتمد على القفز المباشر ومطابقة القيم الثابتة المحددة مسبقاً أثناء الترجمة." },
+            { type: "essay", question: "31. State the three primary types of Control Structures according to structured programming.", keywords: ["sequence", "selection", "repetition", "loop", "تتابع", "اختيار", "تكرار"], explanation: "<strong>الإجابة النموذجية:</strong> التتابع (Sequence)، الاختيار (Selection)، والتكرار (Repetition)[cite: 20]." },
+            { type: "essay", question: "32. What is the dangling-else problem in nested conditional statements?", keywords: ["else", "closest", "if", "braces", "غموض", "أقواس"], explanation: "<strong>الإجابة النموذجية:</strong> حالة غموض ترتبط فيها الـ else بالـ if الأقرب ما لم تستخدم الأقواس `{}` للتحديد[cite: 16]." },
+            { type: "essay", question: "33. Explain Short-Circuit evaluation in logical AND (&&) and OR (||).", keywords: ["first", "stop", "evaluat", "skip", "تقييم", "تخطي"], explanation: "<strong>الإجابة النموذجية:</strong> يتوقف النظام عن التقييم إذا حسِمَت النتيجة من الجزء الأول (False في && أو True في ||)." },
+            { type: "essay", question: "34. How does an if-else-if ladder evaluate conditions sequentially?", keywords: ["top", "down", "first true", "skip", "ترتيب", "أول"], explanation: "<strong>الإجابة النموذجية:</strong> يختبر الشروط من الأعلى للأسفل، ويعمل كود أول شرط صحيح فقط ثم يتجاهل الباقي." },
+            { type: "essay", question: "35. Write a C++ code line that checks if 'grade' is between 50 and 100 inclusive.", keywords: ["grade", ">= 50", "<= 100", "&&"], explanation: "<strong>الإجابة النموذجية:</strong> `if (grade >= 50 && grade <= 100)`" },
+            { type: "essay", question: "36. What is the truth table result for False || True && True?", keywords: ["true", "1"], explanation: "<strong>الإجابة النموذجية:</strong> `True` (لأن أولوية && أسبق وتنتج True، ثم False || True ينتج True)." },
+            { type: "essay", question: "37. Differentiate between relational operators and logical operators.", keywords: ["relational", "logical", "<", ">", "&&", "||", "مقارنة", "منطقي"], explanation: "<strong>الإجابة النموذجية:</strong> معامُلات المقارنة تتأكد من قيم الأرقام (<, >)، بينما المنطقية تربط بين شروط بولينية (&&, ||)." },
+            { type: "essay", question: "38. Write a C++ if-statement that outputs 'Pass' if score is 60 or more.", keywords: ["if", "score >= 60", "cout", "pass"], explanation: "<strong>الإجابة النموذجية:</strong> `if (score >= 60) cout << \"Pass\";`" },
+            { type: "essay", question: "39. Why should floating-point numbers not be compared using exact equality (==)?", keywords: ["precision", "float", "round", "exact", "دقة", "تقريب"], explanation: "<strong>الإجابة النموذجية:</strong> بسبب أخطاء التقريب ودقة الأرقام العشارية في الذاكرة (Precision errors)." },
+            { type: "essay", question: "40. Rewrite standard if-else logic using conditional assignment: int status = (x > 0) ? 1 : 0;", keywords: ["status", "x > 0", "1", "0"], explanation: "<strong>الإجابة النموذجية:</strong> `if (x > 0) status = 1; else status = 0;`" },
+
+            // ==========================================
+            // 3. MULTIPLE CHOICE (5 Questions)
+            // ==========================================
+            { type: "mcq", question: "41. Which of the following data types CANNOT be used in a switch selection statement expression?", options: ["int", "char", "double", "enum"], answer: 2, explanation: "<strong>التحليل:</strong> الـ `switch` في C++ لا تقبل قيم الـ floating-point مثل double/float." },
+            { type: "mcq", question: "42. Which selection statement selects among multiple actions when an expression matches a integer constant?", options: ["if", "if...else", "switch", "while"], answer: 2, explanation: "<strong>التحليل:</strong> جملة `switch` مخصصة للاختيار بين عدة خيارات ثابته." },
+            { type: "mcq", question: "43. What is the value of result after executing: int x = 10; int result = (x < 5) ? 100 : 200;", options: ["100", "200", "10", "0"], answer: 1, explanation: "<strong>التحليل:</strong> الشرط (10 < 5) خطأ (False) لذا يتم اختيار القيمة الموالية للنقطتين `:` وهي 200[cite: 17]." },
+            { type: "mcq", question: "44. In C++, which operator has the highest precedence among the following?", options: ["&&", "||", "!", "=="], answer: 2, explanation: "<strong>التحليل:</strong> المعامل الأحادي النفي `!` أعلى في الأولوية من باقي المعاملات المنطقية والمقارنة." },
+            { type: "mcq", question: "45. Which of the following represents a double-selection control structure?", options: ["if statement", "if...else statement", "do...while statement", "switch statement"], answer: 1, explanation: "<strong>التحليل:</strong> الـ `if...else` تُعرف بالـ Double-selection Structure لكونها تحوي طريقين للتنفيذ." },
+
+            // ==========================================
+            // 4. CODE TRACING & OUTPUT (15 Questions)
+            // ==========================================
+            { type: "essay", question: "46. [Exam Final '26] Trace output:\nint x = 5, z = 7;\nif (z == 7)\n    if (x == 5)\n        cout << \"****\" << endl;\n    else\n        cout << \"&&&&&\" << endl;\ncout << \"////\" << endl;", keywords: ["****", "////"], explanation: "<strong>الإجابة النموذجية:</strong>[cite: 16]<br>****<br>////" },
+            { type: "essay", question: "47. [Exam Final '26] Trace output:\nint a = 4, b = 9, c = 5, d = 6;\nif (a == 4)\n    cout << (d == 9 ? \"9\\t\" : \"11\\t\");\nelse\n    cout << (b % 2 == 0 ? \"12\\t\" : \"13\\t\");\nswitch (a) {\n    case 4: cout << (c == 3 ? \"15\\t\" : \"16\\t\");\n    case 5: cout << \"17\\t\"; break;\n    default: cout << \"18\\t\";\n}", keywords: ["11", "16", "17"], explanation: "<strong>الإجابة النموذجية:</strong>[cite: 16]<br>11\t16\t17\t" },
+            { type: "essay", question: "48. [Exam Final '26] Trace output:\nint num = 19;\nif (num > 0) {\n    cout << \"The number is positive.\" << endl;\n    if (num % 2 == 0)\n        cout << \"It is also even\" << endl;\n    else\n        cout << \"It is also odd\" << endl;\n}\nelse {\n    cout << \"The number is NOT positive.\" << endl;\n}", keywords: ["positive", "odd"], explanation: "<strong>الإجابة النموذجية:</strong>[cite: 18]<br>The number is positive.<br>It is also odd" },
+            { type: "essay", question: "49. Trace output:\nint x = 10, y = 20;\nif (x > 5 && y < 15)\n    cout << \"Alpha\";\nelse if (x == 10 || y == 10)\n    cout << \"Beta\";\nelse\n    cout << \"Gamma\";", keywords: ["beta"], explanation: "<strong>الإجابة النموذجية:</strong> ينفذ الشرط الثاني المتحقق ويطبع: Beta" },
+            { type: "essay", question: "50. Trace output:\nint val = 2;\nswitch (val) {\n    case 1: cout << \"One \";\n    case 2: cout << \"Two \";\n    case 3: cout << \"Three \"; break;\n    default: cout << \"Default\";\n}", keywords: ["two", "three"], explanation: "<strong>الإجابة النموذجية:</strong> يبدأ من case 2 وينزلق بدون break حتى case 3 ليطبع: Two Three " },
+            { type: "essay", question: "51. Trace output:\nint x = 0;\nif (x = 5)\n    cout << \"True Part: \" << x;\nelse\n    cout << \"False Part: \" << x;", keywords: ["true part: 5", "5"], explanation: "<strong>الإجابة النموذجية:</strong> بسبب التخصيص `x = 5` تصبح القيمة 5 (True) ويطبع: True Part: 5" },
+            { type: "essay", question: "52. Trace output:\nint score = 75;\ncout << (score >= 50 ? (score >= 90 ? \"A\" : \"Pass\") : \"Fail\");", keywords: ["pass"], explanation: "<strong>الإجابة النموذجية:</strong> شرط الشرط متداخل وتكون النتيجة: Pass" },
+            { type: "essay", question: "53. Trace output:\nint k = 5;\nint n = (100 % k ? k + 1 : k - 1);\ncout << \"n=\" << n << \" k=\" << k;", keywords: ["n=4", "k=5"], explanation: "<strong>الإجابة النموذجية:</strong>[cite: 23] 100 % 5 تعطي 0 (False) فيتم اختيار k - 1 لتكون n = 4 ويطبع: n=4 k=5" },
+            { type: "essay", question: "54. Trace output:\nint x = 3, y = 4;\nif (x > 1)\n    if (y > 5)\n        cout << \"A\";\n    else\n        cout << \"B\";", keywords: ["b"], explanation: "<strong>الإجابة النموذجية:</strong> ترتبط الـ else بالـ if الثانية وينتج عنها طباعة: B" },
+            { type: "essay", question: "55. Trace output:\nchar op = '*';\nswitch (op) {\n    case '+': cout << \"Plus\"; break;\n    case '*': cout << \"Star\"; break;\n    default: cout << \"None\";\n}", keywords: ["star"], explanation: "<strong>الإجابة النموذجية:</strong> يطابق حالة الرمز '*' ويطبع: Star" },
+            { type: "essay", question: "56. Trace output:\nint a = 1, b = 2;\nif (a == b)\n    cout << \"Equal\\n\";\ncout << \"Done\";", keywords: ["done"], explanation: "<strong>الإجابة النموذجية:</strong> الشرط خاطئ ويتخطى السطر الأول ويطبع: Done" },
+            { type: "essay", question: "57. Trace output:\nint n = -5;\nif (n >= 0)\n    cout << \"Positive\";\nelse\n    cout << \"Negative\";", keywords: ["negative"], explanation: "<strong>الإجابة النموذجية:</strong> ينفذ قسم الـ else ويطبع: Negative" },
+            { type: "essay", question: "58. What is the output of:\nint x = 10;\nif (x > 0) { x += 5; }\nif (x > 10) { x *= 2; }\ncout << x;", keywords: ["30"], explanation: "<strong>الإجابة النموذجية:</strong> تتحقق الـ if الأولى فتصبح x = 15 ثم تتحقق الثانية لتصبح x = 30 ويتم طباعة: 30" },
+            { type: "essay", question: "59. Trace output:\nint code = 9;\nswitch (code) {\n    case 1: cout << \"Low\"; break;\n    default: cout << \"Unknown \";\n    case 2: cout << \"High\";\n}", keywords: ["unknown high", "unknown"], explanation: "<strong>الإجابة النموذجية:</strong> يدخل الـ default لعدم المطابقة، ولعدم وجود break ينزلق لـ case 2 ويطبع: Unknown High" },
+            { type: "essay", question: "60. Trace output:\nint a = 5, b = 10;\nif (a > 0 || b++) cout << a << \" \" << b;", keywords: ["5 10"], explanation: "<strong>الإجابة النموذجية:</strong> بفضل تقييم الدائرة القصيرة (Short-circuit)، الشرط الأول True فلم يتم تنفيذ b++ وتظل b = 10 ويطبع: 5 10" }
+        ];
+
         let selectedQuiz = 1;
         let questions = [];
         let currentIdx = 0;
@@ -468,9 +562,13 @@
 
         function showConfirmModal(quizNum) {
             selectedQuiz = quizNum;
-            document.getElementById('modal-quiz-title').innerText = quizNum === 1 
-                ? "هل أنت جاهز لبدء كويز المحاضرة الأولى؟" 
-                : "هل أنت جاهز لبدء كويز المحاضرة الثانية؟";
+            if (quizNum === 1) {
+                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الأولى؟";
+            } else if (quizNum === 2) {
+                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثانية؟";
+            } else if (quizNum === 3) {
+                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثالثة؟";
+            }
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
 
@@ -482,7 +580,14 @@
             hideConfirmModal();
             
             // Set Quiz Data
-            questions = (selectedQuiz === 1) ? quiz1Questions : quiz2Questions;
+            if (selectedQuiz === 1) {
+                questions = quiz1Questions;
+            } else if (selectedQuiz === 2) {
+                questions = quiz2Questions;
+            } else if (selectedQuiz === 3) {
+                questions = quiz3Questions;
+            }
+            
             currentIdx = 0;
             score = 0;
             userAnswers = new Array(questions.length).fill(null);
