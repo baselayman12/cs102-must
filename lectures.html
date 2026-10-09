@@ -92,13 +92,13 @@
 
                 <!-- Action Buttons -->
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-                    <a href="files/lecture1.pdf" download="Lecture-1.pdf" class="btn btn-secondary"
+                    <a href="files/lecture1.pdf" download="Lecture-1.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
                         style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-file-pdf" style="color: #ef4444;"></i>
                         <span>تحميل ملف المحاضرة (PDF)</span>
                     </a>
 
-                    <a href="files/summary1.pdf" download="Summary-1.pdf" class="btn btn-secondary"
+                    <a href="files/summary1.pdf" download="Summary-1.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
                         style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-download" style="color: #10b981;"></i>
                         <span>تحميل ملخص المحاضرة (PDF)</span>
@@ -142,7 +142,7 @@
 
                 <!-- Section Action Buttons -->
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-                    <a href="files/section1.pptx" download="Section-1.pptx" class="btn btn-secondary"
+                    <a href="files/section1.pptx" download="Section-1.pptx" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
                         style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-file-powerpoint" style="color: #f97316;"></i>
                         <span>تحميل عرض السكشن (PPTX)</span>
@@ -170,13 +170,13 @@
 
                 <!-- Action Buttons -->
                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-                    <a href="files/lecture2.pdf" download="Lecture-2.pdf" class="btn btn-secondary"
+                    <a href="files/lecture2.pdf" download="Lecture-2.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
                         style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-file-pdf" style="color: #ef4444;"></i>
                         <span>تحميل ملف المحاضرة (PDF)</span>
                     </a>
 
-                    <a href="files/summary2.pdf" download="Summary-2.pdf" class="btn btn-secondary"
+                    <a href="files/summary2.pdf" download="Summary-2.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary"
                         style="width: 100%; justify-content: center; padding: 11px;">
                         <i class="fas fa-download" style="color: #10b981;"></i>
                         <span>تحميل ملخص المحاضرة (PDF)</span>
@@ -283,12 +283,12 @@
                                 </p>
                                 <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
                                     ${item.lecture_pdf_url ? `
-                                        <a href="${item.lecture_pdf_url}" download="Lecture-${item.item_number}.pdf" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                        <a href="${item.lecture_pdf_url}" download="Lecture-${item.item_number}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
                                             <i class="fas fa-file-pdf" style="color: #ef4444;"></i>
                                             <span>تحميل ملف المحاضرة (PDF)</span>
                                         </a>` : ''}
                                     ${item.summary_pdf_url ? `
-                                        <a href="${item.summary_pdf_url}" download="Summary-${item.item_number}.pdf" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                        <a href="${item.summary_pdf_url}" download="Summary-${item.item_number}.pdf" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
                                             <i class="fas fa-download" style="color: #10b981;"></i>
                                             <span>تحميل ملخص المحاضرة (PDF)</span>
                                         </a>
@@ -318,7 +318,7 @@
                                     </div>` : ''}
                                 ${item.pptx_url ? `
                                     <div style="display: flex; flex-direction: column; gap: 10px; margin-top: auto;">
-                                        <a href="${item.pptx_url}" download="Section-${item.item_number}.pptx" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
+                                        <a href="${item.pptx_url}" download="Section-${item.item_number}.pptx" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="width: 100%; justify-content: center; padding: 11px;">
                                             <i class="fas fa-file-powerpoint" style="color: #f97316;"></i>
                                             <span>تحميل عرض السكشن (PPTX)</span>
                                         </a>

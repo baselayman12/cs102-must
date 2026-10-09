@@ -131,6 +131,14 @@ app.post('/api/upload', upload.single('file'), async (req, res) => {
     }
 });
 
+// Serve downloadable files with forced attachment header
+app.use('/files', express.static(path.join(__dirname, 'files'), {
+    setHeaders: (res, filePath) => {
+        const filename = path.basename(filePath);
+        res.setHeader('Content-Disposition', `attachment; filename="${filename}"`);
+    }
+}));
+
 app.use(express.static(__dirname));
 
 const PORT = process.env.PORT || 3000;
