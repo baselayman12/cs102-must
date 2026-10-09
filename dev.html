@@ -709,6 +709,14 @@
                 return;
             }
 
+            // Check if running on localhost for R2 backend upload
+            const isLocal = ['localhost', '127.0.0.1', ''].includes(window.location.hostname);
+            if (!isLocal) {
+                alert("تنبيه: ميزة رفع الملفات المباشرة إلى Cloudflare R2 تتطلب تشغيل السيرفر المحلي (npm run dev) على جهازك لحماية مفاتيح التخزين.\n\nعلى موقع الاستضافة العام (GitHub Pages)، يمكنك وضع رابط الملف المباشر (مثل رابط Google Drive أو R2) في الخانة يدوياً، أو تشغيل لوحة التحكم محلياً عبر http://localhost:3000/dev.html للرفع التلقائي.");
+                fileInput.value = '';
+                return;
+            }
+
             // Update dropzone UI to Uploading state
             dropzone.classList.remove('uploaded');
             dropzone.classList.add('uploading');
