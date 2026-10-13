@@ -141,6 +141,33 @@
             border-color: #38bdf8;
         }
 
+        .question-code {
+            margin: 0 0 24px;
+            padding: 20px;
+            background: #0b1220;
+            border: 1px solid #334155;
+            border-radius: 10px;
+            overflow-x: auto;
+            direction: ltr;
+            text-align: left;
+            white-space: pre;
+            tab-size: 4;
+        }
+
+        .question-code code {
+            font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+            font-size: 0.95rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+        }
+
+        .cpp-keyword { color: #c4b5fd; }
+        .cpp-string { color: #86efac; }
+        .cpp-number { color: #fdba74; }
+        .cpp-operator { color: #67e8f9; }
+        .cpp-comment { color: #94a3b8; font-style: italic; }
+        .cpp-library { color: #93c5fd; }
+
         .badge-type {
             display: inline-block;
             padding: 4px 12px;
@@ -284,6 +311,7 @@
                 <div id="question-box">
                     <span id="question-type" class="badge-type">اختيار من متعدد</span>
                     <h3 id="question-text" dir="ltr" style="margin-bottom: 20px; line-height: 1.6; color: #fff; white-space: pre-wrap;"></h3>
+                    <pre id="question-code-block" class="question-code hidden" dir="ltr" tabindex="0" aria-label="C++ code"><code id="question-code" class="language-cpp"></code></pre>
                     
                     <!-- Options Container -->
                     <div id="options-container"></div>
@@ -558,6 +586,51 @@
             { type: "essay", question: "60. Trace output:\nint a = 5, b = 10;\nif (a > 0 || b++) cout << a << \" \" << b;", explanation: "<strong>الإجابة النموذجية:</strong> بفضل تقييم الدائرة القصيرة (Short-circuit)، الشرط الأول True فلم يتم تنفيذ b++ وتظل b = 10 ويطبع: 5 10" }
         ];
 
+        // Keep prompts separate from the exact C++ snippets shown to students.
+        const lecture2Tracing = {
+            51: 'int a = 1, b = 2, c;\nc = (a == b);\nstd::cout << c;',
+            52: 'int a = 4, b = 6;\nint sum = a + b * 2;',
+            53: 'int a = 2, b = 3;\nstd::cout << "a + b = " << a + b;',
+            54: 'int 1stValue = 50;',
+            55: 'int a = 1, b = 2;\nif (a == b)\n    std::cout << "\\n1";\nstd::cout << "\\n2";\nstd::cout << "\\n3";',
+            56: 'int a = 1, b = 2;\nif (a == b) {\n    std::cout << "\\n1";\n    std::cout << "\\n2";\n}\nstd::cout << "\\n3";',
+            57: 'std::cout << 17 % 4;',
+            58: 'std::cin << x;',
+            59: 'std::cout << 5 + 2 * 3 - 4 / 2;'
+        };
+        Object.entries(lecture2Tracing).forEach(([number, code]) => {
+            const q = quiz2Questions[Number(number) - 1];
+            q.code = code;
+            q.question = q.question.slice(0, q.question.indexOf(':')) + ':';
+        });
+        quiz3Questions.slice(45).forEach(q => {
+            const split = q.question.indexOf('\n');
+            q.code = q.question.slice(split + 1);
+            q.question = q.question.slice(0, split);
+        });
+
+        function highlightCpp(code, container) {
+            // Tokenize the original text once; textContent preserves operators safely.
+            const tokens = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b(?:int|char|double|float|bool|long|short|unsigned|signed|const|if|else|switch|case|default|break|return|while|for|do|true|false|void|auto)\b|\b(?:std|cout|cin|endl)\b|\b\d+(?:\.\d+)?\b|[+\-*\/%=<>!&|?:]+/g;
+            container.replaceChildren();
+            let end = 0;
+            for (const match of code.matchAll(tokens)) {
+                container.appendChild(document.createTextNode(code.slice(end, match.index)));
+                const token = match[0];
+                const span = document.createElement('span');
+                span.className = token.startsWith('//') || token.startsWith('/*') ? 'cpp-comment'
+                    : /^["']/.test(token) ? 'cpp-string'
+                    : /^\d/.test(token) ? 'cpp-number'
+                    : /^[+\-*\/%=<>!&|?:]/.test(token) ? 'cpp-operator'
+                    : /^(std|cout|cin|endl)$/.test(token) ? 'cpp-library'
+                    : 'cpp-keyword';
+                span.textContent = token;
+                container.appendChild(span);
+                end = match.index + token.length;
+            }
+            container.appendChild(document.createTextNode(code.slice(end)));
+        }
+
         let selectedQuiz = 1;
         let questions = [];
         let currentIdx = 0;
@@ -619,6 +692,15 @@
             document.getElementById('question-count').innerText = `سؤال ${currentIdx + 1} من ${questions.length}`;
             document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
             document.getElementById('question-text').innerText = q.question;
+            const codeBlock = document.getElementById('question-code-block');
+            const codeContent = document.getElementById('question-code');
+            if (q.code) {
+                highlightCpp(q.code, codeContent);
+                codeBlock.classList.remove('hidden');
+            } else {
+                codeBlock.classList.add('hidden');
+                codeContent.replaceChildren();
+            }
             
             // Badge Type
             const typeBadge = document.getElementById('question-type');
