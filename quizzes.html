@@ -271,6 +271,21 @@
                     </button>
                 </div>
 
+                <!-- Quiz 4 Card -->
+                <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-repeat" style="font-size: 3rem; color: #fbbf24; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 4: Logical Operators, Updates &amp; Loops</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            مراجعة المحاضرة الرابعة: الشروط، المعاملات المنطقية، الإسناد المركب، الزيادة والنقصان، وحلقات for مع break وcontinue.<br>
+                            <strong>60 سؤالاً</strong> (20 صح وغلط - 20 مقالي - 5 اختيار - 15 تتبع كود)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal(4)" style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #fbbf24; color: #fbbf24;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الرابعة
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -586,6 +601,78 @@
             { type: "essay", question: "60. Trace output:\nint a = 5, b = 10;\nif (a > 0 || b++) cout << a << \" \" << b;", explanation: "<strong>الإجابة النموذجية:</strong> بفضل تقييم الدائرة القصيرة (Short-circuit)، الشرط الأول True فلم يتم تنفيذ b++ وتظل b = 10 ويطبع: 5 10" }
         ];
 
+        // Quiz 4: Lecture 4 (Fall 2026-2027): decisions, logical operators,
+        // compound assignment, prefix/postfix, for loops, break and continue.
+        const quiz4Questions = [
+            // 20 True / False
+            { type: "tf", question: "1. For an integer n, n % 2 == 0 correctly tests whether n is even.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> العدد الزوجي يقبل القسمة على 2 دون باقٍ، ويشمل ذلك الصفر والأعداد الزوجية السالبة." },
+            { type: "tf", question: "2. The conditional operator evaluates both its second and third operands every time.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> بعد تقييم الشرط، ينفذ المعامل الشرطي أحد التعبيرين فقط: فرع true أو فرع false." },
+            { type: "tf", question: "3. The built-in && operator produces true only when both operands are true.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> AND تتطلب تحقق الشرطين معاً." },
+            { type: "tf", question: "4. The built-in || operator produces false when both operands are true.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> OR تكون true إذا تحقق أحد الشرطين أو كلاهما؛ تكون false فقط عندما يكون الاثنان false." },
+            { type: "tf", question: "5. In C++, != is the logical negation operator.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> النفي المنطقي هو <bdi dir='ltr'>!</bdi>، أما <bdi dir='ltr'>!=</bdi> فهو عدم المساواة. يوجد خطأ مطبعي في شريحة المحاضرة التي تسمي != نفياً منطقياً." },
+            { type: "tf", question: "6. With built-in logical operators, the right operand of false && expression is skipped.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> نتيجة AND محسومة بأنها false، فلا يقيّم الطرف الأيمن (Short-circuit)." },
+            { type: "tf", question: "7. With built-in logical operators, true || expression must evaluate expression.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> نتيجة OR محسومة بأنها true، لذلك يتخطى الطرف الأيمن." },
+            { type: "tf", question: "8. The built-in && operator has higher precedence than ||.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> AND أعلى أولوية من OR؛ استخدم الأقواس لتوضيح التجميع المطلوب." },
+            { type: "tf", question: "9. For an ordinary int x, x += 3 increases x by 3.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> في هذا المثال، الإسناد المركب يعطي الأثر نفسه الذي تعطيه x = x + 3." },
+            { type: "tf", question: "10. The built-in %= operator can be applied directly to double operands.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> باقي القسمة المدمج يتطلب أنواعاً صحيحة أو تعداداً غير محدد النطاق مع التحويلات المناسبة؛ لا يعمل مباشرة مع double." },
+            { type: "tf", question: "11. Starting with int x = 5;, int y = ++x; leaves both x and y equal to 6.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> Prefix تحدث الزيادة أولاً، ثم تستخدم القيمة الجديدة." },
+            { type: "tf", question: "12. Starting with int x = 5;, int y = x++; leaves x equal to 5 and y equal to 6.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> التصحيح: y تساوي 5 لأنها تستقبل القيمة القديمة، ثم تصبح x تساوي 6. تعليق المثال في الشريحة يعكس القيم بشكل خاطئ." },
+            { type: "tf", question: "13. For an ordinary integer x, the standalone statements ++x; and x++; have the same final effect on x.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> كلاهما يزيد x بمقدار 1؛ الفرق يظهر عند استخدام قيمة التعبير داخل تعبير آخر." },
+            { type: "tf", question: "14. The initialization clause of a for loop runs before every iteration.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> التهيئة تنفذ مرة واحدة عند دخول الحلقة؛ الشرط يعاد اختباره قبل كل دورة." },
+            { type: "tf", question: "15. A for loop may execute its body zero times if its condition is initially false.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> for تختبر الشرط قبل تنفيذ الجسم، ولذلك يمكن ألا تنفذ أي دورة." },
+            { type: "tf", question: "16. An int counter declared in a for initializer remains in scope after the loop ends.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> العداد المعرّف داخل رأس for ينتهي نطاقه بانتهاء الحلقة. عرّفه قبل الحلقة إذا احتجته بعدها." },
+            { type: "tf", question: "17. In a for loop, continue proceeds to the update expression before the next condition test.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> continue تتخطى بقية الجسم، ثم تنفذ تحديث for ويعاد اختبار الشرط." },
+            { type: "tf", question: "18. Executing break inside a loop always terminates the entire program.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> break تخرج من أقرب حلقة أو switch محيطة بها، ثم يستمر البرنامج بعد تلك البنية." },
+            { type: "tf", question: "19. A for header can omit its initialization and update expressions while keeping both semicolons.", options: ["True", "False"], answer: 0, explanation: "<strong>التحليل: صحيح!</strong> مثال <bdi dir='ltr'>for (; i &gt; 1;)</bdi> صالح؛ يمكن إجراء التهيئة قبل الحلقة والتحديث داخل الجسم." },
+            { type: "tf", question: "20. For an integer x, 1 <= x <= 10 is a correct general test that x is between 1 and 10 inclusive.", options: ["True", "False"], answer: 1, explanation: "<strong>التحليل: خطأ!</strong> المقارنات المتتابعة لا تعمل كنطاق رياضي. الصيغة المطلوبة <bdi dir='ltr'>x &gt;= 1 &amp;&amp; x &lt;= 10</bdi>." },
+
+            // 20 Short-answer / Code-writing questions
+            { type: "essay", question: "21. Write a condition that tests whether an integer n is odd, including negative odd integers.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>n % 2 != 0</code></bdi>. اختبار الباقي بأنه لا يساوي صفراً يشمل الأعداد الفردية السالبة أيضاً؛ لا تشترط أن يساوي الباقي 1." },
+            { type: "essay", question: "22. Write a conditional expression that selects the text Even or Odd for an integer n.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>(n % 2 == 0) ? &quot;Even&quot; : &quot;Odd&quot;</code></bdi>. يختار النص حسب باقي القسمة على 2." },
+            { type: "essay", question: "23. State the results of false && false, false && true, true && false, and true && true in that order.", explanation: "<strong>الإجابة النموذجية:</strong> false، false، false، true. AND تتطلب تحقق الطرفين." },
+            { type: "essay", question: "24. State the results of false || false, false || true, true || false, and true || true in that order.", explanation: "<strong>الإجابة النموذجية:</strong> false، true، true، true. OR تكفيها قيمة true واحدة على الأقل." },
+            { type: "essay", question: "25. Distinguish between !flag and a != b.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>!flag</bdi> نفي منطقي أحادي يقلب القيمة المنطقية، بينما <bdi dir='ltr'>a != b</bdi> مقارنة ثنائية تختبر عدم المساواة." },
+            { type: "essay", question: "26. Explain why (divisor != 0 && value / divisor > 2) avoids integer division by zero.", explanation: "<strong>الإجابة النموذجية:</strong> إذا كان divisor صفراً فالطرف الأيسر false، وبسبب Short-circuit لا تقيّم AND القسمة في الطرف الأيمن. نفترض أن الأعداد ضمن مجال النوع ولا توجد حالة تجاوز أخرى." },
+            { type: "essay", question: "27. List !, &&, and || from highest to lowest precedence.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>! ثم &amp;&amp; ثم ||</bdi>. الأولوية تحدد تجميع المعاملات؛ يمكن تغيير التجميع بالأقواس." },
+            { type: "essay", question: "28. Rewrite x = x + 4; and y = y * 3; using compound assignment.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>x += 4; y *= 3;</code></bdi> بافتراض أن x وy متغيران عدديان عاديان." },
+            { type: "essay", question: "29. Starting from double w = 8;, what is w after two successive statements w /= 4;? Explain the type's importance.", explanation: "<strong>الإجابة النموذجية:</strong> بعد الأولى 2.0 وبعد الثانية 0.5. استخدام double يحافظ على الجزء الكسري؛ لو كان w من نوع int لكانت النتيجة الثانية 0." },
+            { type: "essay", question: "30. Compare int y = ++x; with int y = x++; when each example starts separately with int x = 5;.", explanation: "<strong>الإجابة النموذجية:</strong> Prefix: تصبح x = 6 وy = 6. Postfix: تصبح x = 6 وy = 5؛ قيمة التعبير هي القيمة القديمة قبل الزيادة." },
+            { type: "essay", question: "31. Compare prefix and postfix decrement when x starts at 5 and the expression initializes y.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>int y = --x;</bdi> تعطي x = 4 وy = 4؛ أما <bdi dir='ltr'>int y = x--;</bdi> فتعطي x = 4 وy = 5. يبدأ كل مثال مستقلاً من x = 5." },
+            { type: "essay", question: "32. Describe the execution order of the initialization, condition, body, and update in a for loop.", explanation: "<strong>الإجابة النموذجية:</strong> التهيئة مرة واحدة، ثم اختبار الشرط. إذا صح ينفذ الجسم ثم التحديث ثم يعاد الاختبار. عند خطأ الشرط تنتهي الحلقة دون جسم أو تحديث إضافيين." },
+            { type: "essay", question: "33. Write a for loop that prints 1, 2, 3, and 4 in that order.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>for (int i = 1; i &lt; 5; ++i) { std::cout &lt;&lt; i &lt;&lt; ' '; }</code></bdi>. الشرط يستبعد 5." },
+            { type: "essay", question: "34. Write a for loop that prints the odd integers from 1 through 9.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>for (int i = 1; i &lt; 10; i += 2) { std::cout &lt;&lt; i &lt;&lt; ' '; }</code></bdi>. يبدأ بفردي ويزيد بمقدار 2." },
+            { type: "essay", question: "35. Write a for loop that prints 9, 7, 5, and 3.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>for (int i = 9; i &gt; 1; i -= 2) { std::cout &lt;&lt; i &lt;&lt; ' '; }</code></bdi>. العداد ينقص مقترباً من شرط الإنهاء." },
+            { type: "essay", question: "36. How can a loop counter be accessed after a for loop?", explanation: "<strong>الإجابة النموذجية:</strong> عرّف العداد قبل for واستخدمه داخل رأسها دون إعادة تعريفه، مثل <bdi dir='ltr'><code>int i; for (i = 1; i &lt; 5; ++i) { }</code></bdi>. بعد الانتهاء الطبيعي هنا i = 5." },
+            { type: "essay", question: "37. Explain the difference between break and continue inside a for loop.", explanation: "<strong>الإجابة النموذجية:</strong> break تخرج من الحلقة فوراً دون تحديث إضافي لتلك الدورة. continue تتخطى بقية الجسم وتنتقل لتحديث for ثم اختبار الشرط." },
+            { type: "essay", question: "38. What does a semicolon immediately after for (...) do, and why can it be a mistake?", explanation: "<strong>الإجابة النموذجية:</strong> الفاصلة المنقوطة تمثل جسماً فارغاً للحلقة. الكتلة المكتوبة بعدها لا تصبح جسم الحلقة، وقد تعمل مرة واحدة بعد انتهاء الحلقة بدلاً من كل دورة." },
+            { type: "essay", question: "39. Explain why a calculator should explicitly test for '/' and check the divisor instead of dividing in a final else for every unknown operator.", explanation: "<strong>الإجابة النموذجية:</strong> الرمز غير المعروف يجب أن يعطي رسالة خطأ بدلاً من إجراء قسمة. عند اختيار القسمة يجب التأكد من أن المقسوم عليه ليس صفراً؛ القسمة الصحيحة على صفر سلوك غير معرّف." },
+            { type: "essay", question: "40. Count down from 17 to 2 and print only the multiples of 3. Write a suitable for loop.", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'><code>for (int i = 17; i &gt; 1; --i) { if (i % 3 == 0) std::cout &lt;&lt; i &lt;&lt; ' '; }</code></bdi>. المخرجات: 15، 12، 9، 6، 3." },
+
+            // 5 Multiple choice
+            { type: "mcq", question: "41. Which operator is logical NOT in C++?", options: ["!=", "!", "||", "&&"], answer: 1, explanation: "<strong>التحليل:</strong> <bdi dir='ltr'>!</bdi> هو النفي المنطقي، أما <bdi dir='ltr'>!=</bdi> فهو عدم المساواة." },
+            { type: "mcq", question: "42. Which condition correctly checks whether age is between 18 and 65 inclusive?", options: ["18 <= age <= 65", "age >= 18 || age <= 65", "age >= 18 && age <= 65", "age > 18 && age < 65"], answer: 2, explanation: "<strong>التحليل:</strong> يجب تحقق الحدين معاً باستخدام AND، مع تضمين المساواة لاحتواء 18 و65." },
+            { type: "mcq", question: "43. Which statement skips the remaining body of the current iteration but allows a for loop to continue?", options: ["return", "break", "default", "continue"], answer: 3, explanation: "<strong>التحليل:</strong> continue تتخطى بقية الجسم وتنتقل إلى تحديث for ثم اختبار الشرط." },
+            { type: "mcq", question: "44. What are the final values of x and y?", code: "int x = 5;\nint y = x++;", options: ["x = 6, y = 5", "x = 5, y = 6", "x = 6, y = 6", "x = 5, y = 5"], answer: 0, explanation: "<strong>التحليل:</strong> y تستقبل القيمة القديمة 5، وبعدها تزداد x إلى 6." },
+            { type: "mcq", question: "45. How many times does this loop execute its body?", code: "for (int i = 1; i < 5; ++i) {\n    std::cout << i;\n}", options: ["5", "3", "4", "0"], answer: 2, explanation: "<strong>التحليل:</strong> الجسم ينفذ عند i = 1، 2، 3، 4. عند i = 5 يفشل الشرط فلا تنفذ دورة خامسة." },
+
+            // 15 Code tracing questions (snippets belong inside main).
+            { type: "essay", question: "46. Trace the output:", code: "int n = 7;\nstd::cout << (n % 2 == 0 ? \"Even\" : \"Odd\");", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>Odd</bdi>. باقي قسمة 7 على 2 ليس صفراً." },
+            { type: "essay", question: "47. Trace the calculator output:", code: "char op = '*';\nint a = 7, b = 2;\nswitch (op) {\n    case '+': std::cout << a + b; break;\n    case '-': std::cout << a - b; break;\n    case '*': std::cout << a * b; break;\n    default: std::cout << \"Invalid\";\n}", explanation: "<strong>الإجابة النموذجية:</strong> 14. يختار الضرب ثم يخرج من switch باستخدام break." },
+            { type: "essay", question: "48. Trace the output with default boolean formatting:", code: "bool a = false, b = true;\nstd::cout << (a && b) << ' ';\nstd::cout << (a || b) << ' ';\nstd::cout << !a;", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>0 1 1</bdi>. النتائج false ثم true ثم true، وتطبع افتراضياً كـ 0 و1." },
+            { type: "essay", question: "49. Trace the output, paying attention to short-circuit evaluation:", code: "int x = 0, y = 5;\nif (x != 0 && ++y > 5) {\n    std::cout << \"Yes \";\n}\nstd::cout << y;", explanation: "<strong>الإجابة النموذجية:</strong> 5. الطرف الأول لـ AND خطأ، فلا تنفذ زيادة y ولا جسم if." },
+            { type: "essay", question: "50. Trace the output, paying attention to short-circuit evaluation:", code: "int x = 1, y = 5;\nif (x == 1 || ++y > 5) {\n    std::cout << \"Yes \";\n}\nstd::cout << y;", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>Yes 5</bdi>. الطرف الأول لـ OR صحيح، فلا تنفذ زيادة y، وينفذ جسم if." },
+            { type: "essay", question: "51. Trace the output after the compound assignments:", code: "int x = 2;\nx += 2;\nx *= 3;\nx -= 1;\nx %= 4;\nstd::cout << x;", explanation: "<strong>الإجابة النموذجية:</strong> 3. قيم x بالترتيب: 2 ثم 4 ثم 12 ثم 11 ثم باقي 11 على 4 وهو 3." },
+            { type: "essay", question: "52. Trace the output with default numeric formatting:", code: "double w = 8;\nw /= 4;\nw /= 4;\nstd::cout << w;", explanation: "<strong>الإجابة النموذجية:</strong> 0.5. القسمة الأولى تعطي 2 والثانية تعطي نصفاً لأن w من نوع double." },
+            { type: "essay", question: "53. Trace the output; each update is in a separate statement:", code: "int x = 5;\nstd::cout << x++ << ' ';\nstd::cout << ++x << ' ';\nstd::cout << x;", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>5 7 7</bdi>. Postfix تطبع 5 ثم تجعل x = 6؛ Prefix تجعلها 7 قبل الطباعة، وتبقى 7." },
+            { type: "essay", question: "54. Trace the output; each update is in a separate statement:", code: "int x = 5;\nstd::cout << --x << ' ';\nstd::cout << x-- << ' ';\nstd::cout << x;", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>4 4 3</bdi>. النقصان السابق يعطي 4؛ اللاحق يستخدم 4 ثم يخزن 3." },
+            { type: "essay", question: "55. Trace the output. Ignore a trailing space:", code: "for (int i = 1; i < 5; ++i) {\n    std::cout << i << ' ';\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>1 2 3 4</bdi>. العدد 5 لا يطبع لأن شرط الحلقة يستبعده." },
+            { type: "essay", question: "56. Trace the output. Ignore a trailing space:", code: "for (int i = 1; i < 10; i += 2) {\n    std::cout << i << ' ';\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>1 3 5 7 9</bdi>. تبدأ الحلقة من 1 وتزيد بمقدار 2." },
+            { type: "essay", question: "57. Trace the output. Ignore a trailing space:", code: "for (int i = 9; i > 1; i -= 2) {\n    std::cout << i << ' ';\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>9 7 5 3</bdi>. بعد طباعة 3 ينقص العداد إلى 1 فيفشل الشرط." },
+            { type: "essay", question: "58. Trace the output. Ignore a trailing space:", code: "int i = 10;\nfor (; i > 1;) {\n    std::cout << i << ' ';\n    i -= 2;\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>10 8 6 4 2</bdi>. التهيئة قبل الحلقة والتحديث داخل الجسم؛ تنتهي عند i = 0." },
+            { type: "essay", question: "59. Trace the output. Ignore a trailing space:", code: "for (int i = 17; i > 1; --i) {\n    if (i % 3 == 0) {\n        std::cout << i << ' ';\n    }\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>15 12 9 6 3</bdi>. لا يطبع إلا الأعداد التي باقي قسمتها على 3 يساوي صفراً." },
+            { type: "essay", question: "60. Trace the output with both break and continue. Ignore a trailing space:", code: "for (int x = 1; x <= 10; ++x) {\n    if (x == 7) {\n        break;\n    }\n    if (x == 3) {\n        continue;\n    }\n    std::cout << x << ' ';\n}", explanation: "<strong>الإجابة النموذجية:</strong> <bdi dir='ltr'>1 2 4 5 6</bdi>. continue تتخطى طباعة 3، وbreak تنهي الحلقة عند 7 قبل طباعتها." }
+        ];
+
         // Keep prompts separate from the exact C++ snippets shown to students.
         const lecture2Tracing = {
             51: 'int a = 1, b = 2, c;\nc = (a == b);\nstd::cout << c;',
@@ -647,6 +734,8 @@
                 document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثانية؟";
             } else if (quizNum === 3) {
                 document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثالثة؟";
+            } else if (quizNum === 4) {
+                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الرابعة؟";
             }
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
@@ -665,6 +754,8 @@
                 questions = quiz2Questions;
             } else if (selectedQuiz === 3) {
                 questions = quiz3Questions;
+            } else if (selectedQuiz === 4) {
+                questions = quiz4Questions;
             }
             
             currentIdx = 0;
