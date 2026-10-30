@@ -141,6 +141,13 @@
             border-color: #38bdf8;
         }
 
+        .essay-input.code-answer {
+            font-family: Consolas, "Cascadia Code", "Courier New", monospace;
+            direction: ltr;
+            text-align: left;
+            white-space: pre;
+        }
+
         .question-code {
             margin: 0 0 24px;
             padding: 20px;
@@ -286,6 +293,21 @@
                     </button>
                 </div>
 
+                <!-- Quiz 5 Card -->
+                <div class="card glass-card" style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-layer-group" style="font-size: 3rem; color: #a5b4fc; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 5: Loops — Past Exam Practice</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            أسئلة من الكويزات والفاينل والعملي عن while وdo...while والحلقات المتداخلة، مع مصدر كل سؤال وتوضيح أي تعديل.<br>
+                            <strong>35 سؤالاً</strong> (5 صح وغلط - 5 اختيار - 10 كتابة وتصحيح كود - 15 تتبع كود)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal(5)" style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #a5b4fc; color: #a5b4fc;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الخامسة
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -326,6 +348,7 @@
                 <div id="question-box">
                     <span id="question-type" class="badge-type">اختيار من متعدد</span>
                     <h3 id="question-text" dir="ltr" style="margin-bottom: 20px; line-height: 1.6; color: #fff; white-space: pre-wrap;"></h3>
+                    <p id="question-source" class="hidden" dir="ltr" style="color: var(--text-sub); font-size: 0.85rem; line-height: 1.6; margin-bottom: 16px; overflow-wrap: anywhere;"></p>
                     <pre id="question-code-block" class="question-code hidden" dir="ltr" tabindex="0" aria-label="C++ code"><code id="question-code" class="language-cpp"></code></pre>
                     
                     <!-- Options Container -->
@@ -391,6 +414,7 @@
     </section>
 
     <script src="script.js"></script>
+    <script src="quiz5-questions.js"></script>
     <script>
         // Quiz 1 Questions (50 Questions Full)
         const quiz1Questions = [
@@ -736,6 +760,8 @@
                 document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثالثة؟";
             } else if (quizNum === 4) {
                 document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الرابعة؟";
+            } else if (quizNum === 5) {
+                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الخامسة؟";
             }
             document.getElementById('confirm-modal').classList.remove('hidden');
         }
@@ -756,6 +782,8 @@
                 questions = quiz3Questions;
             } else if (selectedQuiz === 4) {
                 questions = quiz4Questions;
+            } else if (selectedQuiz === 5) {
+                questions = quiz5Questions;
             }
             
             currentIdx = 0;
@@ -783,6 +811,9 @@
             document.getElementById('question-count').innerText = `سؤال ${currentIdx + 1} من ${questions.length}`;
             document.getElementById('progress-fill').style.width = `${((currentIdx + 1) / questions.length) * 100}%`;
             document.getElementById('question-text').innerText = q.question;
+            const source = document.getElementById('question-source');
+            source.textContent = q.source ? `Source: ${q.source}${q.adaptation ? ' — Adapted: ' + q.adaptation : ''}` : '';
+            source.classList.toggle('hidden', !q.source);
             const codeBlock = document.getElementById('question-code-block');
             const codeContent = document.getElementById('question-code');
             if (q.code) {
@@ -810,6 +841,9 @@
             if(q.type === 'essay') {
                 optionsDiv.classList.add('hidden');
                 essayDiv.classList.remove('hidden');
+                const codeAnswer = Boolean(q.code || q.expectedOutput !== undefined);
+                document.getElementById('essay-answer').dir = codeAnswer ? 'ltr' : 'auto';
+                document.getElementById('essay-answer').classList.toggle('code-answer', codeAnswer);
                 document.getElementById('essay-answer').value = userAnswers[currentIdx] ? userAnswers[currentIdx].text : '';
                 
                 if(userAnswers[currentIdx] !== null) {
@@ -822,6 +856,7 @@
                     } else {
                         showExplanation(q.explanation, userAnswers[currentIdx].isCorrect);
                     }
+                    appendAnswerDetails(q);
                 } else {
                     document.getElementById('essay-answer').disabled = false;
                     document.getElementById('essay-submit-btn').disabled = false;
@@ -896,6 +931,28 @@
                 ? `<span style="color: #4ade80; font-weight: bold;"><i class="fas fa-check-circle"></i> إجابة صحيحة!</span><br>`
                 : `<span style="color: #f87171; font-weight: bold;"><i class="fas fa-times-circle"></i> إجابة غير دقيقة!</span><br>`;
             expBox.innerHTML = statusHeader + expText;
+        }
+
+        function appendAnswerDetails(q) {
+            // Build code/output with text nodes so operators, spaces and patterns survive.
+            if (!q.solutionCode && q.expectedOutput === undefined) return;
+            const box = document.getElementById('explanation-box');
+            const label = document.createElement('p');
+            label.dir = 'ltr';
+            label.textContent = q.solutionCode ? 'Model code' : 'Expected output';
+            const pre = document.createElement('pre');
+            pre.className = 'question-code';
+            pre.dir = 'ltr';
+            pre.tabIndex = 0;
+            const code = document.createElement('code');
+            if (q.solutionCode) {
+                highlightCpp(q.solutionCode, code);
+            } else {
+                code.textContent = q.expectedOutput;
+            }
+            pre.appendChild(code);
+            box.appendChild(label);
+            box.appendChild(pre);
         }
 
         function nextQuestion() {
