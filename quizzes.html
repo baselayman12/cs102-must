@@ -820,7 +820,6 @@
 
         function highlightCpp(code, container) {
             // Tokenize the original text once; textContent preserves operators safely.
-            const tokens = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b(?:int|char|double|float|bool|long|short|unsigned|signed|const|if|else|switch|case|default|break|return|while|for|do|true|false|void|auto)\b|\b(?:std|cout|cin|endl)\b|\b\d+(?:\.\d+)?\b|[+\-*\/%=<>!&|?:]+/g;
             const tokens = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b(?:int|char|double|float|bool|long|short|unsigned|signed|const|if|else|switch|case|default|break|continue|return|while|for|do|true|false|nullptr|void|auto|using|namespace)\b|\b(?:std|cout|cin|endl)\b|\b\d+(?:\.\d+)?\b|[+\-*\/%=<>!&|?:]+/g;
             container.replaceChildren();
             let end = 0;
@@ -851,17 +850,6 @@
 
         function showConfirmModal(quizNum) {
             selectedQuiz = quizNum;
-            if (quizNum === 1) {
-                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الأولى؟";
-            } else if (quizNum === 2) {
-                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثانية؟";
-            } else if (quizNum === 3) {
-                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الثالثة؟";
-            } else if (quizNum === 4) {
-                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الرابعة؟";
-            } else if (quizNum === 5) {
-                document.getElementById('modal-quiz-title').innerText = "هل أنت جاهز لبدء كويز المحاضرة الخامسة؟";
-            }
             const titles = {
                 1: "هل أنت جاهز لبدء كويز المحاضرة الأولى؟",
                 2: "هل أنت جاهز لبدء كويز المحاضرة الثانية؟",
@@ -883,17 +871,6 @@
             hideConfirmModal();
 
             // Set Quiz Data
-            if (selectedQuiz === 1) {
-                questions = quiz1Questions;
-            } else if (selectedQuiz === 2) {
-                questions = quiz2Questions;
-            } else if (selectedQuiz === 3) {
-                questions = quiz3Questions;
-            } else if (selectedQuiz === 4) {
-                questions = quiz4Questions;
-            } else if (selectedQuiz === 5) {
-                questions = quiz5Questions;
-            }
             const quizMap = {
                 1: quiz1Questions,
                 2: quiz2Questions,
@@ -960,7 +937,6 @@
             if (q.type === 'essay') {
                 optionsDiv.classList.add('hidden');
                 essayDiv.classList.remove('hidden');
-                const codeAnswer = Boolean(q.code || q.expectedOutput !== undefined);
                 const codeAnswer = Boolean(q.code || q.solutionCode || q.expectedOutput !== undefined);
                 document.getElementById('essay-answer').dir = codeAnswer ? 'ltr' : 'auto';
                 document.getElementById('essay-answer').classList.toggle('code-answer', codeAnswer);
