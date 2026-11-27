@@ -392,6 +392,42 @@
                     </button>
                 </div>
 
+                <!-- Quiz 8 Card -->
+                <div class="card glass-card"
+                    style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-table-cells"
+                            style="font-size: 3rem; color: #34d399; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 8: Arrays — Past Exam Practice</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            أسئلة من امتحانات الفاينل والكويزات وبنك الأسئلة عن المصفوفات، الفهارس، sizeof، المؤشرات مع المصفوفات وتمريرها للدوال.<br>
+                            <strong>35 سؤالاً</strong> (8 صح وغلط - 15 اختيار - 12 كتابة وتصحيح وتتبع كود)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal(8)"
+                        style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #34d399; color: #34d399;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة الثامنة
+                    </button>
+                </div>
+
+                <!-- Quiz 9 Card -->
+                <div class="card glass-card"
+                    style="text-align: center; display: flex; flex-direction: column; justify-content: space-between;">
+                    <div>
+                        <i class="fas fa-sitemap"
+                            style="font-size: 3rem; color: #fb923c; margin-bottom: 15px;"></i>
+                        <h3 style="margin-bottom: 10px;"><bdi>Quiz 9: C++ Structures (struct) — Past Exam Practice</bdi></h3>
+                        <p style="color: var(--text-sub); font-size: 0.95rem; line-height: 1.6; margin-bottom: 20px;">
+                            أسئلة من امتحانات الفاينل وبنك الأسئلة عن البنيات (struct)، تعريفها، الوصول للأعضاء (.)، التهيئة والمؤشرات إليها.<br>
+                            <strong>35 سؤالاً</strong> (8 صح وغلط - 17 اختيار - 10 كتابة وتصحيح وتتبع كود)
+                        </p>
+                    </div>
+                    <button class="btn btn-outline" onclick="showConfirmModal(9)"
+                        style="font-size: 1rem; padding: 12px 20px; width: 100%; border-color: #fb923c; color: #fb923c;">
+                        <i class="fas fa-play"></i> ابدأ كويز المحاضرة التاسعة
+                    </button>
+                </div>
+
             </div>
         </div>
 
@@ -513,6 +549,8 @@
     <script src="quiz5-questions.js"></script>
     <script src="quiz6-questions.js"></script>
     <script src="quiz7-questions.js"></script>
+    <script src="quiz8-questions.js"></script>
+    <script src="quiz9-questions.js"></script>
     <script>
         // Quiz 1 Questions (50 Questions Full)
         const quiz1Questions = [
@@ -820,7 +858,7 @@
 
         function highlightCpp(code, container) {
             // Tokenize the original text once; textContent preserves operators safely.
-            const tokens = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b(?:int|char|double|float|bool|long|short|unsigned|signed|const|if|else|switch|case|default|break|continue|return|while|for|do|true|false|nullptr|void|auto|using|namespace)\b|\b(?:std|cout|cin|endl)\b|\b\d+(?:\.\d+)?\b|[+\-*\/%=<>!&|?:]+/g;
+            const tokens = /\/\/[^\n]*|\/\*[\s\S]*?\*\/|"(?:\\[\s\S]|[^"\\])*"|'(?:\\[\s\S]|[^'\\])*'|\b(?:int|char|double|float|bool|long|short|unsigned|signed|const|if|else|switch|case|default|break|continue|return|while|for|do|true|false|nullptr|void|auto|using|namespace|struct|sizeof|size_t|string)\b|\b(?:std|cout|cin|endl)\b|\b\d+(?:\.\d+)?\b|[+\-*\/%=<>!&|?:]+/g;
             container.replaceChildren();
             let end = 0;
             for (const match of code.matchAll(tokens)) {
@@ -857,7 +895,9 @@
                 4: "هل أنت جاهز لبدء كويز المحاضرة الرابعة؟",
                 5: "هل أنت جاهز لبدء كويز المحاضرة الخامسة؟",
                 6: "هل أنت جاهز لبدء كويز المحاضرة السادسة؟",
-                7: "هل أنت جاهز لبدء كويز المحاضرة السابعة؟"
+                7: "هل أنت جاهز لبدء كويز المحاضرة السابعة؟",
+                8: "هل أنت جاهز لبدء كويز المحاضرة الثامنة؟",
+                9: "هل أنت جاهز لبدء كويز المحاضرة التاسعة؟"
             };
             document.getElementById('modal-quiz-title').innerText = titles[quizNum] || "هل أنت جاهز لبدء الاختبار؟";
             document.getElementById('confirm-modal').classList.remove('hidden');
@@ -878,7 +918,9 @@
                 4: quiz4Questions,
                 5: quiz5Questions,
                 6: quiz6Questions,
-                7: quiz7Questions
+                7: quiz7Questions,
+                8: quiz8Questions,
+                9: quiz9Questions
             };
             questions = quizMap[selectedQuiz] || quiz1Questions;
 
